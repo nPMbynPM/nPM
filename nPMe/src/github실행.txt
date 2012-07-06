@@ -19,3 +19,5 @@ https://github.com/nPMbynPM/janghee
 -on branch  오류 났을 때 : 
 http://knight76.tistory.com/1691
 
+수정사항.
+
