@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>nPM</title>
+<link rel='stylesheet' type='text/css' href='css/guiStyle.css'>
+<link rel='stylesheet' type='text/css' href='css/calendarStyle.css'>
+<script src="windowControl.js"></script>
+<script src="canvasControl.js"></script>
+<script src="popupCalendar.js"></script>
+<script src="menuControl.js"></script>
+</head>
+<body>
+	<!-- 메뉴 -->
+	<div id='top'>
+		<div class='center'>
+			<div class='east'>
+				<div id='save' class='cur' onclick="javascript:save_down('savePopup')">저장</div>
+				<div id='load' class='cur' onclick="javascript:load_down('loadPopup');">불러오기</div>
+			</div>
+		</div>
+	</div>
+	<!-- 캔버스 -->
+	<div id='canvas' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' id='canvasTM' onmousedown="javascript:window_down('canvas');">
+			<div class='center'>
+				<span>nPM</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML' id='canvasML'></div>
+		<div class='MM' id='canvasMM'>
+			<div id='bound'>
+				<canvas id='ctx_canvas' width=700 height=575>이 브라우저는 HTML5 canvas 기능을 지원하지 않습니다.</canvas>
+			</div>
+		</div>
+		<div class='MR' id='canvasMR'></div>
+		<div class='BL'></div>
+		<div class='BM' id='canvasBM'></div>
+		<div class='BR' onmousedown="javascript:canvas_resize();"></div>
+	</div>
+	<!-- 도구 -->
+	<div id='tools' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('tools');">
+			<div class='left'>
+				<span>도구</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div title='선택' id='tools_1' onmouseup="javascript:tools_down('tools_1')">
+				<img src='image/tools_1.png' alt='선택' style="display:block;margin:5px 5px;"/>
+			</div>
+			<div title='연결' id='tools_2' onmouseup="javascript:tools_down('tools_2')">
+				<img src='image/tools_2.png' alt='연결' style="display:block;margin:5px 5px;"/>
+			</div>
+			<div title='글꼴' id='tools_3' onmouseup="javascript:tools_down('tools_3')">
+				<img src='image/tools_3.png' alt='글꼴' style="display:block;margin:5px 5px;"/>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 추가 -->
+	<div id='adds' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('adds');">
+			<div class='left'>
+				<span>추가</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div class='hr'></div>
+			<div title='작업자 추가' class='addslist' id='adds_1' onmouseup="javascript:adds_down('adds_1')">
+				<span>작업자</span>
+			</div>
+			<div title='할일 추가' class='addslist' id='adds_2' onmouseup="javascript:adds_down('adds_2')">
+				<span>할일</span>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 작업자 정보 입력 팝업창 -->
+	<div id='personPopup' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('personPopup');">
+			<div class='left'>
+				<span>작업자 정보 입력</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div class='hr'></div>
+			<div class='title'>
+				<span>이름</span>
+			</div>
+			<div class='content'>
+				<input title='이름은 10글자 내로 작성해주세요' id='personName' type='text' maxlength='10' placeholder='작업자의 이름을 입력해주세요'/>
+			</div>
+			<div class='title'>
+				<span>이미지 선택</span>
+			</div>
+			<div>
+				<img id='person1' src='image/person1.png' onclick="javascript:person_down('person1');"/>
+				<img id='person2' src='image/person2.png' onclick="javascript:person_down('person2');"/>
+				<img id='person3' src='image/person3.png' onclick="javascript:person_down('person3');"/>
+				<img id='person4' src='image/person4.png' onclick="javascript:person_down('person4');"/>
+			</div>
+			<div>
+				<img id='person5' src='image/person5.png' onclick="javascript:person_down('person5');"/>
+				<img id='person6' src='image/person6.png' onclick="javascript:person_down('person6');"/>
+			</div>
+			<div class='bottom'>
+				<input type='button' class='button' value='확인' onclick="javascript:okButton_down('personPopup');"/>
+				<input type='button' class='button' value='취소' onclick="javascript:cancelButton_down('personPopup')"/>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 할 일 정보 입력 팝업창 -->
+	<div id='todoPopup' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('todoPopup');">
+			<div class='left'>
+				<span>할 일 정보 입력</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div class='hr'></div>
+			<div class='title'>
+				<span>해야할 일</span>
+			</div>
+			<div class='content'>
+				<input id='todoTask' type='text' placeholder='해야할 일을 입력해주세요'/>
+			</div>
+			<div class='title'>
+				<span>시작일자</span>
+			</div>
+			<div class='calendar'>
+				<input id='todoStart' name='todoStart' type='text' value='' readonly/>
+				<img src='image/calendar.png' title='날짜입력' onclick="javascript:calendar_down('calendarStart')"/>
+			</div>
+			<div id='calendarStart'></div>
+			<div class='title'>
+				<span>종료일자</span>
+			</div>
+			<div class='calendar'>
+				<input id='todoClose' type='text' value='' readonly/>
+				<img src='image/calendar.png' title='날짜입력' onclick="javascript:calendar_down('calendarClose')"/>
+			</div>
+			<div id='calendarClose'></div>
+			<div class='bottom'>
+				<input type='button' class='button' value='확인' onclick="javascript:okButton_down('todoPopup');"/>
+				<input type='button' class='button' value='취소' onclick="javascript:cancelButton_down('todoPopup')"/>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 정보 창 -->
+	<div id='properties' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('properties');">
+			<div class='left'>
+				<span>정보</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div class='hr'></div>
+			<div class='title'>
+				<span>작업자정보</span>
+			</div>
+			<div class='content'>
+				<input id='personProperties_name' type='text' value='' readonly/>
+			</div>
+			<div class='title'>
+				<span>할일</span>
+			</div>
+			<div class='content'>
+				<textarea rows='5' cols='21' id='todoProperties_todo' readonly></textarea>
+			</div>
+			<div class='title'>
+				<span>시작일자</span>
+			</div>
+			<div class='content'>
+				<input id='todoProperties_start' type='text' value='' readonly/>
+			</div>
+			<div class='title'>
+				<span>종료일자</span>
+			</div>
+			<div class='content'>
+				<input id='todoProperties_finish' type='text' value='' readonly/>
+			</div>
+			<div class='title'>
+				<span>연관된 작업자</span>
+			</div>
+			<div class='content_who' id='todoProperties_who'>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 저장 팝업 -->
+	<div id='savePopup' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('savePopup');">
+			<div class='left'>
+				<span>저장</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div class='hr'></div>
+			<div class='title'>
+				<span>파일명 입력</span>
+			</div>
+			<div class='content'>
+				<input type='text' id='saveFilePath'/>
+			</div>
+			<div class='bottom'>
+				<input type='button' class='button' value='확인' onclick="javascript:saveAs();"/>
+				<input type='button' class='button' value='취소' onclick="javascript:cancelButton_down('savePopup')"/>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 불러오기 팝업 -->
+	<div id='loadPopup' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('loadPopup');">
+			<div class='left'>
+				<span>불러오기</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div class='hr'></div>
+			<div class='title'>
+				<span>파일명 입력</span>
+			</div>
+			<div class='content'>
+				<input type='text' id='loadFilePath'/>
+			</div>
+			<div class='bottom'>
+				<input type='button' class='button' value='확인' onclick="javascript:loadXML();"/>
+				<input type='button' class='button' value='취소' onclick="javascript:cancelButton_down('loadPopup')"/>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 글꼴 창 -->
+	<div id='fontPopup' class='gui'>
+		<div class='TL'></div>
+		<div class='TM' name='TM' onmousedown="javascript:window_down('fontPopup');">
+			<div class='left'>
+				<span>글꼴</span>
+			</div>
+		</div>
+		<div class='TR'></div>
+		<div class='ML'></div>
+		<div class='MM'>
+			<div class='hr'></div>
+			<div class='style' id='fontBold' onclick="javascript:font_down('fontBold')">
+				<img title='굵게' src='image/bold.png'/>
+			</div>
+			<div class='style' id='fontItalic' onclick="javascript:font_down('fontItalic')">
+				<img title='기울이기' src='image/italic.png'/>
+			</div>
+			<div>
+				<select id='fontSize' class='size'>
+					<option value='10'>10</option>
+					<option value='12'>12</option>
+					<option value='14'>14</option>
+					<option value='16'>16</option>
+					<option value='18'>18</option>
+					<option value='20'>20</option>
+				</select>
+			</div>
+			<div class='bottom'>
+				<input type='button' class='button' value='확인' onclick="javascript:okButton_down('fontPopup');"/>
+				<input type='button' class='button' value='취소' onclick="javascript:cancelButton_down('fontPopup')"/>
+			</div>
+		</div>
+		<div class='MR'></div>
+		<div class='BL'></div>
+		<div class='BM'></div>
+		<div class='BR'></div>
+	</div>
+	<!-- 이미지 로드 -->
+	<img src='cursor/adds_1.png' style="top:-1000px;left:-1000px;display:none;"/>
+	<img src='cursor/adds_2.png' style="top:-1000px;left:-1000px;display:none;"/>
+	<img src='image/todo.png' style="top:-1000px;left:-1000px;display:none;"/>
+	<img src='image/popup_left.png' style="top:-1000px;left:-1000px;display:none;"/>
+	<img src='image/popup_right.png' style="top:-1000px;left:-1000px;display:none;"/>
+</body>
+</html>
