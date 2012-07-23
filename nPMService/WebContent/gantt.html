@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/jsgantt.css"/>
+		<script src="js/jsgantt.js"></script>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	</head>
+	<body>
+		<div style="position:relative" class="gantt" id="GanttChartDIV"></div>
+		<script>
+			var g = new JSGantt.GanttChart('g', document.getElementById('GanttChartDIV'), 'day');
+			g.setShowRes(1);
+			g.setShowDur(1);
+			g.setShowComp(1);
+			g.setCaptionType('Resource');
+			g.setShowStartDate(1);
+			g.setShowEndDate(1);
+			g.setDateInputFormat('mm/dd/yyyy');
+			g.setDateDisplayFormat('mm/dd/yyyy');
+			g.setFormatArr("day", "week", "month", "quarter");
+			
+			//아이디,작업명,시작일,종료일,색상,링크,마일스톤,자원명,퍼센트,그룹,부모아이디,펼침,의존도,캡션
+			g.AddTaskItem(new JSGantt.TaskItem(3, 'nPMe', '', '', 'ff0000', 'http://help.com', 0, '조대웅', 0, 1, 0, 1));
+			g.AddTaskItem(new JSGantt.TaskItem(31, 'nPMService', '7/30/2012', '9/10/2012', 'ff00ff', 'http://help.com', 0, '채장희', 30, 0, 3, 1));
+			g.AddTaskItem(new JSGantt.TaskItem(32, 'nPMWeb', '7/1/2012', '11/10/2012', '00ff00', 'http://help.com', 0, '강윤경', 40, 0, 3, 1, "31,34"));
+			g.AddTaskItem(new JSGantt.TaskItem(33, 'nPMMobile', '7/11/2012', '8/30/2012', '00ff00', 'http://help.com', 0, '김선영', 20, 0, 3, 1));
+			g.AddTaskItem(new JSGantt.TaskItem(34, '하계훈련', '7/30/2012', '10/25/2012', '00ff00', 'http://help.com', 0, '최금희', 10, 0, 3, 1, 33));
+
+			g.Draw();
+			g.DrawDependencies();
+		</script>
+	</body>
+</html>
