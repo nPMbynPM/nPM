@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>My Facebook Login Page</title>
+</head>
+<body>
+    <div id="fd-root"></div>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <!--로그인-->
+    <script>
+        FB.init({
+            appId: '308120539284135',
+            channelUrl: '//www.freezing-rain-2178.herokuapp.com/channel.html',
+            cookie: true,
+            status: true,
+            xfbml: true
+        });
+    </script>
+    <!--버튼 모임-->
+    <fb:login-button perms="email, user_checkins">Login with Facebook</fb:login-button>
+    <input type="button" id="login_with_facebook" value="Login with Facebook" onclick="facebookAuth()" />
+    <input type="button" id="Button1" value="check" onclick="check_status()" />
+    <!--버튼 이벤트 모임-->
+    <script type="text/javascript">
+        function facebookAuth() {
+            window.location = "https://graph.facebook.com/oauth/authorize?client_id=308120539284135" +
+            "&type=user_agent&scope=user_photos"
+            //+ "&redirect_uri=www.naver.com/"
+        }
+        function check_status() {
+            alert(status);
+        }
+    </script>
+
+
+</body>
+</html>
