@@ -225,3 +225,4 @@ function load_down(param){
 	document.getElementById('loadFilePath').value = '';
 	document.getElementById(param).style.display = 'block';
 }
+

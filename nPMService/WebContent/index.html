@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-type" content="application/x-www-form-urlencoded; charset=UTF-8"/>
 <title>nPM</title>
 <link rel='stylesheet' type='text/css' href='css/guiStyle.css'>
 <link rel='stylesheet' type='text/css' href='css/calendarStyle.css'>
@@ -17,6 +17,16 @@
 			<div class='east'>
 				<div id='save' class='cur' onclick="javascript:save_down('savePopup')">저장</div>
 				<div id='load' class='cur' onclick="javascript:load_down('loadPopup');">불러오기</div>
+				<form id='ganttForm' method='post' action='nPM'>
+					<div id='gantt' class='cur' onclick="javascript:gantt_down();">간트차트</div>
+					<input type='hidden' name='gantttext' id='gantttext' value=''/>
+					<input type='hidden' name='ganttperson' id='ganttperson' value=''/>
+					<input type='hidden' name='gantttodo' id='gantttodo' value=''/>
+					<input type='hidden' name='ganttstart' id='ganttstart' value=''/>
+					<input type='hidden' name='ganttfinish' id='ganttfinish' value=''/>
+					<input type='hidden' name='ganttfrom' id='ganttfrom' value=''/>
+					<input type='hidden' name='ganttto' id='ganttto' value=''/>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -320,7 +330,5 @@
 	<img src='cursor/adds_1.png' style="top:-1000px;left:-1000px;display:none;"/>
 	<img src='cursor/adds_2.png' style="top:-1000px;left:-1000px;display:none;"/>
 	<img src='image/todo.png' style="top:-1000px;left:-1000px;display:none;"/>
-	<img src='image/popup_left.png' style="top:-1000px;left:-1000px;display:none;"/>
-	<img src='image/popup_right.png' style="top:-1000px;left:-1000px;display:none;"/>
 </body>
 </html>
