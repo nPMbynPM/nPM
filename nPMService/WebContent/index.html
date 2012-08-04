@@ -165,7 +165,6 @@
 				<input id='todoStart' name='todoStart' type='text' value='' readonly/>
 				<img src='image/calendar.png' title='날짜입력' onclick="javascript:calendar_down('calendarStart')"/>
 			</div>
-			<div id='calendarStart'></div>
 			<div class='title'>
 				<span>종료일자</span>
 			</div>
@@ -173,7 +172,6 @@
 				<input id='todoClose' type='text' value='' readonly/>
 				<img src='image/calendar.png' title='날짜입력' onclick="javascript:calendar_down('calendarClose')"/>
 			</div>
-			<div id='calendarClose'></div>
 			<div class='bottom'>
 				<input type='button' class='button' value='확인' onclick="javascript:okButton_down('todoPopup');"/>
 				<input type='button' class='button' value='취소' onclick="javascript:cancelButton_down('todoPopup')"/>
@@ -184,6 +182,8 @@
 		<div class='BM'></div>
 		<div class='BR'></div>
 	</div>
+	<div id='calendarStart'></div>
+	<div id='calendarClose'></div>
 	<!-- 정보 창 -->
 	<div id='properties' class='gui'>
 		<div class='TL'></div>
@@ -200,31 +200,51 @@
 				<span>작업자정보</span>
 			</div>
 			<div class='content'>
-				<input id='personProperties_name' type='text' value='' readonly/>
+				<input id='personProperties_name' type='text' value='' class='text'/>
 			</div>
 			<div class='title'>
 				<span>할일</span>
 			</div>
 			<div class='content'>
-				<textarea rows='5' cols='21' id='todoProperties_todo' readonly></textarea>
+				<textarea rows='5' cols='21' id='todoProperties_todo' ></textarea>
 			</div>
 			<div class='title'>
 				<span>시작일자</span>
 			</div>
 			<div class='content'>
-				<input id='todoProperties_start' type='text' value='' readonly/>
+				<input id='todoProperties_start' type='text' value='' class='text'/>
 			</div>
 			<div class='title'>
 				<span>종료일자</span>
 			</div>
 			<div class='content'>
-				<input id='todoProperties_finish' type='text' value='' readonly/>
+				<input id='todoProperties_finish' type='text' value='' class='text'/>
 			</div>
 			<div class='title'>
 				<span>연관된 작업자</span>
 			</div>
 			<div class='content_who' id='todoProperties_who'>
 			</div>
+			<!--  -->
+			<div class='title'>
+				<span>할 일 색상</span>
+			</div>
+			<div class='content'>
+				<input type='radio' name='colorSelect' id='colorSelectGray' value='#626461'/><img src="image/color_gray.png"/>
+				<input type='radio' name='colorSelect' id='colorSelectRed' value='#D53939'/><img src="image/color_red.png"/>
+				<input type='radio' name='colorSelect' id='colorSelectBlue' value='#9BD8EE'/><img src="image/color_blue.png"/>
+			</div>
+			<div class='title'>
+				<span>완료여부</span>
+			</div>
+			<div class='content'>
+				<input id='finishYes' name='finishRadio' type='radio' value='yes' />예
+				<input id='finishNo' name='finishRadio' type='radio' value='no' />아니오
+			</div>
+			<div class='bottom'>
+				<input type='button' class='button' value='수정' onclick="modify_down();"/>
+			</div>
+			<!--  -->
 		</div>
 		<div class='MR'></div>
 		<div class='BL'></div>

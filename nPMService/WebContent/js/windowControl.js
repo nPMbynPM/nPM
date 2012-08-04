@@ -159,9 +159,10 @@ function person_down(param){
  * 달력 이미지가 선택되었을 때의 이벤트
  */
 function calendar_down(param){
-	document.getElementById(param).style.display = 'block';
 	document.getElementById(param).style.top = window.event.y + 'px';
 	document.getElementById(param).style.left = window.event.x + 'px';
+	document.getElementById(param).style.zIndex = '5';
+	document.getElementById(param).style.display = 'block';
 	calendarId = 'todo' + param.substring(param.length-5, param.length);
 	calendar();
 }
@@ -224,5 +225,12 @@ function save_down(param){
 function load_down(param){
 	document.getElementById('loadFilePath').value = '';
 	document.getElementById(param).style.display = 'block';
+}
+
+/**
+ * 정보 창의 수정 버튼이 눌렸을 때
+ */
+function modify_down(){
+	
 }
 
