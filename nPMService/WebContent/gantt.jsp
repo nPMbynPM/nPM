@@ -1,32 +1,29 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
 <%
-String ganttPerson_ = (String)request.getAttribute("ganttperson");
+//서블릿으로 부터 넘어온 변수를 받음
 String ganttTodo_ = (String)request.getAttribute("gantttodo");
-String ganttStart_ =  (String)request.getAttribute("ganttstart");
-String ganttFinish_ =  (String)request.getAttribute("ganttfinish");
-String ganttFrom_ =  (String)request.getAttribute("ganttfrom");
-String ganttTo_ =  (String)request.getAttribute("ganttto");
+String ganttStart_ = (String)request.getAttribute("ganttstart");
+String ganttFinish_ = (String)request.getAttribute("ganttfinish");
+String ganttResource_ = (String)request.getAttribute("ganttresource");
+String ganttLink_ = (String)request.getAttribute("ganttlink");
 
-ArrayList<String> ganttPerson = new ArrayList<String>();
 ArrayList<String> ganttTodo = new ArrayList<String>();
 ArrayList<String> ganttStart = new ArrayList<String>();
 ArrayList<String> ganttFinish = new ArrayList<String>();
-ArrayList<String> ganttFrom = new ArrayList<String>();
-ArrayList<String> ganttTo = new ArrayList<String>();
+ArrayList<String> ganttResource = new ArrayList<String>();
+ArrayList<String> ganttLink = new ArrayList<String>();
 
-StringTokenizer token = new StringTokenizer(ganttPerson_, ",");
-while(token.hasMoreElements())	ganttPerson.add(token.nextToken());
-token = new StringTokenizer(ganttTodo_, ",");
+StringTokenizer token = new StringTokenizer(ganttTodo_, ",");
 while(token.hasMoreElements())	ganttTodo.add(token.nextToken());
-token = new StringTokenizer((String)ganttStart_, ",");
+token = new StringTokenizer(ganttStart_, ",");
 while(token.hasMoreElements())	ganttStart.add(token.nextToken());
 token = new StringTokenizer(ganttFinish_, ",");
 while(token.hasMoreElements())	ganttFinish.add(token.nextToken());
-token = new StringTokenizer(ganttFrom_, ",");
-while(token.hasMoreElements())	ganttFrom.add(token.nextToken());
-token = new StringTokenizer(ganttTo_, ",");
-while(token.hasMoreElements())	ganttTo.add(token.nextToken());
+token = new StringTokenizer(ganttResource_, ",");
+while(token.hasMoreElements())	ganttResource.add(token.nextToken());
+token = new StringTokenizer(ganttLink_, ",");
+while(token.hasMoreElements())	ganttLink.add(token.nextToken());
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -50,9 +47,10 @@ while(token.hasMoreElements())	ganttTo.add(token.nextToken());
 		g.setFormatArr("day", "week", "month", "quarter");
 
 		//아이디,작업명,시작일,종료일,색상,링크,마일스톤,자원명,퍼센트,그룹,부모아이디,펼침,의존도,캡션
-		g.AddTaskItem(new JSGantt.TaskItem(3, 'nPM', '', '', 'ff0000',	'http://help.com', 0, '', 0, 1, 0, 1));
-		<% for(int i = 0; i < ganttPerson.size(); i++){%>
-		g.AddTaskItem(new JSGantt.TaskItem(3<%out.print(i);%>, '<%out.print(ganttTodo.get(i));%>','<%out.print(ganttStart.get(i));%>', '<%out.print(ganttFinish.get(i));%>', 'ff00ff', 'http://help.com',0, '<%out.print(ganttPerson.get(i));%>', 30, 0, 3, 1));
+		g.AddTaskItem(new JSGantt.TaskItem(101, 'nPM', '', '', 'ff0000',	'', 0, '', 0, 1, 0, 1));
+		<% for(int i = 0; i < ganttTodo.size(); i++){%>
+		<% String resource = ganttResource.get(i).replace("/", ","); String link = ganttLink.get(i).replace("/", ","); %>
+		g.AddTaskItem(new JSGantt.TaskItem(<%out.print(i);%>, '<%out.print(ganttTodo.get(i));%>','<%out.print(ganttStart.get(i));%>', '<%out.print(ganttFinish.get(i));%>', 'ff00ff', '',0, '<%out.print(resource);%>', 30, 0, 101, 1<% if(!ganttLink.get(i).equals("-1")) out.print(",'"+link+"'"); %>));
 		<%}%>
 		g.Draw();
 		g.DrawDependencies();

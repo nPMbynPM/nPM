@@ -326,12 +326,11 @@ public class windowServlet extends HttpServlet {
 		//간트차트 포워딩
 		else if(saveText == null && loadText == null && ganttText != null){
 //			request.setCharacterEncoding("UTF-8");
-			String ganttPerson_ = request.getParameter("ganttperson");
-			String ganttTodo_ =  request.getParameter("gantttodo");
-			String ganttStart_ =  request.getParameter("ganttstart");
+			String ganttResource_ = request.getParameter("ganttresource");
+			String ganttTodo_ = request.getParameter("gantttodo");
+			String ganttStart_ = request.getParameter("ganttstart");
 			String ganttFinish_ =  request.getParameter("ganttfinish");
-			String ganttFrom_ =  request.getParameter("ganttfrom");
-			String ganttTo_ =  request.getParameter("ganttto");
+			String ganttLink_ =  request.getParameter("ganttlink");
 			
 			//시작일 종료일 포맷 변경
 			String ganttStart__ = "";
@@ -360,12 +359,11 @@ public class windowServlet extends HttpServlet {
 				ganttFinish__ += tmpArr[1] + "/" + tmpArr[2] + "/" + tmpArr[0]+",";
 			}
 			
-			System.out.println(ganttPerson_);
+			System.out.println(ganttResource_);
 			System.out.println(ganttTodo_);
 			System.out.println(ganttStart__);
 			System.out.println(ganttFinish__);
-			System.out.println(ganttFrom_);
-			System.out.println(ganttTo_);
+			System.out.println(ganttLink_);
 			
 //			ArrayList<String> ganttPerson = new ArrayList<String>();
 //			ArrayList<String> ganttTodo = new ArrayList<String>();
@@ -394,12 +392,11 @@ public class windowServlet extends HttpServlet {
 //			for(int i = 0; i < ganttFrom.size(); i++)	System.out.println(ganttFrom.get(i));
 //			for(int i = 0; i < ganttTo.size(); i++)	System.out.println(ganttTo.get(i));
 			
-			request.setAttribute("ganttperson", ganttPerson_);
 			request.setAttribute("gantttodo", ganttTodo_);
 			request.setAttribute("ganttstart", ganttStart__);
 			request.setAttribute("ganttfinish", ganttFinish__);
-			request.setAttribute("ganttfrom", ganttFrom_);
-			request.setAttribute("ganttto", ganttTo_);
+			request.setAttribute("ganttresource", ganttResource_);
+			request.setAttribute("ganttlink", ganttLink_);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("gantt.jsp");
 			rd.forward(request, response);

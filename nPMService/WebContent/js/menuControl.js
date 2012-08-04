@@ -3,56 +3,71 @@
  * @param param
  */
 function gantt_down(){
-	//작업자 정보
-	var personName = new Array();
+	//할일에 대한 작업자 정보
+	var todoResource = new Array();
 	//할일 정보
 	var todoTodo = new Array();
 	var todoStart = new Array();
 	var todoFinish = new Array();
 	//연결 정보
-	var fromClassName = new Array();
-	var toClassName = new Array();
-
-	for(var i = 0; i < personArray.length; i++){
-		personName.push(personArray[i].name);
-	}
+	var link = new Array();
+	
 	for(var i = 0; i < todoArray.length; i++){
+		//console.log('-----' + i + '-----');
+		var linkArray = new Array();
+		var isLinked = false;
+		var str = '';
 		todoTodo.push(todoArray[i].todo);
 		todoStart.push(todoArray[i].start);
 		todoFinish.push(todoArray[i].finish);
+		tmpArray = new Array();
+		getConnInform(todoArray[i]);
+		for(var j = 0; j < tmpArray.length; j++){
+			str += tmpArray[j].name;
+			if(j != tmpArray.length -1){
+				str += '/';
+			}
+		}
+		todoResource.push(str);
+		for(var j = 0; j < connArray.length; j++){
+			if(getObjectClass(connArray[j].to) == 'todoClass'){
+				if(todoArray[i].x == connArray[j].to.x && todoArray[i].y == connArray[j].to.y && getObjectClass(connArray[j].from) == 'todoClass'){
+					for(var k = 0; k < todoArray.length; k++){
+						if(todoArray[k].x == connArray[j].from.x && todoArray[k].y == connArray[j].from.y){
+							isLinked = true;
+							linkArray.push(k);
+						}
+					}
+				}
+			}
+		}
+		if(isLinked == false){
+			link.push(-1);
+		}
+		else{
+			str = '';
+			for(var j = 0; j < linkArray.length; j++){
+				str += linkArray[j];
+				if(j != linkArray.length - 1){
+					str += '/';
+				}
+			}
+			link.push(str);
+		}
+//		console.log(todoTodo[i]);
+//		console.log(todoStart[i]);
+//		console.log(todoFinish[i]);
+//		console.log(todoResource[i]);
+//		console.log(link[i]);
 	}
-	for(var i = 0; i < connArray.length; i++){
-		fromClassName.push(getObjectClass(connArray[i].from));
-		toClassName.push(getObjectClass(connArray[i].to));
-	}
-	/*
-	//Ajax를 이용한 비동기 요청
-	var param = "gantttext=gantt&ganttperson="+personName+"&gantttodo="+todoTodo+"&ganttstart="+todoStart+"&ganttfinish="+todoFinish
-	+"&ganttfrom="+fromClassName+"&ganttto="+toClassName;
-
-	var saveRequest = createRequest();
-	
-	if(saveRequest == null){
-		alert("요청에 실패했습니다!");
-	}
-	else{
-		saveRequest.open("POST", "nPM", true);
-		saveRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		saveRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-		saveRequest.setRequestHeader("Pragma","no-cache");
-		saveRequest.send(param);
-	}*/
-	
 	
 	document.getElementById('gantttext').value = 'gantttext';
-	document.getElementById('ganttperson').value = personName;
 	document.getElementById('gantttodo').value = todoTodo;
 	document.getElementById('ganttstart').value = todoStart;
 	document.getElementById('ganttfinish').value = todoFinish;
-	document.getElementById('ganttfrom').value = fromClassName;
-	document.getElementById('ganttto').value = toClassName;
+	document.getElementById('ganttresource').value = todoResource;
+	document.getElementById('ganttlink').value = link;
 	document.getElementById('ganttForm').submit();
-	
 }
 
 /**
