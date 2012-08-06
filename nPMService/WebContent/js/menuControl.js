@@ -9,6 +9,7 @@ function gantt_down(){
 	var todoTodo = new Array();
 	var todoStart = new Array();
 	var todoFinish = new Array();
+	var todoIsFinished = new Array();
 	//연결 정보
 	var link = new Array();
 	
@@ -20,6 +21,12 @@ function gantt_down(){
 		todoTodo.push(todoArray[i].todo);
 		todoStart.push(todoArray[i].start);
 		todoFinish.push(todoArray[i].finish);
+		if(todoArray[i].isFinished == true){
+			todoIsFinished.push('100');
+		}
+		else{
+			todoIsFinished.push('0');
+		}
 		tmpArray = new Array();
 		getConnInform(todoArray[i]);
 		for(var j = 0; j < tmpArray.length; j++){
@@ -67,6 +74,7 @@ function gantt_down(){
 	document.getElementById('ganttfinish').value = todoFinish;
 	document.getElementById('ganttresource').value = todoResource;
 	document.getElementById('ganttlink').value = link;
+	document.getElementById('ganttisfinished').value = todoIsFinished;
 	document.getElementById('ganttForm').submit();
 }
 

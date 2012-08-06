@@ -331,6 +331,7 @@ public class windowServlet extends HttpServlet {
 			String ganttStart_ = request.getParameter("ganttstart");
 			String ganttFinish_ =  request.getParameter("ganttfinish");
 			String ganttLink_ =  request.getParameter("ganttlink");
+			String ganttIsFinished_ = request.getParameter("ganttisfinished");
 			
 			//시작일 종료일 포맷 변경
 			String ganttStart__ = "";
@@ -364,6 +365,7 @@ public class windowServlet extends HttpServlet {
 			System.out.println(ganttStart__);
 			System.out.println(ganttFinish__);
 			System.out.println(ganttLink_);
+			System.out.println(ganttIsFinished_);
 			
 //			ArrayList<String> ganttPerson = new ArrayList<String>();
 //			ArrayList<String> ganttTodo = new ArrayList<String>();
@@ -397,6 +399,7 @@ public class windowServlet extends HttpServlet {
 			request.setAttribute("ganttfinish", ganttFinish__);
 			request.setAttribute("ganttresource", ganttResource_);
 			request.setAttribute("ganttlink", ganttLink_);
+			request.setAttribute("ganttisfinished", ganttIsFinished_);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("gantt.jsp");
 			rd.forward(request, response);

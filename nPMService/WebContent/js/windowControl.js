@@ -231,6 +231,41 @@ function load_down(param){
  * 정보 창의 수정 버튼이 눌렸을 때
  */
 function modify_down(){
-	
+//	alert(getObjectClass(elementDowned));
+	//작업자가 선택되었을 때
+	if(getObjectClass(elementDowned) == 'personClass'){
+		elementDowned.name = document.getElementById('personProperties_name').value;
+	}
+	//할 일이 선택되었을 때
+	else if(getObjectClass(elementDowned) == 'todoClass'){
+		var RegExpDate = /^[\d]{4}-[\d]{1,2}-[\d]{1,2}$/;
+		if(!RegExpDate.test(document.getElementById('todoProperties_start').value) ||
+				!RegExpDate.test(document.getElementById('todoProperties_finish').value)){
+			alert('시작일자 및 종료일자를 yyyy-mm-dd 형식으로 입력해주세요');
+			return false;
+		}
+		elementDowned.todo = document.getElementById('todoProperties_todo').value;
+		elementDowned.start = document.getElementById('todoProperties_start').value;
+		elementDowned.finish = document.getElementById('todoProperties_finish').value;
+		for(var i = 0; i < document.getElementsByName('colorSelect').length; i++){
+			if(document.getElementsByName('colorSelect')[i].checked == true){
+				elementDowned.color = document.getElementsByName('colorSelect')[i].value;
+			}
+		}
+		for(var i = 0; i < document.getElementsByName('finishRadio').length; i++){
+			if(document.getElementsByName('finishRadio')[i].checked == true){
+				if(document.getElementsByName('finishRadio')[i].value == 'true'){
+					elementDowned.isFinished = true;
+				}
+				else{
+					elementDowned.isFinished = false ;
+				}
+			}
+		}
+	}
+	else{
+		return false;
+	}
+	drawAll();
 }
 

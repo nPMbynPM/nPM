@@ -25,6 +25,7 @@
 					<input type='hidden' name='ganttfinish' id='ganttfinish' value=''/>
 					<input type='hidden' name='ganttresource' id='ganttresource' value=''/>
 					<input type='hidden' name='ganttlink' id='ganttlink' value=''/>
+					<input type='hidden' name='ganttisfinished' id='ganttisfinished' value=''/>
 				</form>
 			</div>
 		</div>
@@ -197,7 +198,7 @@
 		<div class='MM'>
 			<div class='hr'></div>
 			<div class='title'>
-				<span>작업자정보</span>
+				<span>작업자</span>
 			</div>
 			<div class='content'>
 				<input id='personProperties_name' type='text' value='' class='text'/>
@@ -238,8 +239,8 @@
 				<span>완료여부</span>
 			</div>
 			<div class='content'>
-				<input id='finishYes' name='finishRadio' type='radio' value='yes' />예
-				<input id='finishNo' name='finishRadio' type='radio' value='no' />아니오
+				<input id='finishYes' name='finishRadio' type='radio' value='true' />예
+				<input id='finishNo' name='finishRadio' type='radio' value='false' />아니오
 			</div>
 			<div class='bottom'>
 				<input type='button' class='button' value='수정' onclick="modify_down();"/>
