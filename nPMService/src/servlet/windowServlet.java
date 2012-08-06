@@ -336,7 +336,9 @@ public class windowServlet extends HttpServlet {
 			//시작일 종료일 포맷 변경
 			String ganttStart__ = "";
 			StringTokenizer token = new StringTokenizer(ganttStart_,",");
+			boolean isFirst = true;
 			while(token.hasMoreElements()){
+				if(isFirst == false)	ganttStart__ += ",";
 				int cnt = 0;
 				String tmpArr[] = new String[3];
 				String tmp = token.nextToken();
@@ -344,12 +346,15 @@ public class windowServlet extends HttpServlet {
 				while(tmpToken.hasMoreElements()){
 					tmpArr[cnt++] = tmpToken.nextToken();
 				}
-				ganttStart__ += tmpArr[1] + "/" + tmpArr[2] + "/" + tmpArr[0]+",";
+				ganttStart__ += tmpArr[1] + "/" + tmpArr[2] + "/" + tmpArr[0];
+				if(isFirst == true)	isFirst = false;
 			}
 			
 			String ganttFinish__ = "";
 			token = new StringTokenizer(ganttFinish_,",");
+			isFirst = true;
 			while(token.hasMoreElements()){
+				if(isFirst == false)	ganttFinish__ += ",";
 				int cnt = 0;
 				String tmpArr[] = new String[3];
 				String tmp = token.nextToken();
@@ -357,7 +362,8 @@ public class windowServlet extends HttpServlet {
 				while(tmpToken.hasMoreElements()){
 					tmpArr[cnt++] = tmpToken.nextToken();
 				}
-				ganttFinish__ += tmpArr[1] + "/" + tmpArr[2] + "/" + tmpArr[0]+",";
+				ganttFinish__ += tmpArr[1] + "/" + tmpArr[2] + "/" + tmpArr[0];
+				if(isFirst == true)	isFirst = false;
 			}
 			
 			System.out.println(ganttResource_);

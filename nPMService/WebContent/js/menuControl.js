@@ -14,28 +14,38 @@ function gantt_down(){
 	var link = new Array();
 	
 	for(var i = 0; i < todoArray.length; i++){
-		//console.log('-----' + i + '-----');
 		var linkArray = new Array();
 		var isLinked = false;
+		var resourceFlag = false;
 		var str = '';
+		//할일, 시작일, 종료일
 		todoTodo.push(todoArray[i].todo);
 		todoStart.push(todoArray[i].start);
 		todoFinish.push(todoArray[i].finish);
+		//완료여부
 		if(todoArray[i].isFinished == true){
 			todoIsFinished.push('100');
 		}
 		else{
 			todoIsFinished.push('0');
 		}
+		//리소스 정보
 		tmpArray = new Array();
 		getConnInform(todoArray[i]);
 		for(var j = 0; j < tmpArray.length; j++){
+			resourceFlag = true;
 			str += tmpArray[j].name;
 			if(j != tmpArray.length -1){
 				str += '/';
 			}
 		}
-		todoResource.push(str);
+		if(resourceFlag == true){
+			todoResource.push(str);			
+		}
+		else{
+			todoResource.push("없음");	
+		}
+		//연결 정보
 		for(var j = 0; j < connArray.length; j++){
 			if(getObjectClass(connArray[j].to) == 'todoClass'){
 				if(todoArray[i].x == connArray[j].to.x && todoArray[i].y == connArray[j].to.y && getObjectClass(connArray[j].from) == 'todoClass'){
@@ -61,13 +71,8 @@ function gantt_down(){
 			}
 			link.push(str);
 		}
-//		console.log(todoTodo[i]);
-//		console.log(todoStart[i]);
-//		console.log(todoFinish[i]);
-//		console.log(todoResource[i]);
-//		console.log(link[i]);
 	}
-	
+	//servlet으로 요청
 	document.getElementById('gantttext').value = 'gantttext';
 	document.getElementById('gantttodo').value = todoTodo;
 	document.getElementById('ganttstart').value = todoStart;
