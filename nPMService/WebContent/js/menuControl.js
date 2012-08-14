@@ -1,4 +1,61 @@
 /**
+ * 간트차트 버튼이 눌렸을 때
+ * @param param
+ */
+function gantt_down(){
+	//작업자 정보
+	var personName = new Array();
+	//할일 정보
+	var todoTodo = new Array();
+	var todoStart = new Array();
+	var todoFinish = new Array();
+	//연결 정보
+	var fromClassName = new Array();
+	var toClassName = new Array();
+
+	for(var i = 0; i < personArray.length; i++){
+		personName.push(personArray[i].name);
+	}
+	for(var i = 0; i < todoArray.length; i++){
+		todoTodo.push(todoArray[i].todo);
+		todoStart.push(todoArray[i].start);
+		todoFinish.push(todoArray[i].finish);
+	}
+	for(var i = 0; i < connArray.length; i++){
+		fromClassName.push(getObjectClass(connArray[i].from));
+		toClassName.push(getObjectClass(connArray[i].to));
+	}
+	/*
+	//Ajax를 이용한 비동기 요청
+	var param = "gantttext=gantt&ganttperson="+personName+"&gantttodo="+todoTodo+"&ganttstart="+todoStart+"&ganttfinish="+todoFinish
+	+"&ganttfrom="+fromClassName+"&ganttto="+toClassName;
+
+	var saveRequest = createRequest();
+	
+	if(saveRequest == null){
+		alert("요청에 실패했습니다!");
+	}
+	else{
+		saveRequest.open("POST", "nPM", true);
+		saveRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		saveRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		saveRequest.setRequestHeader("Pragma","no-cache");
+		saveRequest.send(param);
+	}*/
+	
+	
+	document.getElementById('gantttext').value = 'gantttext';
+	document.getElementById('ganttperson').value = personName;
+	document.getElementById('gantttodo').value = todoTodo;
+	document.getElementById('ganttstart').value = todoStart;
+	document.getElementById('ganttfinish').value = todoFinish;
+	document.getElementById('ganttfrom').value = fromClassName;
+	document.getElementById('ganttto').value = toClassName;
+	document.getElementById('ganttForm').submit();
+	
+}
+
+/**
  * 현재의 상태를 파일로 저장하기 위해 비동기 요청을 서버로 보낸다
  */
 function saveAs(){

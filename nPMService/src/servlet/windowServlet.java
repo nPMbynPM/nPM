@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -54,8 +55,9 @@ public class windowServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String saveText = request.getParameter("savetext");
 		String loadText = request.getParameter("loadtext");
+		String ganttText = request.getParameter("gantttext");
 
-		if(saveText == null && loadText == null){
+		if(saveText == null && loadText == null && ganttText == null){
 			RequestDispatcher rd = request.getRequestDispatcher("index.html");
 			rd.forward(request, response);
 		}
@@ -320,6 +322,87 @@ public class windowServlet extends HttpServlet {
 			}finally{
 				if(br != null)	br.close();
 			}
+		}
+		//간트차트 포워딩
+		else if(saveText == null && loadText == null && ganttText != null){
+//			request.setCharacterEncoding("UTF-8");
+			String ganttPerson_ = request.getParameter("ganttperson");
+			String ganttTodo_ =  request.getParameter("gantttodo");
+			String ganttStart_ =  request.getParameter("ganttstart");
+			String ganttFinish_ =  request.getParameter("ganttfinish");
+			String ganttFrom_ =  request.getParameter("ganttfrom");
+			String ganttTo_ =  request.getParameter("ganttto");
+			
+			//시작일 종료일 포맷 변경
+			String ganttStart__ = "";
+			StringTokenizer token = new StringTokenizer(ganttStart_,",");
+			while(token.hasMoreElements()){
+				int cnt = 0;
+				String tmpArr[] = new String[3];
+				String tmp = token.nextToken();
+				StringTokenizer tmpToken = new StringTokenizer(tmp, "-");
+				while(tmpToken.hasMoreElements()){
+					tmpArr[cnt++] = tmpToken.nextToken();
+				}
+				ganttStart__ += tmpArr[1] + "/" + tmpArr[2] + "/" + tmpArr[0]+",";
+			}
+			
+			String ganttFinish__ = "";
+			token = new StringTokenizer(ganttFinish_,",");
+			while(token.hasMoreElements()){
+				int cnt = 0;
+				String tmpArr[] = new String[3];
+				String tmp = token.nextToken();
+				StringTokenizer tmpToken = new StringTokenizer(tmp, "-");
+				while(tmpToken.hasMoreElements()){
+					tmpArr[cnt++] = tmpToken.nextToken();
+				}
+				ganttFinish__ += tmpArr[1] + "/" + tmpArr[2] + "/" + tmpArr[0]+",";
+			}
+			
+			System.out.println(ganttPerson_);
+			System.out.println(ganttTodo_);
+			System.out.println(ganttStart__);
+			System.out.println(ganttFinish__);
+			System.out.println(ganttFrom_);
+			System.out.println(ganttTo_);
+			
+//			ArrayList<String> ganttPerson = new ArrayList<String>();
+//			ArrayList<String> ganttTodo = new ArrayList<String>();
+//			ArrayList<String> ganttStart = new ArrayList<String>();
+//			ArrayList<String> ganttFinish = new ArrayList<String>();
+//			ArrayList<String> ganttFrom = new ArrayList<String>();
+//			ArrayList<String> ganttTo = new ArrayList<String>();
+//
+//			StringTokenizer token = new StringTokenizer(ganttPerson_, ",");
+//			while(token.hasMoreElements())	ganttPerson.add(token.nextToken());
+//			token = new StringTokenizer(ganttTodo_, ",");
+//			while(token.hasMoreElements())	ganttTodo.add(token.nextToken());
+//			token = new StringTokenizer(ganttStart_, ",");
+//			while(token.hasMoreElements())	ganttStart.add(token.nextToken());
+//			token = new StringTokenizer(ganttFinish_, ",");
+//			while(token.hasMoreElements())	ganttFinish.add(token.nextToken());
+//			token = new StringTokenizer(ganttFrom_, ",");
+//			while(token.hasMoreElements())	ganttFrom.add(token.nextToken());
+//			token = new StringTokenizer(ganttTo_, ",");
+//			while(token.hasMoreElements())	ganttTo.add(token.nextToken());
+			
+//			for(int i = 0; i < ganttPerson.size(); i++)	System.out.println(ganttPerson.get(i));
+//			for(int i = 0; i < ganttTodo.size(); i++)	System.out.println(ganttTodo.get(i));
+//			for(int i = 0; i < ganttStart.size(); i++)	System.out.println(ganttStart.get(i));
+//			for(int i = 0; i < ganttFinish.size(); i++)	System.out.println(ganttFinish.get(i));
+//			for(int i = 0; i < ganttFrom.size(); i++)	System.out.println(ganttFrom.get(i));
+//			for(int i = 0; i < ganttTo.size(); i++)	System.out.println(ganttTo.get(i));
+			
+			request.setAttribute("ganttperson", ganttPerson_);
+			request.setAttribute("gantttodo", ganttTodo_);
+			request.setAttribute("ganttstart", ganttStart__);
+			request.setAttribute("ganttfinish", ganttFinish__);
+			request.setAttribute("ganttfrom", ganttFrom_);
+			request.setAttribute("ganttto", ganttTo_);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("gantt.jsp");
+			rd.forward(request, response);
 		}
 	}
 }
