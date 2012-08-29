@@ -53,6 +53,28 @@ body{
 	left: 0px;	
 }
 
+#wrapper #wrapper_left #make_div {
+	position: absolute;
+	display: none;
+	top: 0px;
+	left: 0px;
+	width: 0px;
+	height: 0px;
+}
+
+#wrapper #wrapper_left #make_div div{
+	margin: auto;
+	width: 100px;
+}
+
+#wrapper #wrapper_left #make_node {
+	font-size: 14px;
+	width: 0px;
+	height: 0px;
+	top: 0px;
+	left: 0px;	
+}
+
 #wrapper #wrapper_left #mindmap #export_text{
 	width: 300px;
 	height: 200px;

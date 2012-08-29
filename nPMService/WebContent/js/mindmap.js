@@ -3,6 +3,7 @@ var isPopupedChild = false;
 var isModified = false;
 var popupRootStatus = null;
 var popupChildStatus = new Array();
+var makeNodeFlag = '';
 
 var canvasWidth = 1080;
 var canvasHeight = 1024;
@@ -34,6 +35,7 @@ function addEventListener(){
 	canvas.addEventListener('mousemove', mouseMove, false);
 	canvas.addEventListener('mouseup', mouseUp, false);
 	canvas.addEventListener('mousedown', mouseDown, false);
+	canvas.addEventListener('onkeydown', keyDown, false);
 }
 
 /**
@@ -121,6 +123,13 @@ function getObjectClass(obj) {
 }
 
 /**
+ * key Down
+ */
+function keyDown(){
+	timer = 0;
+}
+
+/**
  * mouseMove
  */
 function mouseMove(ev){
@@ -162,7 +171,8 @@ function mouseUp(ev){
 	if(isPopupedRoot){
 		if((canvasCurX > popupRootStatus.x && canvasCurX < popupRootStatus.x + popupRootStatus.width)
 				&& (canvasCurY > popupRootStatus.y && canvasCurY < popupRootStatus.y + popupRootStatus.height)){
-			makeRoot(canvasCurX, canvasCurY);
+			makeNodeFlag = 'root';
+			makeNodeForm(canvasCurX, canvasCurY);
 		}
 		else{
 			isPopupedRoot = false;
@@ -173,7 +183,8 @@ function mouseUp(ev){
 		//자식노드 추가
 		if((canvasCurX > popupChildStatus[0].x && canvasCurX < popupChildStatus[0].x + popupChildStatus[0].width)
 				&& (canvasCurY > popupChildStatus[0].y && canvasCurY < popupChildStatus[0].y + popupChildStatus[0].height)){
-			makeChild(canvasCurX, canvasCurY);
+			makeNodeFlag = 'child';
+			makeNodeForm(canvasCurX, canvasCurY);
 		}
 		//수정하기
 		else if((canvasCurX > popupChildStatus[1].x && canvasCurX < popupChildStatus[1].x + popupChildStatus[1].width)
@@ -363,6 +374,7 @@ function drawAll(){
 			getCrossPoint(ax1, ay1, ax2, ay2, bx1_4, by1_4, bx2_4, by2_4);
 			//화살표를 그린다
 			context.strokeStyle = '#444444';
+			context.lineWidth = 1;
 			context.beginPath();
 			context.moveTo(ax1, ay1);
 			context.lineTo(crossX, crossY);
@@ -409,10 +421,64 @@ function drawAll(){
 }
 
 /**
+ * 노드 생성 입력 폼
+ * @param x
+ * @param y
+ */
+function makeNodeForm(x, y){
+	isPopupedRoot = false;
+	isPopupedChild = false;
+	
+	drawAll();
+	
+	//캔버스에 input 태그 보이게 함
+	var node = document.getElementById('make_div');
+	var text =  document.getElementById('make_node');
+	
+	text.value = '';
+	
+	node.style.left = x + 'px';
+	node.style.top = y + 'px';
+	node.style.width = 200 + 'px';
+	node.style.height = 30 + 'px';
+	node.style.display = 'block';
+	
+	text.style.left = x + 'px';
+	text.style.top = y + 'px';
+	text.style.width = 200 + 'px';
+	text.style.height = 30 + 'px';
+	
+	text.focus();
+}
+
+/**
+ * 노드 생성 확인
+ */
+function makeNodeOk(){
+	var node = document.getElementById('make_div');
+	node.style.display = 'none';
+	if(makeNodeFlag == 'root'){
+		makeRoot(canvasCurX, canvasCurY, document.getElementById('make_node').value);		
+	}
+	else if(makeNodeFlag == 'child'){
+		makeChild(canvasCurX, canvasCurY, document.getElementById('make_node').value);	
+	}
+}
+
+/**
+ * 노드 생성 취소
+ */
+function makeNodeCancel(){
+	var node = document.getElementById('make_div');
+	node.style.display = 'none';
+	drawAll();
+}
+
+/**
  * 루트노드 생성
  */
-function makeRoot(x, y){
-	isPopupedRoot = false;
+function makeRoot(x, y, text){
+//	isPopupedRoot = false;
 	
 	//서버로부터 현재 가장 큰 번호 받아오기
 	var param = "mindtext=check";
@@ -435,6 +501,7 @@ function makeRoot(x, y){
 					node.number = Number(responseDoc);
 					node.x = x;
 					node.y = y;
+					node.text = text;
 					node.height = wrapText(context, node.text, node.x, node.y, node.width, 20) + 10;
 
 					// 연결정보 배열에 넣음
@@ -615,8 +682,8 @@ function drawChildPopup(x, y){
 /**
  * 자식노드 생성
  */
-function makeChild(x, y){
-	isPopupedChild = false;
+function makeChild(x, y, text){
+//	isPopupedChild = false;
 	
 	//서버로부터 현재 가장 큰 번호 받아오기
 	var param = "mindtext=check";
@@ -639,6 +706,7 @@ function makeChild(x, y){
 					node.number = Number(responseDoc);
 					node.x = x;
 					node.y = y;
+					node.text = text;
 					node.height = wrapText(context, node.text, node.x, node.y, node.width, 20) + 10;
 
 					// 연결정보 배열에 넣음
