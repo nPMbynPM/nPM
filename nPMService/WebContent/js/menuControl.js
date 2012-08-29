@@ -107,6 +107,8 @@ function saveAs(){
 	var todoStart = new Array();
 	var todoFinish = new Array();
 	var todoFont = new Array();
+	var todoColor = new Array();
+	var todoIsfinished = new Array();
 	//연결 정보
 	var fromClassName = new Array();
 	var fromX = new Array();
@@ -130,6 +132,8 @@ function saveAs(){
 		todoStart.push(todoArray[i].start);
 		todoFinish.push(todoArray[i].finish);
 		todoFont.push(todoArray[i].font);
+		todoColor.push(todoArray[i].color);
+		todoIsfinished.push(todoArray[i].isFinished);
 	}
 	for(var i = 0; i < connArray.length; i++){
 		fromClassName.push(getObjectClass(connArray[i].from));
@@ -143,7 +147,8 @@ function saveAs(){
 	//Ajax를 이용한 비동기 요청
 	var param = "savetext="+saveText+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
-	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY;
+	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
+	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished;
 
 	var saveRequest = createRequest();
 	
@@ -252,9 +257,14 @@ function xmlParsing(response){
 		var start = todoId[i].getElementsByTagName("start")[0].firstChild.nodeValue;
 		var finish = todoId[i].getElementsByTagName("finish")[0].firstChild.nodeValue;
 		var font = todoId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
+		var color = todoId[i].getElementsByTagName("color")[0].firstChild.nodeValue;
+		var isfinished = todoId[i].getElementsByTagName("isfinished")[0].firstChild.nodeValue;
 
 		var tmpClass = new todoClass(Number(x), Number(y), String(job), String(start), String(finish));
 		tmpClass.font = font;
+		tmpClass.color = color;
+		if(isfinished == 'true')		tmpClass.isFinished = true;
+		else	tmpClass.isFinished = false;
 		todoArray.push(tmpClass);
 	}
 	

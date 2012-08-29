@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-type" content="charset=UTF-8" />
+<title>nPM - mind map</title>
+<link rel='stylesheet' type='text/css' href='css/mindmap.css'>
+<script src='js/mindmap.js'></script>
+</head>
+<body>
+	<div id='wrapper'>
+		<div id='wrapper_left'>
+			<div id='mindmap'>
+				<canvas id='mindmap_canvas' width=1080 height=1024>이 브라우저는 HTML5 canvas기능을 지원하지 않습니다.</canvas>
+				<div id='modify_div'>
+					<input type='text' id='modify_node' value=''/>
+					<div>
+						<input type='button' id='modify_ok' value='확인' onclick='modifyNodeOk();'/>
+						<input type='button' id='modify_cancel' value='취소' onclick='modifyNodeCancel();'/>
+					</div>
+				</div>
+				<div id='export_text'>
+					<textarea id='export_text_area'></textarea>
+					<input type='button' id='export_text_close' value='닫기' onclick='exportToTextClose();'/>
+				</div>
+			</div>
+		</div>
+		<div id='wrapper_right'>
+			<div id='mindmap_bbs'>
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

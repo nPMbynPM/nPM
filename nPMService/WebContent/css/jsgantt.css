@@ -47,7 +47,7 @@
 
 ..gcomplete { background-color:black; height:5px; overflow: auto; margin-top:4px; }
 
-DIV.scroll { BORDER-RIGHT: #efefef 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #efefef 1px solid; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; OVERFLOW: hidden; BORDER-LEFT: #efefef 1px solid; WIDTH: 420px; PADDING-TOP: 0px; BORDER-BOTTOM: #efefef 1px solid; BACKGROUND-COLOR: #ffffff }
+DIV.scroll { BORDER-RIGHT: #efefef 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #efefef 1px solid; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; OVERFLOW: auto; BORDER-LEFT: #efefef 1px solid; WIDTH: 420px; PADDING-TOP: 0px; BORDER-BOTTOM: #efefef 1px solid; BACKGROUND-COLOR: #ffffff }
 
 DIV.scroll2 { position:relative; PADDING-RIGHT: 0px; overflow:auto ;overflow-x:scroll;overflow-y:hidden; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; WIDTH: 482px; PADDING-TOP: 0px; BACKGROUND-COLOR: #ffffff }
 

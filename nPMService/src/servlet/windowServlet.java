@@ -28,11 +28,17 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.sql.*;
+
 /**
  * Servlet implementation class windowServlet
  */
 public class windowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	//DB 관련 변수
+	private String root = "root";
+	private String pw = "apmsetup";
+	private String db_mind = "mindmap";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -52,12 +58,13 @@ public class windowServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String saveText = request.getParameter("savetext");
 		String loadText = request.getParameter("loadtext");
 		String ganttText = request.getParameter("gantttext");
+		String mindText = request.getParameter("mindtext");
 
-		if(saveText == null && loadText == null && ganttText == null){
+		if(saveText == null && loadText == null && ganttText == null && mindText == null){
 			RequestDispatcher rd = request.getRequestDispatcher("index.html");
 			rd.forward(request, response);
 		}
@@ -79,6 +86,8 @@ public class windowServlet extends HttpServlet {
 			String todoStart_ = request.getParameter("todoStart");
 			String todoFinish_ = request.getParameter("todoFinish");
 			String todoFont_ = request.getParameter("todoFont");
+			String todoColor_ = request.getParameter("todoColor");
+			String todoIsfinished_ = request.getParameter("todoIsfinished");
 			//연결정보
 			String fromClassName_ = request.getParameter("fromClassName");
 			String fromX_ = request.getParameter("fromX");
@@ -101,6 +110,8 @@ public class windowServlet extends HttpServlet {
 			ArrayList<String> todoStart = new ArrayList<String>();
 			ArrayList<String> todoFinish = new ArrayList<String>();
 			ArrayList<String> todoFont = new ArrayList<String>();
+			ArrayList<String> todoColor = new ArrayList<String>();
+			ArrayList<String> todoIsfinished = new ArrayList<String>();
 			//연결정보
 			ArrayList<String> fromClassName = new ArrayList<String>();
 			ArrayList<String> fromX = new ArrayList<String>();
@@ -143,6 +154,10 @@ public class windowServlet extends HttpServlet {
 			while(token.hasMoreElements())	toX.add(token.nextToken());
 			token = new StringTokenizer(toY_, ",");
 			while(token.hasMoreElements())	toY.add(token.nextToken());
+			token = new StringTokenizer(todoColor_, ",");
+			while(token.hasMoreElements())	todoColor.add(token.nextToken());
+			token = new StringTokenizer(todoIsfinished_, ",");
+			while(token.hasMoreElements())	todoIsfinished.add(token.nextToken());
 
 			//XML파일로 씀
 			try
@@ -216,6 +231,14 @@ public class windowServlet extends HttpServlet {
 					Element font = doc.createElement("font");
 					font.appendChild(doc.createTextNode(todoFont.get(i)));
 					id.appendChild(font);
+					// color
+					Element color = doc.createElement("color");
+					color.appendChild(doc.createTextNode(todoColor.get(i)));
+					id.appendChild(color);
+					// isfinished
+					Element isfinished = doc.createElement("isfinished");
+					isfinished.appendChild(doc.createTextNode(todoIsfinished.get(i)));
+					id.appendChild(isfinished);
 				}
 
 				// conn
@@ -410,5 +433,276 @@ public class windowServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("gantt.jsp");
 			rd.forward(request, response);
 		}
+		//마인드맵 관련 요청
+		else if(mindText != null){
+			//가장 큰 번호 조회
+			if(mindText.equals("check")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String query = "select max(number) from nodes";
+				int max = 0;
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(query);
+					rs = pstmt.executeQuery();
+					if(rs.next()){
+						max = rs.getInt("max(number)");
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt,rs);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				//가장 큰 번호 리턴
+				response.setContentType("text/xml");
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("Cache-Control", "no-cache"); 
+				PrintWriter out = response.getWriter();
+				out.print(max+1);
+				System.out.println(max+1);
+			}
+			//노드 정보 DB에 저장
+			else if(mindText.equals("saveroot") || mindText.equals("savechild")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String query = "insert into nodes(parentx,parenty,myx,myy,mytext,number,parentnumber,parentnode,parenttext,mynode) value (?,?,?,?,?,?,?,?,?,?)";
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, Integer.parseInt(request.getParameter("parentx")));
+					pstmt.setInt(2, Integer.parseInt(request.getParameter("parenty")));
+					pstmt.setInt(3, Integer.parseInt(request.getParameter("myx")));
+					pstmt.setInt(4, Integer.parseInt(request.getParameter("myy")));
+					pstmt.setString(5, request.getParameter("mytext"));
+					pstmt.setInt(6, Integer.parseInt(request.getParameter("number")));
+					pstmt.setInt(7, Integer.parseInt(request.getParameter("parentnumber")));
+					pstmt.setString(8, request.getParameter("parentnode"));
+					pstmt.setString(9, request.getParameter("parenttext"));
+					pstmt.setString(10, request.getParameter("mynode"));
+					pstmt.executeUpdate();
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			//노드 정보 DB 수정
+			else if(mindText.equals("modify")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String updateSQL = "update nodes set mytext=? where number=?";
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(updateSQL);
+					pstmt.setString(1, request.getParameter("text"));
+					pstmt.setInt(2, Integer.parseInt(request.getParameter("number")));
+					pstmt.executeUpdate();
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn, pstmt);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			//DB정보 리턴
+			else if(mindText.equals("load")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String query = "select * from nodes order by number asc";
+				
+				int number = 0;
+				int parentnumber = 0;
+				String parentnode = "";
+				int parentx = 0;
+				int parenty = 0;
+				String parenttext = "";
+				String mynode = "";
+				int myx = 0;
+				int myy = 0;
+				String mytext = "";
+				
+				String xmlStr = "<data>";
+				
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(query);
+					rs = pstmt.executeQuery();
+					while(rs.next()){
+						number = rs.getInt("number");
+						parentnumber = rs.getInt("parentnumber");
+						parentnode = rs.getString("parentnode");
+						parentx = rs.getInt("parentx");
+						parenty = rs.getInt("parenty");
+						parenttext = rs.getString("parenttext");
+						mynode = rs.getString("mynode");
+						myx = rs.getInt("myx");
+						myy = rs.getInt("myy");
+						mytext = rs.getString("mytext");
+						
+						xmlStr += "<id>"
+								+ "<number>" + number + "</number>"
+								+ "<parentnumber>" + parentnumber + "</parentnumber>"
+								+ "<parentnode>" + parentnode + "</parentnode>"
+								+ "<parentx>" + parentx + "</parentx>"
+								+ "<parenty>" + parenty + "</parenty>"
+								+ "<parenttext>" + parenttext + "</parenttext>"
+								+ "<mynode>" + mynode + "</mynode>"
+								+ "<myx>" + myx + "</myx>"
+								+ "<myy>" + myy + "</myy>"
+								+ "<mytext>" + mytext + "</mytext>"
+								+ "</id>";
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt,rs);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				
+				xmlStr += "</data>";
+				
+				//xml 전송
+				response.setContentType("text/xml");
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("Cache-Control", "no-cache"); 
+				PrintWriter out = response.getWriter();
+				out.println(xmlStr);
+			}
+			//위치 정보 갱신
+			else if(mindText.equals("savepos")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String updateSQL = "update nodes set parentx=?,parenty=? where parentx=? and parenty=?";
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(updateSQL);
+					pstmt.setInt(1, Integer.parseInt(request.getParameter("newx")));
+					pstmt.setInt(2, Integer.parseInt(request.getParameter("newy")));
+					pstmt.setInt(3, Integer.parseInt(request.getParameter("prevx")));
+					pstmt.setInt(4, Integer.parseInt(request.getParameter("prevy")));
+					pstmt.executeUpdate();
+					
+					updateSQL = "update nodes set myx=?,myy=? where number=?";
+					pstmt = conn.prepareStatement(updateSQL);
+					pstmt.setInt(1, Integer.parseInt(request.getParameter("newx")));
+					pstmt.setInt(2, Integer.parseInt(request.getParameter("newy")));
+					pstmt.setInt(3, Integer.parseInt(request.getParameter("number")));
+					pstmt.executeUpdate();
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn, pstmt);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @return Connection
+	 */
+	public Connection mysqlConn() {
+		Connection conn = null;
+		String url = "jdbc:mysql://127.0.0.1:3306/" + db_mind;
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection(url, root, pw);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return conn;
+	}
+
+	/**
+	 * @param conn
+	 */
+	public void close(Connection conn) {
+		try {
+			if (conn != null)
+				conn.close();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
+	}
+
+	/**
+	 * @param conn
+	 * @param pstmt
+	 */
+	public void close(Connection conn, PreparedStatement pstmt) {
+		try {
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
+	}
+
+	/** 
+	 * @param conn
+	 * @param pstmt
+	 * @param rs
+	 */
+	public void close(Connection conn, PreparedStatement pstmt,
+			ResultSet rs) {
+		try {
+			if (rs != null)
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+			if (conn != null)
+				conn.close();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
+
 	}
 }
