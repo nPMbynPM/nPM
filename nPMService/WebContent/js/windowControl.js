@@ -51,20 +51,20 @@ function window_down(param){
  */
 function window_move(ev){
 	if(TMDowned == true){
-		if(document.getElementById('top').offsetHeight <= TMDownedTop
-				&& TMDownedLeft > 0){
+		if(0 <= TMDownedTop	&& TMDownedLeft >= 0){
 			TMDownedId.style.top = TMDownedTop + (window.event.y-prevY) + 'px';
 			TMDownedId.style.left = TMDownedLeft + (window.event.x-prevX) + 'px';
-
+			
 			TMDownedTop = TMDownedId.offsetTop;
 			TMDownedLeft = TMDownedId.offsetLeft;
+			
 			prevX = window.event.x;
 			prevY = window.event.y;
 		}
-		//윈도우가 윗 부분의 메뉴바와 겹치지 않게
-		else if(document.getElementById('top').offsetHeight > TMDownedTop){
-			TMDownedId.style.top = document.getElementById('top').offsetHeight + 1 + 'px';
-			TMDownedTop = document.getElementById('top').offsetHeight + 1; 
+		//윈도우가 윗 부분을 넘어가지 않게
+		else if(0 >= TMDownedTop){
+			TMDownedId.style.top = 1 + 'px';
+			TMDownedTop = 1; 
 		}
 		//윈도우가 화면의 왼쪽부분을 넘어가지 않게
 		else if(TMDownedLeft <= 0){
