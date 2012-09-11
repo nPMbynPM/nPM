@@ -1,11 +1,11 @@
-#npm_wrapper {position: absolute; overflow: auto; height: 800px; width: 1250px; margin: 0; padding: 0; }
+#npm_wrapper {position: absolute; overflow: hidden; height: 1050px; width: 1680px; margin: 0; padding: 0; }
 
 #npm_wrapper img { border:0; }
 #npm_wrapper input.button { border:0; color:#444444; font-size: 11px; background-color:#f8f8f8; border:1px solid; border-color: #fff #444444 #444444 #fff; }
 #npm_wrapper input.button:hover { border-color: #000 #000 #000 #000; cursor: pointer; }
 
-#npm_wrapper_left {position: relative; float: left; width: 150px; height: 800px;}
-#npm_wrapper_right {position: relative; float: left; width: 1100px; height: 800px;}
+#npm_wrapper_left {position: relative; float: left; width: 150px; height: 800px; overflow: hidden;}
+#npm_wrapper_right {position: relative; float: left; width: 1530px; height: 1050px; overflow: auto;}
 
 #menu_outer {width: 140px; height: 500px; background: #A6B8C4; border-radius: 5px; border: 2px solid; border-color: #A6B8C4 #828282 #828282 #A6B8C4; margin: auto;}
 #menu_inner {width: 100px; height: 400px; margin: auto; padding: 20px 0 0 0;}

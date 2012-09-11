@@ -38,7 +38,7 @@ public class windowServlet extends HttpServlet {
 	//DB 관련 변수
 	private String root = "root";
 	private String pw = "apmsetup";
-	private String db_mind = "mindmap";
+	private String db_name = "npm";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -440,7 +440,7 @@ public class windowServlet extends HttpServlet {
 				Connection conn = null;
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
-				String query = "select max(number) from nodes";
+				String query = "select max(number) from mindmap";
 				int max = 0;
 				try{
 					conn = mysqlConn();
@@ -470,7 +470,7 @@ public class windowServlet extends HttpServlet {
 			else if(mindText.equals("saveroot") || mindText.equals("savechild")){
 				Connection conn = null;
 				PreparedStatement pstmt = null;
-				String query = "insert into nodes(parentx,parenty,myx,myy,mytext,number,parentnumber,parentnode,parenttext,mynode) value (?,?,?,?,?,?,?,?,?,?)";
+				String query = "insert into mindmap(parentx,parenty,myx,myy,mytext,number,parentnumber,parentnode,parenttext,mynode) value (?,?,?,?,?,?,?,?,?,?)";
 				try{
 					conn = mysqlConn();
 					pstmt = conn.prepareStatement(query);
@@ -499,7 +499,7 @@ public class windowServlet extends HttpServlet {
 			else if(mindText.equals("modify")){
 				Connection conn = null;
 				PreparedStatement pstmt = null;
-				String updateSQL = "update nodes set mytext=? where number=?";
+				String updateSQL = "update mindmap set mytext=? where number=?";
 				try{
 					conn = mysqlConn();
 					pstmt = conn.prepareStatement(updateSQL);
@@ -521,7 +521,7 @@ public class windowServlet extends HttpServlet {
 				Connection conn = null;
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
-				String query = "select * from nodes order by number asc";
+				String query = "select * from mindmap order by number asc";
 				
 				int number = 0;
 				int parentnumber = 0;
@@ -588,7 +588,7 @@ public class windowServlet extends HttpServlet {
 			else if(mindText.equals("savepos")){
 				Connection conn = null;
 				PreparedStatement pstmt = null;
-				String updateSQL = "update nodes set parentx=?,parenty=? where parentx=? and parenty=?";
+				String updateSQL = "update mindmap set parentx=?,parenty=? where parentx=? and parenty=?";
 				try{
 					conn = mysqlConn();
 					pstmt = conn.prepareStatement(updateSQL);
@@ -598,7 +598,7 @@ public class windowServlet extends HttpServlet {
 					pstmt.setInt(4, Integer.parseInt(request.getParameter("prevy")));
 					pstmt.executeUpdate();
 					
-					updateSQL = "update nodes set myx=?,myy=? where number=?";
+					updateSQL = "update mindmap set myx=?,myy=? where number=?";
 					pstmt = conn.prepareStatement(updateSQL);
 					pstmt.setInt(1, Integer.parseInt(request.getParameter("newx")));
 					pstmt.setInt(2, Integer.parseInt(request.getParameter("newy")));
@@ -622,7 +622,7 @@ public class windowServlet extends HttpServlet {
 	 */
 	public Connection mysqlConn() {
 		Connection conn = null;
-		String url = "jdbc:mysql://127.0.0.1:3306/" + db_mind;
+		String url = "jdbc:mysql://127.0.0.1:3306/" + db_name;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection(url, root, pw);

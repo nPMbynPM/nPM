@@ -148,7 +148,7 @@ function adds_down(param){
  */
 function person_down(param){
 	personSelected = param;
-	for(var i = 1; i <= 6; i++){
+	for(var i = 1; i <= 8; i++){
 		document.getElementById('person' + i).style.background = '#FFFFFF';
 	}
 	//선택된 이미지의 배경색을 변경한다
@@ -247,11 +247,8 @@ function modify_down(){
 		elementDowned.todo = document.getElementById('todoProperties_todo').value;
 		elementDowned.start = document.getElementById('todoProperties_start').value;
 		elementDowned.finish = document.getElementById('todoProperties_finish').value;
-		for(var i = 0; i < document.getElementsByName('colorSelect').length; i++){
-			if(document.getElementsByName('colorSelect')[i].checked == true){
-				elementDowned.color = document.getElementsByName('colorSelect')[i].value;
-			}
-		}
+		elementDowned.color = '#' + document.getElementById('colorSelect').value;
+		
 		for(var i = 0; i < document.getElementsByName('finishRadio').length; i++){
 			if(document.getElementsByName('finishRadio')[i].checked == true){
 				if(document.getElementsByName('finishRadio')[i].value == 'true'){
