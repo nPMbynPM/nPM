@@ -63,10 +63,147 @@ public class windowServlet extends HttpServlet {
 		String loadText = request.getParameter("loadtext");
 		String ganttText = request.getParameter("gantttext");
 		String mindText = request.getParameter("mindtext");
+		String saveDB = request.getParameter("savedb");
+		String loadDB = request.getParameter("loaddb");
 
-		if(saveText == null && loadText == null && ganttText == null && mindText == null){
-			RequestDispatcher rd = request.getRequestDispatcher("index.html");
-			rd.forward(request, response);
+		if(saveText == null && loadText == null && loadDB != null){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			//person
+			int personX = 0;
+			int personY = 0;
+			String personName = "";
+			String personImg = "";
+			String personFont = "";
+			//todo
+			int todoX = 0;
+			int todoY = 0;
+			String todoJob = "";
+			String todoStart = "";
+			String todoFinish = "";
+			String todoFont = "";
+			String todoColor = "";
+			String todoIsFinished = "";
+			//conn_from
+			String fromName = "";
+			int fromX = 0;
+			int fromY = 0;
+			//conn_to
+			String toName = "";
+			int toX = 0;
+			int toY = 0;
+			//xml
+			String xmlStr = "<Project>";
+			
+			try{				
+				conn = mysqlConn();
+				
+				//person
+				String query = "select * from person";
+				pstmt = conn.prepareStatement(query);
+				rs = pstmt.executeQuery();
+				xmlStr += "<Resources>";
+				while(rs.next()){
+					personX = rs.getInt("x");
+					personY = rs.getInt("y");
+					personName = rs.getString("name");
+					personImg = rs.getString("img");
+					personFont = rs.getString("font");
+					
+					xmlStr += "<Resource>"
+							+ "<x>" + personX + "</x>"
+							+ "<y>" + personY + "</y>"
+							+ "<imgSrc>" + personImg + "</imgSrc>"
+							+ "<Name>" + personName + "</Name>"
+							+ "<font>" + personFont + "</font>"
+							+ "</Resource>";
+				}
+				xmlStr += "</Resources>";
+				
+				//todo
+				query = "select * from todo";
+				pstmt = conn.prepareStatement(query);
+				rs = pstmt.executeQuery();
+				xmlStr += "<Tasks>";
+				while(rs.next()){
+					todoX = rs.getInt("x");
+					todoY = rs.getInt("y");
+					todoJob = rs.getString("job");
+					todoStart = rs.getString("start");
+					todoFinish = rs.getString("finish");
+					todoFont = rs.getString("font");
+					todoColor = rs.getString("color");
+					todoIsFinished = rs.getString("isfinished");
+					
+					xmlStr += "<Task>"
+							+ "<x>" + todoX + "</x>"
+							+ "<y>" + todoY + "</y>"
+							+ "<Name>" + todoJob + "</Name>"
+							+ "<Start>" + todoStart + "</Start>"
+							+ "<Finish>" + todoFinish + "</Finish>"
+							+ "<font>" + todoFont + "</font>"
+							+ "<color>" + todoColor + "</color>"
+							+ "<isfinished>" + todoIsFinished + "</isfinished>"
+							+ "</Task>";
+				}
+				xmlStr += "</Tasks>";
+				//conn_from, conn_to
+				//conn_from
+				query = "select * from conn_from";
+				pstmt = conn.prepareStatement(query);
+				rs = pstmt.executeQuery();
+				xmlStr += "<conn>";
+				xmlStr += "<from>";
+				while(rs.next()){
+					fromName = rs.getString("name");
+					fromX = rs.getInt("x");
+					fromY = rs.getInt("y");
+					
+					xmlStr += "<id>"
+							+ "<className>" + fromName + "</className>"
+							+ "<x>" + fromX + "</x>"
+							+ "<y>" + fromY + "</y>"
+							+ "</id>";
+				}
+				xmlStr += "</from>";
+				//conn_to
+				query = "select * from conn_to";
+				pstmt = conn.prepareStatement(query);
+				rs = pstmt.executeQuery();
+				xmlStr += "<to>";
+				while(rs.next()){
+					toName = rs.getString("name");
+					toX = rs.getInt("x");
+					toY = rs.getInt("y");
+					
+					xmlStr += "<id>"
+							+ "<className>" + toName + "</className>"
+							+ "<x>" + toX + "</x>"
+							+ "<y>" + toY + "</y>"
+							+ "</id>";
+				}
+				xmlStr += "</to>";
+				xmlStr += "</conn>";
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}finally{
+				try{
+					close(conn,pstmt,rs);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+			xmlStr += "</Project>";
+			
+			//xml 전송
+			response.setContentType("text/xml");
+			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Cache-Control", "no-cache"); 
+			PrintWriter out = response.getWriter();
+			out.println(xmlStr);
 		}
 		//saveText가 null이 아니면 저장
 		else if(saveText != null && loadText == null){
@@ -167,16 +304,16 @@ public class windowServlet extends HttpServlet {
 
 				// data
 				Document doc = docBuilder.newDocument();
-				Element data = doc.createElement("data");
+				Element data = doc.createElement("Project");
 				doc.appendChild(data);
 
 				// person
-				Element person = doc.createElement("person");
+				Element person = doc.createElement("Resources");
 				data.appendChild(person);
 				// person의 child
 				for(int i = 0; i < personX.size(); i++){
 					// id
-					Element id = doc.createElement("id");
+					Element id = doc.createElement("Resource");
 					person.appendChild(id);
 					// x
 					Element x = doc.createElement("x");
@@ -191,7 +328,7 @@ public class windowServlet extends HttpServlet {
 					imgSrc.appendChild(doc.createTextNode(personImgSrc.get(i)));
 					id.appendChild(imgSrc);
 					// name
-					Element name = doc.createElement("name");
+					Element name = doc.createElement("Name");
 					name.appendChild(doc.createTextNode(personName.get(i)));
 					id.appendChild(name);
 					// font
@@ -201,11 +338,11 @@ public class windowServlet extends HttpServlet {
 				}
 
 				// todo
-				Element todo = doc.createElement("todo");
+				Element todo = doc.createElement("Tasks");
 				data.appendChild(todo);
 				// todo의 child
 				for(int i = 0; i < todoX.size(); i++){// id
-					Element id = doc.createElement("id");
+					Element id = doc.createElement("Task");
 					todo.appendChild(id);
 					// x
 					Element x = doc.createElement("x");
@@ -216,15 +353,15 @@ public class windowServlet extends HttpServlet {
 					y.appendChild(doc.createTextNode(todoY.get(i)));
 					id.appendChild(y);
 					// job
-					Element job = doc.createElement("job");
+					Element job = doc.createElement("Name");
 					job.appendChild(doc.createTextNode(todoTodo.get(i)));
 					id.appendChild(job);
 					// start
-					Element start = doc.createElement("start");
+					Element start = doc.createElement("Start");
 					start.appendChild(doc.createTextNode(todoStart.get(i)));
 					id.appendChild(start);
 					// finish
-					Element finish = doc.createElement("finish");
+					Element finish = doc.createElement("Finish");
 					finish.appendChild(doc.createTextNode(todoFinish.get(i)));
 					id.appendChild(finish);
 					// font
@@ -396,13 +533,13 @@ public class windowServlet extends HttpServlet {
 			System.out.println(ganttLink_);
 			System.out.println(ganttIsFinished_);
 			
-//			ArrayList<String> ganttPerson = new ArrayList<String>();
-//			ArrayList<String> ganttTodo = new ArrayList<String>();
-//			ArrayList<String> ganttStart = new ArrayList<String>();
-//			ArrayList<String> ganttFinish = new ArrayList<String>();
-//			ArrayList<String> ganttFrom = new ArrayList<String>();
-//			ArrayList<String> ganttTo = new ArrayList<String>();
-//
+			ArrayList<String> ganttPerson = new ArrayList<String>();
+			ArrayList<String> ganttTodo = new ArrayList<String>();
+			ArrayList<String> ganttStart = new ArrayList<String>();
+			ArrayList<String> ganttFinish = new ArrayList<String>();
+			ArrayList<String> ganttFrom = new ArrayList<String>();
+			ArrayList<String> ganttTo = new ArrayList<String>();
+
 //			StringTokenizer token = new StringTokenizer(ganttPerson_, ",");
 //			while(token.hasMoreElements())	ganttPerson.add(token.nextToken());
 //			token = new StringTokenizer(ganttTodo_, ",");
@@ -416,12 +553,12 @@ public class windowServlet extends HttpServlet {
 //			token = new StringTokenizer(ganttTo_, ",");
 //			while(token.hasMoreElements())	ganttTo.add(token.nextToken());
 			
-//			for(int i = 0; i < ganttPerson.size(); i++)	System.out.println(ganttPerson.get(i));
-//			for(int i = 0; i < ganttTodo.size(); i++)	System.out.println(ganttTodo.get(i));
-//			for(int i = 0; i < ganttStart.size(); i++)	System.out.println(ganttStart.get(i));
-//			for(int i = 0; i < ganttFinish.size(); i++)	System.out.println(ganttFinish.get(i));
-//			for(int i = 0; i < ganttFrom.size(); i++)	System.out.println(ganttFrom.get(i));
-//			for(int i = 0; i < ganttTo.size(); i++)	System.out.println(ganttTo.get(i));
+			for(int i = 0; i < ganttPerson.size(); i++)	System.out.println(ganttPerson.get(i));
+			for(int i = 0; i < ganttTodo.size(); i++)	System.out.println(ganttTodo.get(i));
+			for(int i = 0; i < ganttStart.size(); i++)	System.out.println(ganttStart.get(i));
+			for(int i = 0; i < ganttFinish.size(); i++)	System.out.println(ganttFinish.get(i));
+			for(int i = 0; i < ganttFrom.size(); i++)	System.out.println(ganttFrom.get(i));
+			for(int i = 0; i < ganttTo.size(); i++)	System.out.println(ganttTo.get(i));
 			
 			request.setAttribute("gantttodo", ganttTodo_);
 			request.setAttribute("ganttstart", ganttStart__);
@@ -609,6 +746,171 @@ public class windowServlet extends HttpServlet {
 				}finally{
 					try{
 						close(conn, pstmt);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		//nPM DB 저장관련
+		else if(saveDB != null){
+			//현재 캔버스의 정보를 모두 저장
+			if(saveDB.equals("all")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				
+				//관련 변수
+				//String
+				//작업자
+				String personX_ = request.getParameter("personX");
+				String personY_ = request.getParameter("personY");
+				String personImgSrc_ = request.getParameter("personImgSrc");
+				String personName_ = request.getParameter("personName");
+				String personFont_ = request.getParameter("personFont");
+				//할일
+				String todoX_ = request.getParameter("todoX");
+				String todoY_ = request.getParameter("todoY");
+				String todoTodo_ = request.getParameter("todoTodo");
+				String todoStart_ = request.getParameter("todoStart");
+				String todoFinish_ = request.getParameter("todoFinish");
+				String todoFont_ = request.getParameter("todoFont");
+				String todoColor_ = request.getParameter("todoColor");
+				String todoIsfinished_ = request.getParameter("todoIsfinished");
+				//연결정보
+				String fromClassName_ = request.getParameter("fromClassName");
+				String fromX_ = request.getParameter("fromX");
+				String fromY_ = request.getParameter("fromY");
+				String toClassName_ = request.getParameter("toClassName");
+				String toX_ = request.getParameter("toX");
+				String toY_ = request.getParameter("toY");
+
+				//ArrayList
+				//작업자
+				ArrayList<String> personX = new ArrayList<String>();
+				ArrayList<String> personY = new ArrayList<String>();
+				ArrayList<String> personImgSrc = new ArrayList<String>();
+				ArrayList<String> personName = new ArrayList<String>();
+				ArrayList<String> personFont = new ArrayList<String>();
+				//할일
+				ArrayList<String> todoX = new ArrayList<String>();
+				ArrayList<String> todoY = new ArrayList<String>();
+				ArrayList<String> todoTodo = new ArrayList<String>();
+				ArrayList<String> todoStart = new ArrayList<String>();
+				ArrayList<String> todoFinish = new ArrayList<String>();
+				ArrayList<String> todoFont = new ArrayList<String>();
+				ArrayList<String> todoColor = new ArrayList<String>();
+				ArrayList<String> todoIsfinished = new ArrayList<String>();
+				//연결정보
+				ArrayList<String> fromClassName = new ArrayList<String>();
+				ArrayList<String> fromX = new ArrayList<String>();
+				ArrayList<String> fromY = new ArrayList<String>();
+				ArrayList<String> toClassName = new ArrayList<String>();
+				ArrayList<String> toX = new ArrayList<String>();
+				ArrayList<String> toY = new ArrayList<String>();
+
+				StringTokenizer token = new StringTokenizer(personX_, ",");
+				while(token.hasMoreElements())	personX.add(token.nextToken());
+				token = new StringTokenizer(personY_, ",");
+				while(token.hasMoreElements())	personY.add(token.nextToken());
+				token = new StringTokenizer(personImgSrc_, ",");
+				while(token.hasMoreElements())	personImgSrc.add(token.nextToken());
+				token = new StringTokenizer(personName_, ",");
+				while(token.hasMoreElements())	personName.add(token.nextToken());
+				token = new StringTokenizer(personFont_, ",");
+				while(token.hasMoreElements())	personFont.add(token.nextToken());
+				token = new StringTokenizer(todoX_, ",");
+				while(token.hasMoreElements())	todoX.add(token.nextToken());
+				token = new StringTokenizer(todoY_, ",");
+				while(token.hasMoreElements())	todoY.add(token.nextToken());
+				token = new StringTokenizer(todoTodo_, ",");
+				while(token.hasMoreElements())	todoTodo.add(token.nextToken());
+				token = new StringTokenizer(todoStart_, ",");
+				while(token.hasMoreElements())	todoStart.add(token.nextToken());
+				token = new StringTokenizer(todoFinish_, ",");
+				while(token.hasMoreElements())	todoFinish.add(token.nextToken());
+				token = new StringTokenizer(todoFont_, ",");
+				while(token.hasMoreElements())	todoFont.add(token.nextToken());
+				token = new StringTokenizer(fromClassName_, ",");
+				while(token.hasMoreElements())	fromClassName.add(token.nextToken());
+				token = new StringTokenizer(fromX_, ",");
+				while(token.hasMoreElements())	fromX.add(token.nextToken());
+				token = new StringTokenizer(fromY_, ",");
+				while(token.hasMoreElements())	fromY.add(token.nextToken());
+				token = new StringTokenizer(toClassName_, ",");
+				while(token.hasMoreElements())	toClassName.add(token.nextToken());
+				token = new StringTokenizer(toX_, ",");
+				while(token.hasMoreElements())	toX.add(token.nextToken());
+				token = new StringTokenizer(toY_, ",");
+				while(token.hasMoreElements())	toY.add(token.nextToken());
+				token = new StringTokenizer(todoColor_, ",");
+				while(token.hasMoreElements())	todoColor.add(token.nextToken());
+				token = new StringTokenizer(todoIsfinished_, ",");
+				while(token.hasMoreElements())	todoIsfinished.add(token.nextToken());
+				
+				try{
+					conn = mysqlConn();
+					//테이블의 내용을 모두 지운다
+					String query = "delete from person";
+					pstmt = conn.prepareStatement(query);
+					pstmt.executeUpdate();
+					query = "delete from todo";
+					pstmt = conn.prepareStatement(query);
+					pstmt.executeUpdate();
+					query = "delete from conn_from";
+					pstmt = conn.prepareStatement(query);
+					pstmt.executeUpdate();
+					query = "delete from conn_to";
+					pstmt = conn.prepareStatement(query);
+					pstmt.executeUpdate();
+					//테이블에 새롭게 갱신될 내용을 삽입한다
+					//person
+					query = "insert into person(x,y,name,img,font) value (?,?,?,?,?)";
+					pstmt = conn.prepareStatement(query);
+					for(int i = 0; i < personX.size(); i++){
+						pstmt.setInt(1, Integer.parseInt(personX.get(i)));
+						pstmt.setInt(2, Integer.parseInt(personY.get(i)));
+						pstmt.setString(3, personName.get(i));
+						pstmt.setString(4, personImgSrc.get(i));
+						pstmt.setString(5, personFont.get(i));
+						pstmt.executeUpdate();						
+					}
+					//todo
+					query = "insert into todo(x,y,job,start,finish,font,color,isfinished) value (?,?,?,?,?,?,?,?)";
+					pstmt = conn.prepareStatement(query);
+					for(int i = 0; i < todoX.size(); i++){
+						pstmt.setInt(1, Integer.parseInt(todoX.get(i)));
+						pstmt.setInt(2, Integer.parseInt(todoY.get(i)));
+						pstmt.setString(3, todoTodo.get(i));
+						pstmt.setString(4, todoStart.get(i));
+						pstmt.setString(5, todoFinish.get(i));
+						pstmt.setString(6, todoFont.get(i));
+						pstmt.setString(7, todoColor.get(i));
+						pstmt.setString(8, todoIsfinished.get(i));
+						pstmt.executeUpdate();						
+					}
+					//conn_from
+					query = "insert into conn_from(name,x,y) value (?,?,?)";
+					pstmt = conn.prepareStatement(query);
+					for(int i = 0; i < fromClassName.size(); i++){
+						pstmt.setString(1, fromClassName.get(i));
+						pstmt.setInt(2, Integer.parseInt(fromX.get(i)));
+						pstmt.setInt(3, Integer.parseInt(fromY.get(i)));
+						pstmt.executeUpdate();						
+					}
+					//conn_to
+					query = "insert into conn_to(name,x,y) value (?,?,?)";
+					pstmt = conn.prepareStatement(query);
+					for(int i = 0; i < toClassName.size(); i++){
+						pstmt.setString(1, toClassName.get(i));
+						pstmt.setInt(2, Integer.parseInt(toX.get(i)));
+						pstmt.setInt(3, Integer.parseInt(toY.get(i)));
+						pstmt.executeUpdate();						
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt);
 					}catch(Exception e){
 						e.printStackTrace();
 					}

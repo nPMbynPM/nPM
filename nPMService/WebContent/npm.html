@@ -56,19 +56,6 @@
 							onclick="javascript:load_down('loadPopup');" title='불러오기'>
 							<img src='image/load.png' alt='불러오기' />
 						</div>
-						<form id='ganttForm' method='post' action='nPM'>
-							<div id='gantt' class='stdio' onclick="javascript:gantt_down();" title='간트차트로 출력'>
-								<img src='image/chart.png' alt='간트차트 출력' />
-							</div>
-							<input type='hidden' name='gantttext' id='gantttext' value='' />
-							<input type='hidden' name='gantttodo' id='gantttodo' value='' />
-							<input type='hidden' name='ganttstart' id='ganttstart' value='' />
-							<input type='hidden' name='ganttfinish' id='ganttfinish' value='' />
-							<input type='hidden' name='ganttresource' id='ganttresource'
-								value='' /> <input type='hidden' name='ganttlink'
-								id='ganttlink' value='' /> <input type='hidden'
-								name='ganttisfinished' id='ganttisfinished' value='' />
-						</form>
 					</div>
 				</div>
 			</div>
@@ -249,7 +236,7 @@
 						<span>할 일 색상</span>
 					</div>
 					<div class='content'>
-						<input class='color' value='' id='colorSelect' />
+						<input class='color' value='' id='colorSelect' style='cursor:pointer;'/>
 					</div>
 					<div class='title'>
 						<span>완료여부</span>
@@ -282,10 +269,23 @@
 				<div class='MM'>
 					<div class='hr'></div>
 					<div class='title'>
-						<span>파일명 입력</span>
+						<span>저장 방식 선택</span>
+						<input type='radio' name='save_select' id='saveAsDB' value='DB' checked onclick='javascript:saveDBDown();'>DB
+						<input type='radio' name='save_select' id='saveAsXML' value='XML' onclick='javascript:saveXMLDown();'>XML
 					</div>
-					<div class='content'>
-						<input type='text' id='saveFilePath' />
+					<div class='hr'></div>
+					<div id='save_xml'>
+						<div class='title'>
+							<span>파일명 입력</span>
+						</div>
+						<div class='content'>
+							<input type='text' id='saveFilePath' />
+						</div>
+					</div>
+					<div id='save_db'>
+						<div class='title'>
+							<span>데이터베이스에 저장합니다.</span>
+						</div>
 					</div>
 					<div class='bottom'>
 						<input type='button' class='button' value='확인'

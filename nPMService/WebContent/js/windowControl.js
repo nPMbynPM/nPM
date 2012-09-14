@@ -22,6 +22,8 @@ function windowAddEvent(){
 	window.addEventListener('mouseup', window_up, false);
 	//canvas에도 이벤트 등록
 	canvasAddEvent();
+	//DB에 정보가 있다면 불러온다
+	loadDB();
 }
 
 /**
@@ -215,7 +217,26 @@ function canvas_resize(){
  */
 function save_down(param){
 	document.getElementById('saveFilePath').value = '';
+	document.getElementById('saveAsDB').checked = true;
+	document.getElementById('save_db').style.display = 'block';
+	document.getElementById('save_xml').style.display = 'none';
 	document.getElementById(param).style.display = 'block';
+}
+
+/**
+ * XML로 저장하기 버튼이 눌렸을 때
+ */
+function saveXMLDown(){
+	document.getElementById('save_db').style.display = 'none';
+	document.getElementById('save_xml').style.display = 'block';
+}
+
+/**
+ * DB로 저장하기 버튼이 눌렸을 때
+ */
+function saveDBDown(){
+	document.getElementById('save_db').style.display = 'block';
+	document.getElementById('save_xml').style.display = 'none';
 }
 
 /**
@@ -265,4 +286,3 @@ function modify_down(){
 	}
 	drawAll();
 }
-
