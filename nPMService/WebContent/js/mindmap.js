@@ -5,7 +5,7 @@ var popupRootStatus = null;
 var popupChildStatus = new Array();
 var makeNodeFlag = '';
 
-var canvasWidth = 1080;
+var canvasWidth = 1280;
 var canvasHeight = 1024;
 
 var timer = 0;
