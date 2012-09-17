@@ -19,4 +19,14 @@
     <servlet-name>windowServlet</servlet-name>
     <url-pattern>/nPM</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>mobileServlet</display-name>
+    <servlet-name>mobileServlet</servlet-name>
+    <servlet-class>servlet.mobileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mobileServlet</servlet-name>
+    <url-pattern>/mobileServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
