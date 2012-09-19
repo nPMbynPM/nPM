@@ -98,9 +98,9 @@ function calendar(tYear,tMonth){ //달력 함수
 		calendarStr +="<TD>&nbsp;</TD>";
 	}
 	var calstr = 'calendar' + calendarId.substring(calendarId.length-5, calendarId.length);
-	calendarStr += "</TR></TABLE>";
-	calendarStr += "<div>";
-	calendarStr += "<input style='position:absolute; bottom: 10px; right: 10px;' type='button' class='button' value='닫기' onclick=closeCalendar('" + calstr + "')></div>";
+	calendarStr += "<TR><TD colspan=7 align=center><input type='button' class='button' value='닫기' onclick=closeCalendar('" + calstr + "')></TD></TR></TR></TABLE>";
+//	calendarStr += "<div>";
+//	calendarStr += "<input type='button' class='button' value='닫기' onclick=closeCalendar('" + calstr + "')></div>";
 
 	document.getElementById(calstr).innerHTML = calendarStr;
 }
