@@ -1072,7 +1072,7 @@ Complete-Displays task percent complete</p>
             vRightTable = 
             '<TD style="width: ' + vChartWidth + 'px;" vAlign=top bgColor=#ffffff>' +
             '<DIV class=scroll2 id=rightside>';
-            vRightTable += '<div border=1 colspan=5 align=left style="FONT-SIZE: 11px; border-bottom: #efefef 1px solid; height=18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Format:';
+            vRightTable += '<div border=1 colspan=5 align=left style="FONT-SIZE: 11px; border-bottom: #efefef 1px solid; height=18px">&nbsp;&nbsp;Format:';
       		
 			if (vFormatArr.join().indexOf("minute")!=-1) { 
       if (vFormat=='minute') vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="minute" checked>Minute';
@@ -1493,7 +1493,7 @@ Complete-Displays task percent complete</p>
                               case 'Complete':   vCaptionStr = vTaskList[i].getCompStr();  break;
 		                     }
                            //vRightTable += '<div style="FONT-SIZE:12px; position:absolute; left: 6px; top:-3px;">' + vCaptionStr + '</div>';
-                           vRightTable += '<div style="overflow:auto; height:18px; FONT-SIZE:12px; position:absolute; top:-3px; width:120px; left:' + (Math.ceil((vTaskRight) * (vDayWidth) - 1) + 6) + 'px">' + vCaptionStr + '</div>';
+                           vRightTable += '<div style="overflow:auto; height:18px; FONT-SIZE:12px; position:absolute; top:-3px; width:200px; left:' + (Math.ceil((vTaskRight) * (vDayWidth) - 1) + 6) + 'px">' + vCaptionStr + '</div>';
 	                  }
                   vRightTable += '</div>' ;
 
