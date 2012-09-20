@@ -921,7 +921,7 @@ Complete-Displays task percent complete</p>
       var vStr = "";
       var vNameWidth = 220;	
       var vStatusWidth = 70;
-      var vLeftWidth = 15 + 220 + 70 + 70 + 70 + 70 + 70 + 100;
+      var vLeftWidth = 673;
 
       if(vTaskList.length > 0)
       {
@@ -984,26 +984,26 @@ Complete-Displays task percent complete</p>
 		   // DRAW the Left-side of the chart (names, resources, comp%)
          vLeftTable =
             '<DIV class=scroll id=leftside style="width:'+vLeftWidth+'px"><TABLE cellSpacing=0 cellPadding=0 border=0><TBODY>' +
-            '<TR style="HEIGHT: 17px">' +
-            '  <TD style="WIDTH: 15px; HEIGHT: 17px"></TD>' +
-            '  <TD style="WIDTH: ' + vNameWidth + 'px; HEIGHT: 17px"><NOBR></NOBR></TD>'; 
+            '<TR>' +
+            '  <TD style="WIDTH: 15px;"></TD>' +
+            '  <TD style="WIDTH: ' + vNameWidth + 'px;"><NOBR></NOBR></TD>'; 
 
-         if(vShowRes ==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px; HEIGHT: 17px"></TD>' ;
-         if(vShowDur ==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px; HEIGHT: 17px"></TD>' ;
-         if(vShowComp==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px; HEIGHT: 17px"></TD>' ;
-			if(vShowStartDate==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px; HEIGHT: 17px"></TD>' ;
-			if(vShowEndDate==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px; HEIGHT: 17px"></TD>' ;
+         if(vShowRes ==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px;"></TD>' ;
+         if(vShowDur ==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px;"></TD>' ;
+         if(vShowComp==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px;"></TD>' ;
+			if(vShowStartDate==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px;"></TD>' ;
+			if(vShowEndDate==1) vLeftTable += '  <TD style="WIDTH: ' + vStatusWidth + 'px;"></TD>' ;
 
          vLeftTable +=
             '<TR style="HEIGHT: 20px">' +
             '  <TD style="BORDER-TOP: #efefef 1px solid; WIDTH: 15px; HEIGHT: 20px"></TD>' +
             '  <TD style="BORDER-TOP: #efefef 1px solid; WIDTH: ' + vNameWidth + 'px; HEIGHT: 20px"><NOBR></NOBR></TD>' ;
 
-         if(vShowRes ==1) vLeftTable += '  <TD style="BORDER-TOP: #efefef 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #efefef 1px solid; WIDTH: 60px; HEIGHT: 20px" align=center nowrap>작업자</TD>' ;
-         if(vShowDur ==1) vLeftTable += '  <TD style="BORDER-TOP: #efefef 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #efefef 1px solid; WIDTH: 60px; HEIGHT: 20px" align=center nowrap>작업기간</TD>' ;
-         if(vShowComp==1) vLeftTable += '  <TD style="BORDER-TOP: #efefef 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #efefef 1px solid; WIDTH: 60px; HEIGHT: 20px" align=center nowrap>완성도</TD>' ;
-         if(vShowStartDate==1) vLeftTable += '  <TD style="BORDER-TOP: #efefef 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #efefef 1px solid; WIDTH: 60px; HEIGHT: 20px" align=center nowrap>시작일자</TD>' ;
-         if(vShowEndDate==1) vLeftTable += '  <TD style="BORDER-TOP: #efefef 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #efefef 1px solid; WIDTH: 60px; HEIGHT: 20px" align=center nowrap>종료일자</TD>' ;
+         if(vShowRes ==1) vLeftTable += '  <TD style="FONT-SIZE: 12px;WIDTH: 60px; HEIGHT: 20px" align=center nowrap>작업자</TD>' ;
+         if(vShowDur ==1) vLeftTable += '  <TD style="FONT-SIZE: 12px;  WIDTH: 60px; HEIGHT: 20px" align=center nowrap>작업기간</TD>' ;
+         if(vShowComp==1) vLeftTable += '  <TD style="FONT-SIZE: 12px;  WIDTH: 60px; HEIGHT: 20px" align=center nowrap>완성도</TD>' ;
+         if(vShowStartDate==1) vLeftTable += '  <TD style="FONT-SIZE: 12px;  WIDTH: 60px; HEIGHT: 20px" align=center nowrap>시작일자</TD>' ;
+         if(vShowEndDate==1) vLeftTable += '  <TD style="FONT-SIZE: 12px;  WIDTH: 60px; HEIGHT: 20px" align=center nowrap>종료일자</TD>' ;
  
          vLeftTable += '</TR>';
 
@@ -1059,50 +1059,53 @@ Complete-Displays task percent complete</p>
             }
 
             // DRAW the date format selector at bottom left.  Another potential GanttChart parameter to hide/show this selector
-            vLeftTable += '</TD></TR>' +
-              '<TR><TD border=1 colspan=5 align=left style="BORDER-TOP: #efefef 1px solid; FONT-SIZE: 11px; BORDER-LEFT: #efefef 1px solid; height=18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Format:';
-		
-			if (vFormatArr.join().indexOf("minute")!=-1) { 
-            if (vFormat=='minute') vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="minute" checked>Minute';
-            else                vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("minute",'+vGanttVar+'); VALUE="minute">Minute';
-			}
-			
-			if (vFormatArr.join().indexOf("hour")!=-1) { 
-            if (vFormat=='hour') vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="hour" checked>Hour';
-            else                vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("hour",'+vGanttVar+'); VALUE="hour">Hour';
-			}
-			
-			if (vFormatArr.join().indexOf("day")!=-1) { 
-            if (vFormat=='day') vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="day" checked>Day';
-            else                vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("day",'+vGanttVar+'); VALUE="day">Day';
-			}
-			
-			if (vFormatArr.join().indexOf("week")!=-1) { 
-            if (vFormat=='week') vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="week" checked>Week';
-            else                vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("week",'+vGanttVar+') VALUE="week">Week';
-			}
-			
-			if (vFormatArr.join().indexOf("month")!=-1) { 
-            if (vFormat=='month') vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="month" checked>Month';
-            else                vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("month",'+vGanttVar+') VALUE="month">Month';
-			}
-			
-			if (vFormatArr.join().indexOf("quarter")!=-1) { 
-            if (vFormat=='quarter') vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="quarter" checked>Quarter';
-            else                vLeftTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("quarter",'+vGanttVar+') VALUE="quarter">Quarter';
-			}
+            vLeftTable += '</TD></TR>';
+              
 			
 //            vLeftTable += '<INPUT TYPE=RADIO NAME="other" VALUE="other" style="display:none"> .';
 
-            vLeftTable += '</TD></TR></TBODY></TABLE></TD>';
+            vLeftTable += '</TBODY></TABLE></TD>';
 
             vMainTable += vLeftTable;
 
             // Draw the Chart Rows
             vRightTable = 
             '<TD style="width: ' + vChartWidth + 'px;" vAlign=top bgColor=#ffffff>' +
-            '<DIV class=scroll2 id=rightside>' +
-            '<TABLE style="width: ' + vChartWidth + 'px;" cellSpacing=0 cellPadding=0 border=0>' +
+            '<DIV class=scroll2 id=rightside>';
+            vRightTable += '<div border=1 colspan=5 align=left style="FONT-SIZE: 11px; border-bottom: #efefef 1px solid; height=18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Format:';
+      		
+			if (vFormatArr.join().indexOf("minute")!=-1) { 
+      if (vFormat=='minute') vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="minute" checked>Minute';
+      else                vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("minute",'+vGanttVar+'); VALUE="minute">Minute';
+			}
+			
+			if (vFormatArr.join().indexOf("hour")!=-1) { 
+      if (vFormat=='hour') vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="hour" checked>Hour';
+      else                vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("hour",'+vGanttVar+'); VALUE="hour">Hour';
+			}
+			
+			if (vFormatArr.join().indexOf("day")!=-1) { 
+      if (vFormat=='day') vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="day" checked>Day';
+      else                vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("day",'+vGanttVar+'); VALUE="day">Day';
+			}
+			
+			if (vFormatArr.join().indexOf("week")!=-1) { 
+      if (vFormat=='week') vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="week" checked>Week';
+      else                vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("week",'+vGanttVar+') VALUE="week">Week';
+			}
+			
+			if (vFormatArr.join().indexOf("month")!=-1) { 
+      if (vFormat=='month') vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="month" checked>Month';
+      else                vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("month",'+vGanttVar+') VALUE="month">Month';
+			}
+			
+			if (vFormatArr.join().indexOf("quarter")!=-1) { 
+      if (vFormat=='quarter') vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" VALUE="quarter" checked>Quarter';
+      else                vRightTable += '<INPUT TYPE=RADIO NAME="radFormat" onclick=JSGantt.changeFormat("quarter",'+vGanttVar+') VALUE="quarter">Quarter';
+			}
+			
+			vRightTable += '</div>';
+            vRightTable += '<TABLE style="width: ' + vChartWidth + 'px;" cellSpacing=0 cellPadding=0 border=0>' +
             '<TBODY><TR style="HEIGHT: 18px">';
 
             vTmpDate.setFullYear(vMinDate.getFullYear(), vMinDate.getMonth(), vMinDate.getDate());
@@ -1336,6 +1339,7 @@ Complete-Displays task percent complete</p>
          }
 
          vRightTable += vDateRowStr + '</TR>';
+        
          vRightTable += '</TBODY></TABLE>';
 
          // Draw each row
@@ -1489,7 +1493,7 @@ Complete-Displays task percent complete</p>
                               case 'Complete':   vCaptionStr = vTaskList[i].getCompStr();  break;
 		                     }
                            //vRightTable += '<div style="FONT-SIZE:12px; position:absolute; left: 6px; top:-3px;">' + vCaptionStr + '</div>';
-                           vRightTable += '<div style="FONT-SIZE:12px; position:absolute; top:-3px; width:120px; left:' + (Math.ceil((vTaskRight) * (vDayWidth) - 1) + 6) + 'px">' + vCaptionStr + '</div>';
+                           vRightTable += '<div style="overflow:auto; height:18px; FONT-SIZE:12px; position:absolute; top:-3px; width:120px; left:' + (Math.ceil((vTaskRight) * (vDayWidth) - 1) + 6) + 'px">' + vCaptionStr + '</div>';
 	                  }
                   vRightTable += '</div>' ;
 
@@ -1501,10 +1505,16 @@ Complete-Displays task percent complete</p>
             vRightTable += '</DIV>';
 
          }
+         
 
          vMainTable += vRightTable + '</DIV></TD></TR></TBODY></TABLE></BODY></HTML>';
 
-		   vDiv.innerHTML = vMainTable;
+         if(document.getElementById(vDiv.getAttribute('id')).getAttribute('id') == 'gantt_chart'){
+		   vDiv.innerHTML = vRightTable;
+         }
+         else if(document.getElementById(vDiv.getAttribute('id')).getAttribute('id') == 'gantt_table'){
+        	 vDiv.innerHTML = vLeftTable; 
+         }
 
       }
 

@@ -72,6 +72,8 @@ function createRequest() {
  * 간트차트 초기화
  */
 function ganttInit(){
+	tableDiv = document.getElementById('gantt_table');
+	chartDiv = document.getElementById('gantt_chart');
 	//할일에 대한 작업자 정보
 	todoResource = new Array();
 	//할일 정보
@@ -144,31 +146,8 @@ function ganttInit(){
 		}
 	}
 	
-//	console.log('resource' + todoResource.length);
-//	for(var j = 0; j < todoResource.length; j++){
-//		console.log(todoResource[j]);
-//	}
-//	console.log('todotodo' + todoTodo.length);
-//	for(var j = 0; j < todoTodo.length; j++){
-//		console.log(todoTodo[j]);
-//	}
-//	console.log('start' + todoStart.length);
-//	for(var j = 0; j < todoStart.length; j++){
-//		console.log(todoStart[j]);
-//	}
-//	console.log('finish' + todoFinish.length);
-//	for(var j = 0; j < todoFinish.length; j++){
-//		console.log(todoFinish[j]);
-//	}
-//	console.log('isfinished' + todoIsFinished.length);
-//	for(var j = 0; j < todoIsFinished.length; j++){
-//		console.log(todoIsFinished[j]);
-//	}
-//	console.log('link' + link.length);
-//	for(var j = 0; j < link.length; j++){
-//		console.log(link[j]);
-//	}
-	g = new JSGantt.GanttChart('g', document.getElementById('GanttChartDIV'), 'day');
+	//chart
+	g = new JSGantt.GanttChart('g', chartDiv, 'day');
 	g.setShowRes(1);
 	g.setShowDur(1);
 	g.setShowComp(1);
@@ -186,6 +165,26 @@ function ganttInit(){
 	}
 	g.Draw();
 	g.DrawDependencies();
+	
+	//table
+	t = new JSGantt.GanttChart('t', tableDiv, 'day');
+	t.setShowRes(1);
+	t.setShowDur(1);
+	t.setShowComp(1);
+	t.setCaptionType('Resource');
+	t.setShowStartDate(1);
+	t.setShowEndDate(1);
+	t.setDateInputFormat('mm/dd/yyyy');
+	t.setDateDisplayFormat('mm/dd/yyyy');
+	t.setFormatArr("day", "week", "month", "quarter");
+
+	//아이디,작업명,시작일,종료일,색상,링크,마일스톤,자원명,퍼센트,그룹,부모아이디,펼침,의존도,캡션
+	t.AddTaskItem(new JSGantt.TaskItem(101, 'nPM', '', '', 'ff0000',	'', 0, '', 0, 1, 0, 1));
+	for(var i = 0; i < todoResource.length; i++){
+		t.AddTaskItem(new JSGantt.TaskItem(i,todoTodo[i],todoStart[i],todoFinish[i],'ff00ff','',0,todoResource[i],todoIsFinished[i],0,101,1,link[i]));
+	}
+	t.Draw();
+	t.DrawDependencies();
 }
 
 /**
