@@ -11,8 +11,25 @@
 <script src="js/popupCalendar.js"></script>
 <script src="js/menuControl.js"></script>
 <script src="js/jscolor/jscolor.js"></script>
+<script src="js/openID.js"></script>
 </head>
 <body>
+<div id="fb-root"></div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+window.fbAsyncInit = function() {
+	 FB.init({
+	   appId  : '494219040596723',
+	   status : true, // check login status
+	   cookie : true, // enable cookies to allow the server to access the session
+	   xfbml  : true  // parse XFBML
+	 });
+	 FB.getLoginStatus(function(response) {
+			flag = true;
+			fbIsLogin();
+		});
+	}
+</script>
 	<div id='npm_wrapper'>
 		<!-- 좌측 메뉴 -->
 		<div id='npm_wrapper_left'>

@@ -5,6 +5,7 @@ var popupRootStatus = null;
 var popupChildStatus = new Array();
 var makeNodeFlag = '';
 
+var canvas = null;
 var canvasWidth = 1280;
 var canvasHeight = 1024;
 
@@ -26,12 +27,12 @@ var treeArray = new Array();
 window.onload = function(){
 	canvas = document.getElementById('mindmap_canvas');
 	context = document.getElementById('mindmap_canvas').getContext('2d');
-	addEventListener();
+	addEvent();
 	loadData();
 	setInterval("tellTheClock()", 1000);
 };
 
-function addEventListener(){
+function addEvent(){
 	canvas.addEventListener('mousemove', mouseMove, false);
 	canvas.addEventListener('mouseup', mouseUp, false);
 	canvas.addEventListener('mousedown', mouseDown, false);

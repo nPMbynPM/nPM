@@ -17,7 +17,8 @@ var personSelected = '';	//작업자의 이미지 경로
 /**
  * 윈도우 이벤트를 등록한다
  */
-function windowAddEvent(){	
+function windowAddEvent(){
+	fbIsLogin();
 	window.addEventListener('mousemove', window_move, false);
 	window.addEventListener('mouseup', window_up, false);
 	//canvas에도 이벤트 등록
