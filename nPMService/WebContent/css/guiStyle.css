@@ -1,4 +1,4 @@
-#npm_wrapper {position: absolute; overflow: hidden; height: 1050px; width: 1680px; margin: 0; padding: 0; }
+#npm_wrapper {overflow: hidden; height: 1050px; width: 1680px; margin: 0; padding: 0; }
 
 #npm_wrapper img { border:0; }
 #npm_wrapper input.button { border:0; color:#444444; font-size: 11px; background-color:#f8f8f8; border:1px solid; border-color: #fff #444444 #444444 #fff; }

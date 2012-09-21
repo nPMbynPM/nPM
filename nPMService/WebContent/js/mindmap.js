@@ -981,7 +981,7 @@ function parseXML(response){
 		else{
 			var parentNode = null;
 			for(var j = 0; j < nodeArray.length; j++){
-				if(nodeArray[j].me.x == parentx && nodeArray[j].me.y == parenty){
+				if(nodeArray[j].me.number == parentnumber){
 					parentNode = nodeArray[j].me;
 				}
 			}
