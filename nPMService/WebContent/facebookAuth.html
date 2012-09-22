@@ -19,7 +19,8 @@ window.fbAsyncInit = function() {
    xfbml  : true  // parse XFBML
  });
  FB.getLoginStatus(function(response) {
-		flag = true;
+		 flag = true;
+		fbGetUser();
 	});
 }
 </script>
@@ -27,8 +28,8 @@ window.fbAsyncInit = function() {
 
 
 
-<input type='button' value='login' onclick='fbLogin()'/>
-<input type='button' value='getInfo' onclick='fbGetUser()'/>
+<input id='fb_login_button' type='button' value='로그인' onclick='fbLogin()'/>
+<input type='button' value='정보 불러오기' onclick='fbGetUser()'/>
 <input type='button' value='로그인 여부' onclick='fbIsLogin()'/>
 <img id='fb_pic' src=""/>
 </body>
