@@ -4,29 +4,30 @@
 <meta http-equiv="Content-type"
 	content="application/x-www-form-urlencoded; charset=UTF-8" />
 <title>nPM</title>
-<link rel='stylesheet' type='text/css' href='css/guiStyle.css'>
-<link rel='stylesheet' type='text/css' href='css/calendarStyle.css'>
-<script src="js/windowControl.js"></script>
-<script src="js/canvasControl.js"></script>
-<script src="js/popupCalendar.js"></script>
-<script src="js/menuControl.js"></script>
-<script src="js/jscolor/jscolor.js"></script>
-<script src="js/openID.js"></script>
+<link rel='stylesheet' type='text/css' href='../css/guiStyle.css'>
+<link rel='stylesheet' type='text/css' href='../css/calendarStyle.css'>
+<script src="../js/windowControl.js"></script>
+<script src="../js/canvasControl.js"></script>
+<script src="../js/popupCalendar.js"></script>
+<script src="../js/menuControl.js"></script>
+<script src="../js/jscolor/jscolor.js"></script>
+<script src="../js/openID.js"></script>
 </head>
 <body>
 <div id="fb-root"></div>
 <script src="http://connect.facebook.net/en_US/all.js"></script>
 <script>
-window.fbAsyncInit = function() {
-	 FB.init({
-	   appId  : '494219040596723',
-	   status : true, // check login status
-	   cookie : true, // enable cookies to allow the server to access the session
-	   xfbml  : true  // parse XFBML
-	 });
-	 FB.getLoginStatus(function(response) {
-			flag = true;
-			fbIsLogin();
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId : '494219040596723',
+			status : true, // check login status
+			cookie : true, // enable cookies to allow the server to access the session
+			xfbml : true
+		// parse XFBML
+		});
+		FB.getLoginStatus(function(response) {
+				flag = true;
+				fbIsLogin();
 		});
 	}
 </script>
@@ -39,15 +40,15 @@ window.fbAsyncInit = function() {
 					<div id='menu_tools'>
 						<div title='선택' id='tools_1'
 							onmouseup="javascript:tools_down('tools_1')" class='tools'>
-							<img src='image/tools_1.png' alt='선택' />
+							<img src='../../res/image/tools_1.png' alt='선택' />
 						</div>
 						<div title='연결' id='tools_2'
 							onmouseup="javascript:tools_down('tools_2')" class='tools'>
-							<img src='image/tools_2.png' alt='연결' />
+							<img src='../../res/image/tools_2.png' alt='연결' />
 						</div>
 						<div title='글꼴' id='tools_3'
 							onmouseup="javascript:tools_down('tools_3')" class='tools'>
-							<img src='image/tools_3.png' alt='글꼴' />
+							<img src='../../res/image/tools_3.png' alt='글꼴' />
 						</div>
 					</div>
 					<hr class='menu_hr' />
@@ -55,11 +56,11 @@ window.fbAsyncInit = function() {
 					<div id='menu_adds'>
 						<div title='작업자 추가' class='adds' id='adds_1'
 							onmouseup="javascript:adds_down('adds_1')">
-							<img src='image/adds_1.png' alt='작업자추가' />
+							<img src='../../res/image/adds_1.png' alt='작업자추가' />
 						</div>
 						<div title='할일 추가' class='adds' id='adds_2'
 							onmouseup="javascript:adds_down('adds_2')">
-							<img src='image/adds_2.png' alt='할일추가' />
+							<img src='../../res/image/adds_2.png' alt='할일추가' />
 						</div>
 					</div>
 					<hr class='menu_hr' />
@@ -67,11 +68,11 @@ window.fbAsyncInit = function() {
 					<div id='menu_stdio'>
 						<div id='save' class='stdio'
 							onclick="javascript:save_down('savePopup')" title='저장'>
-							<img src='image/save.png' alt='저장' />
+							<img src='../../res/image/save.png' alt='저장' />
 						</div>
 						<div id='load' class='stdio'
 							onclick="javascript:load_down('loadPopup');" title='불러오기'>
-							<img src='image/load.png' alt='불러오기' />
+							<img src='../../res/image/load.png' alt='불러오기' />
 						</div>
 					</div>
 				</div>
@@ -125,23 +126,23 @@ window.fbAsyncInit = function() {
 						<span>이미지 선택</span>
 					</div>
 					<div>
-						<img id='person1' src='image/person1.png'
+						<img id='person1' src='../../res/image/person1.png'
 							onclick="javascript:person_down('person1');" /> <img
-							id='person2' src='image/person2.png'
+							id='person2' src='../../res/image/person2.png'
 							onclick="javascript:person_down('person2');" /> <img
-							id='person3' src='image/person3.png'
+							id='person3' src='../../res/image/person3.png'
 							onclick="javascript:person_down('person3');" /> <img
-							id='person4' src='image/person4.png'
+							id='person4' src='../../res/image/person4.png'
 							onclick="javascript:person_down('person4');" />
 					</div>
 					<div>
-						<img id='person5' src='image/person5.png'
+						<img id='person5' src='../../res/image/person5.png'
 							onclick="javascript:person_down('person5');" /> <img
-							id='person6' src='image/person6.png'
+							id='person6' src='../../res/image/person6.png'
 							onclick="javascript:person_down('person6');" />
-							<img id='person7' src='image/person7.png'
+							<img id='person7' src='../../res/image/person7.png'
 							onclick="javascript:person_down('person7');" />
-							<img id='person8' src='image/person8.png'
+							<img id='person8' src='../../res/image/person8.png'
 							onclick="javascript:person_down('person8');" />
 					</div>
 					<div class='bottom'>
@@ -180,7 +181,7 @@ window.fbAsyncInit = function() {
 					</div>
 					<div class='calendar'>
 						<input id='todoStart' name='todoStart' type='text' value=''
-							readonly /> <img src='image/calendar.png' title='날짜입력'
+							readonly /> <img src='../../res/image/calendar.png' title='날짜입력'
 							onclick="javascript:calendar_down('calendarStart')" />
 					</div>
 					<div class='title'>
@@ -188,7 +189,7 @@ window.fbAsyncInit = function() {
 					</div>
 					<div class='calendar'>
 						<input id='todoClose' type='text' value='' readonly /> <img
-							src='image/calendar.png' title='날짜입력'
+							src='../../res/image/calendar.png' title='날짜입력'
 							onclick="javascript:calendar_down('calendarClose')" />
 					</div>
 					<div class='bottom'>
@@ -362,11 +363,11 @@ window.fbAsyncInit = function() {
 					<div class='hr'></div>
 					<div class='style' id='fontBold'
 						onclick="javascript:font_down('fontBold')">
-						<img title='굵게' src='image/bold.png' />
+						<img title='굵게' src='../../res/image/bold.png' />
 					</div>
 					<div class='style' id='fontItalic'
 						onclick="javascript:font_down('fontItalic')">
-						<img title='기울이기' src='image/italic.png' />
+						<img title='기울이기' src='../../res/image/italic.png' />
 					</div>
 					<div>
 						<select id='fontSize' class='size'>
@@ -391,11 +392,11 @@ window.fbAsyncInit = function() {
 				<div class='BR'></div>
 			</div>
 			<!-- 이미지 로드 -->
-			<img src='cursor/adds_1.png'
+			<img src='../../res/cursor/adds_1.png'
 				style="top: -1000px; left: -1000px; display: none;" /> <img
-				src='cursor/adds_2.png'
+				src='../../res/cursor/adds_2.png'
 				style="top: -1000px; left: -1000px; display: none;" /> <img
-				src='image/todo.png'
+				src='../../res/image/todo.png'
 				style="top: -1000px; left: -1000px; display: none;" />
 		</div>
 	</div>

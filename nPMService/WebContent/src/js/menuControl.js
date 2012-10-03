@@ -329,7 +329,7 @@ function loadDB(){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "nPM", true);
+		request.open("POST", "../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");

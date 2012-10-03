@@ -56,27 +56,29 @@ function fbGetUser() {
 			document.getElementById('birth').innerHTML = fbBirth;
 			document.getElementById('email').innerHTML = fbEmail;
 			document.getElementById('work').innerHTML = fbWork;
-			if(fbEmail != null){
-				document.getElementById('fb_login_button').value = '로그아웃';
-				document.getElementById('fb_login_button').onclick = fbLogout;
-			}
-			else{
-				document.getElementById('fb_login_button').value = '로그인';
-				document.getElementById('fb_login_button').onclick = fbLogin;
-			}
+//			if(fbEmail != null){
+//				document.getElementById('fb_login_button').value = '로그아웃';
+//				document.getElementById('fb_login_button').onclick = fbLogout;
+//			}
+//			else{
+//				document.getElementById('fb_login_button').value = '로그인';
+//				document.getElementById('fb_login_button').onclick = fbLogin;
+//			}
 		});
 	});
 }
 
 function fbIsLogin() {
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-//			var uid = response.authResponse.userID;
-//			var accessToken = response.authResponse.accessToken;
-		} else if (response.status === 'not_authorized') {
-			location.replace('joinus.html');
-		} else {
-			location.replace('joinus.html');
-		}
+	fbEnsureInit(function(){
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+//				var uid = response.authResponse.userID;
+//				var accessToken = response.authResponse.accessToken;
+			} else if (response.status === 'not_authorized') {
+				location.replace('joinus.html');
+			} else {
+				location.replace('joinus.html');
+			}
+		});
 	});
 }

@@ -112,12 +112,12 @@
 #fontPopup .MM div.bottom { position:absolute; bottom: 20px; right: 30px; }
 
 .gui { opacity: 0; display: none; position: absolute; top: 0; left: 0; }
-.gui .TL { background: url('../image/win_LT.png'); width: 16px; height: 26px; float: left; opacity:0.8; filter: alpha(opacity:'80'); }
-.gui .TM { background: url('../image/win_MT.png'); cursor: move; width: 75px; height: 20px; float: left; text-align: left; padding-top: 6px; color: #444444; font-size: 11px; opacity:0.8; filter: alpha(opacity:'80');}
-.gui .TR { background: url('../image/win_RT.png'); width: 16px; height: 26px; float: left; opacity:0.8; filter: alpha(opacity:'80'); }
-.gui .ML { background: url('../image/win_LM.png'); float: left; width: 16px; height: 257px; opacity:0.8; filter: alpha(opacity:'80'); }
-.gui .MM { background: url('../image/win_MM.png'); float: left; width: 75px; cursor: default; opacity:0.8; filter: alpha(opacity:'80'); }
-.gui .MR { background: url('../image/win_RM.png'); float: left; width: 16px; height: 257px; opacity:0.8; filter: alpha(opacity:'80'); }
-.gui .BL { background: url('../image/win_LB.png') 0 -23px; float: left; width: 16px; height: 20px; opacity:0.8; filter: alpha(opacity:'80'); }
-.gui .BM { background: url('../image/win_MB.png') 0 -23px; float: left; width: 75px; height: 20px; opacity:0.8; filter: alpha(opacity:'80'); }
-.gui .BR { background: url('../image/win_RB.png') 0 -23px; cursor: nw-resize; float: left; width: 16px; height: 20px; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .TL { background: url('../../res/image/win_LT.png'); width: 16px; height: 26px; float: left; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .TM { background: url('../../res/image/win_MT.png'); cursor: move; width: 75px; height: 20px; float: left; text-align: left; padding-top: 6px; color: #444444; font-size: 11px; opacity:0.8; filter: alpha(opacity:'80');}
+.gui .TR { background: url('../../res/image/win_RT.png'); width: 16px; height: 26px; float: left; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .ML { background: url('../../res/image/win_LM.png'); float: left; width: 16px; height: 257px; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .MM { background: url('../../res/image/win_MM.png'); float: left; width: 75px; cursor: default; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .MR { background: url('../../res/image/win_RM.png'); float: left; width: 16px; height: 257px; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .BL { background: url('../../res/image/win_LB.png') 0 -23px; float: left; width: 16px; height: 20px; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .BM { background: url('../../res/image/win_MB.png') 0 -23px; float: left; width: 75px; height: 20px; opacity:0.8; filter: alpha(opacity:'80'); }
+.gui .BR { background: url('../../res/image/win_RB.png') 0 -23px; cursor: nw-resize; float: left; width: 16px; height: 20px; opacity:0.8; filter: alpha(opacity:'80'); }
