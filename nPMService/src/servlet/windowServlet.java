@@ -39,6 +39,7 @@ public class windowServlet extends HttpServlet {
 	private String root = "root";
 	private String pw = "apmsetup";
 	private String db_name = "npm";
+	String sss = "";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
