@@ -492,7 +492,7 @@ function makeRoot(x, y, text){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "../../nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");
@@ -521,7 +521,7 @@ function makeRoot(x, y, text){
 						alert("서버 접속에 실패하였습니다");
 					}
 					else{
-						request1.open("POST", "../../nPM", true);
+						request1.open("POST", "../../../nPM", true);
 						request1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 						request1.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 						request1.setRequestHeader("Pragma","no-cache");
@@ -697,7 +697,7 @@ function makeChild(x, y, text){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "../../nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");
@@ -726,7 +726,7 @@ function makeChild(x, y, text){
 						alert("서버 접속에 실패하였습니다");
 					}
 					else{
-						request1.open("POST", "../../nPM", true);
+						request1.open("POST", "../../../nPM", true);
 						request1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 						request1.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 						request1.setRequestHeader("Pragma","no-cache");
@@ -813,7 +813,7 @@ function modifyNodeOk(){
 			alert("서버 접속에 실패하였습니다");
 		}
 		else{
-			request.open("POST", "../../nPM", true);
+			request.open("POST", "../../../nPM", true);
 			request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 			request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 			request.setRequestHeader("Pragma","no-cache");
@@ -904,7 +904,7 @@ function loadData(){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "../../nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");
@@ -934,7 +934,7 @@ function saveData(elem){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "../../nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");

@@ -138,7 +138,7 @@ function tools_down(param){
  * 추가리스트가 선택 되었을 때의 이벤트
  */
 function adds_down(param){
-	var url = "url('cursor/" + param + ".png'), pointer";
+	var url = "url('../../../res/cursor/" + param + ".png'), pointer";
 	var canvasId = document.getElementById('bound');
 	//마우스 커서 모양을 변경한다
 	canvasId.style.cursor = url;

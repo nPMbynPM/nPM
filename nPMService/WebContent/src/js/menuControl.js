@@ -133,7 +133,7 @@ function saveAsXML(){
 		personX.push(personArray[i].x);
 		personY.push(personArray[i].y);
 		var imgSrc = personArray[i].img.src;
-		personImgSrc.push(imgSrc.substring(imgSrc.length-17, imgSrc.length));
+		personImgSrc.push('../../../' + imgSrc.substring(imgSrc.length-21, imgSrc.length));
 		personName.push(personArray[i].name);
 		personFont.push(personArray[i].font);
 	}
@@ -168,7 +168,7 @@ function saveAsXML(){
 		alert("요청에 실패했습니다!");
 	}
 	else{
-		saveRequest.open("POST", "nPM", true);
+		saveRequest.open("POST", "../../../nPM", true);
 		saveRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		saveRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		saveRequest.setRequestHeader("Pragma","no-cache");
@@ -218,7 +218,8 @@ function saveAsDB(){
 		personX.push(personArray[i].x);
 		personY.push(personArray[i].y);
 		var imgSrc = personArray[i].img.src;
-		personImgSrc.push(imgSrc.substring(imgSrc.length-17, imgSrc.length));
+//		console.log('../../../' + imgSrc.substring(imgSrc.length-21, imgSrc.length));
+		personImgSrc.push('../../../' + imgSrc.substring(imgSrc.length-21, imgSrc.length));
 		personName.push(personArray[i].name);
 		personFont.push(personArray[i].font);
 	}
@@ -253,7 +254,7 @@ function saveAsDB(){
 		alert("요청에 실패했습니다!");
 	}
 	else{
-		saveRequest.open("POST", "nPM", true);
+		saveRequest.open("POST", "../../../nPM", true);
 		saveRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		saveRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		saveRequest.setRequestHeader("Pragma","no-cache");
@@ -293,7 +294,7 @@ function loadXML(){
 		alert("불러오기 실패");
 	}
 	else{
-		loadRequest.open("POST","nPM",true);
+		loadRequest.open("POST","../../../nPM",true);
 		loadRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		loadRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		loadRequest.setRequestHeader("Pragma","no-cache");
@@ -329,7 +330,7 @@ function loadDB(){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "../../nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");

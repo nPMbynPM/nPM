@@ -13,8 +13,8 @@ function personClass(x, y, name){
 	this.y = y;
 	this.width = 50;
 	this.height = 50;
-	this.img = new Image();
-	this.img.src = 'image/person1.png';
+//	this.img = new Image();
+//	this.img.src = 'image/person1.png';
 	this.selected = false;
 	this.font = '12px san-serif';	//폰트
 	this.name = name;	//작업자 이름
@@ -199,7 +199,7 @@ function loadDB(){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "../../nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");
@@ -238,7 +238,7 @@ function xmlParsing(response){
 		var font = personId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
 
 		var tmpClass = new personClass(Number(x), Number(y), String(name));
-		tmpClass.img.src = imgSrc;
+//		tmpClass.img.src = imgSrc;
 		tmpClass.font = font;
 		personArray.push(tmpClass);
 	}
