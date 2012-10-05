@@ -42,7 +42,7 @@ Ti.Facebook.addEventListener('login', function(e) {
         	width:200,
         	value:1,
         	textAlign:'center',
-        	font:{fontSize:40, fontStyle:'italic'},
+        	font:{fontSize:40, fontStyle:'italic'}
         });
         	okBtn = "ok";
 
@@ -367,7 +367,7 @@ var btn_name7 = Titanium.UI.createLabel({
 
 var bt_message = Titanium.Facebook.createLoginButton({
 	top:650,
-	left:300,
+	left:300
 	
 	
 });
@@ -632,7 +632,7 @@ var mindMapInit = function(){
 
 	var tableView = Titanium.UI.createTableView({
 	//	backgroundColor: '#3CB4FF',
-	backgroundColor: '#FFA500',
+	backgroundColor: '#FFA500'
 	}); 
 
 	//table view에 있는 목록 모두 삭제
@@ -682,7 +682,7 @@ var mindMapInit = function(){
 				width: 'auto', height: 'auto',
 				text: "부모 노드입니다.",
 				textAlign:'center',
-				font:{fontSize:30, fontStyle:'italic'},
+				font:{fontSize:30, fontStyle:'italic'}
 
 			});
 			
@@ -736,7 +736,7 @@ var mindmapAdd  = function(parentnumber, parenttext){                 // 클릭했�
 		
 	var tableView = Titanium.UI.createTableView({
 	//	backgroundColor: '#3CB4FF',
-	backgroundColor: '#0000CD',
+	backgroundColor: '#0000CD'
 	}); 
 	
 	var labelParent = Ti.UI.createLabel({
@@ -911,7 +911,7 @@ var mindmapInsert  = function(parentnumber, parenttext){                 // 클릭
 	
 	var tableView = Titanium.UI.createTableView({
 	//	backgroundColor: '#A7EEFF',
-	backgroundColor: '#7B68EE',
+	backgroundColor: '#7B68EE'
 	}); 
 	
 	//추가 버튼
