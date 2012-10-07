@@ -1,0 +1,46 @@
+td.today {
+	color: #ffffff;
+	font-weight: bold;
+	border: solid thin 0pt;
+	font-size: 9pt;
+	background-color: #cc0033;
+}
+
+td.workday {
+	color: #000099;
+	font-weight: normal;
+	border: solid thin 0.5pt;
+	font-size: 9pt;
+}
+
+td.sunday {
+	color: #cc0033;
+	font-weight: normal;
+	border: solid thin 0.5pt;
+	font-size: 9pt;
+}
+
+td.satday {
+	color: #0000ff;
+	font-weight: normal;
+	border: solid thin 0.5pt;
+	font-size: 9pt;
+}
+
+td.week {
+	color: #000000;
+	font-weight: normal;
+	border: solid thin 0.5pt;
+	font-size: 9pt;
+	background-color: #e6e6e6;
+	width: 18px;
+	text-align: center
+}
+
+.preNext {
+	color: #000099;
+	text-decoration: none;
+}
+
+#calendarStart { position: fixed; top: -1000px; left: -1000px; width: 170px; display: none; z-index: 5; background: #D7A35D; }
+#calendarClose { position: fixed; top: -1000px; left: -1000px; width: 170px; display: none; z-index: 5; background: #D7A35D; }

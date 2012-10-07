@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="viewport"
+	content="user-scalable=yes,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="Content-type"
+	content="application/x-www-form-urlencoded; charset=UTF-8" />
+<title>nPM mobile - add</title>
+<link rel='stylesheet' type='text/css' href='css/m_npm_add.css'>
+<link rel='stylesheet' type='text/css' href='css/calendarStyle.css'>
+<script src='js/m_npm_add.js'></script>
+<script src='js/popupCalendar.js'></script>
+</head>
+<body>
+	<div id='top'>
+		<div>작업 추가</div>
+	</div>
+	<div id='main'>
+		<div class='content'>
+			<div class='title'>작업자</div>
+			<div class='form'><input id='person' type='text'/></div>
+		</div>
+		<div class='content'>
+			<div class='title'>할 일</div>
+			<div class='form'><input id='todo' type='text'/></div>
+		</div>
+		<div class='content'>
+			<div class='title'>시작일자</div>
+			<div class='form'><input id='todoStart' type='text' onclick="showCalendar('calendarStart')"/></div>
+		</div>
+		<div class='content'>
+			<div class='title'>종료일자</div>
+			<div class='form'><input id='todoClose' type='text' onclick="showCalendar('calendarClose')"/></div>
+		</div>
+		<!--
+		<div class='content'>
+			<div class='title'>연관된 작업자</div>
+			<div class='form'><input id='link' type='text'/></div>
+		</div>
+		 -->
+		<div class='button'>
+			<input type='button' value='확인' onclick='insertDB()'/>
+			<input type='button' value='취소' onclick='goHome()'/>
+		</div>
+		<div id='calendarStart'></div>
+		<div id='calendarClose'></div>
+	</div>
+	<div id='bottom'>
+		<div>Copyrightⓒ2012 by nPM</div>
+	</div>
+</body>
+</html>
