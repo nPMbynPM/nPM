@@ -1,0 +1,17 @@
+#joinus_wrapper {
+	width: 800px;
+	margin: auto;
+	border:1px solid #cacaca;
+}
+
+#joinus_inner {
+	width: 700px;
+	margin: auto;
+	text-align:center;
+	font-size: 13px;
+	padding: 20px 0;
+}
+
+#joinus_inner div {
+	padding: 20px 0;
+}

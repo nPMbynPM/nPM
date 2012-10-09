@@ -1,0 +1,92 @@
+body{
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#wrapper {
+	width: 1280px;
+	height: 1024px;
+	margin: 10px auto;
+	border: 1px solid #cacaca;
+}
+
+#wrapper #wrapper_left {
+	width: 1280px;
+	height: 1024px;
+	position: relative;
+	float: left;
+	overflow: auto;
+}
+
+#wrapper #wrapper_right {
+	padding: 5px 0;
+	width: 199px;
+	height: 1014px;
+	position: relative;
+	float: left;
+	border-left: 1px solid #cacaca;
+	overflow: auto;
+}
+
+#wrapper #wrapper_left #modify_div {
+	position: absolute;
+	display: none;
+	top: 0px;
+	left: 0px;
+	width: 0px;
+	height: 0px;
+}
+
+#wrapper #wrapper_left #modify_div div{
+	margin: auto;
+	width: 100px;
+}
+
+#wrapper #wrapper_left #modify_node {
+	font-size: 14px;
+	width: 0px;
+	height: 0px;
+	top: 0px;
+	left: 0px;	
+}
+
+#wrapper #wrapper_left #make_div {
+	position: absolute;
+	display: none;
+	top: 0px;
+	left: 0px;
+	width: 0px;
+	height: 0px;
+}
+
+#wrapper #wrapper_left #make_div div{
+	margin: auto;
+	width: 100px;
+}
+
+#wrapper #wrapper_left #make_node {
+	font-size: 14px;
+	width: 0px;
+	height: 0px;
+	top: 0px;
+	left: 0px;	
+}
+
+#wrapper #wrapper_left #mindmap #export_text{
+	width: 300px;
+	height: 200px;
+	top: 0px;
+	left: 0px;
+	position: absolute;
+	display: none;
+	text-align: right;
+}
+
+#wrapper #wrapper_left #mindmap #export_text #export_text_area{
+	width: 300px;
+	height: 180px;
+	font-size: 13px;
+}

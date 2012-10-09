@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>My page</title>
+<script src="../../js/openID.js"></script>
+</head>
+<body>
+<!-- 반드시 첨부되어야 하는 태그 -->
+<div id="fb-root"></div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+window.fbAsyncInit = function() {
+ FB.init({
+   appId  : '494219040596723',
+   status : true, // check login status
+   cookie : true, // enable cookies to allow the server to access the session
+   xfbml  : true  // parse XFBML
+ });
+ FB.getLoginStatus(function(response){
+	 flag = true;
+	 fbGetUser();
+ }); 
+}
+</script>
+<!-- 반드시 첨부되어야 하는 태그 -->
+	<div id="slidepanel">
+		<div class="topbox">
+			<h2>사진</h2>
+			<div style='width:268px; height: 205px; border: 1px solid #cacaca;'>
+				<img id='photo' src='' style='width:100%; height:100%;'/>
+			</div>
+		</div>
+		<div class="topbox">
+			<h2>프로필</h2>
+				<fieldset>
+					<p>
+						이름: <span id='name'></span>
+					</p>
+					<p>
+						생년월일: <span id='birth'></span>
+					</p>
+					<p>
+						연락처: <span id='email'></span>
+					</p>
+					<p>
+						직업: <span id='work'></span>
+					</p>
+				</fieldset>
+		</div>
+		<div class="topbox last">
+			<h2>경력</h2>
+				<fieldset>
+					<p>
+						nPM 프로젝트
+					</p>
+					<p>
+						ezTrans 프로젝트
+					</p>
+				</fieldset>
+		</div>
+		<br class="clear" />
+	</div>
+
+</body>
+</html>
