@@ -64,7 +64,19 @@ function fbGetUser() {
 			}
 			//정보가 오지 않으면 리턴
 			if(fbID == null){
-				return;
+				document.getElementById('photo').src = "../../../res/image/person1.png";
+				document.getElementById('name').innerHTML = "";
+				document.getElementById('birth').innerHTML = "";
+				document.getElementById('email').innerHTML = "";
+				document.getElementById('work').innerHTML = "";
+				if(fbEmail != null){
+					document.getElementById('fb_login_button').value = '로그아웃';
+					document.getElementById('fb_login_button').onclick = fbLogout;
+				}
+				else{
+					document.getElementById('fb_login_button').value = '로그인';
+					document.getElementById('fb_login_button').onclick = fbLogin;
+				}
 			}
 			else{
 				fbSrc = "http://graph.facebook.com/"

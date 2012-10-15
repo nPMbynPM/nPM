@@ -961,6 +961,53 @@ public class windowServlet extends HttpServlet {
 					}
 				}
 			}
+			//DB에 존재하는 모든 유저의 목록을 불러온다
+			else if(user.equals("all")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String query = "select id,name,email from user order by name asc";
+				
+				String id = "";
+				String name = "";
+				String email = "";
+				
+				String xmlStr = "<data>";
+				
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(query);
+					rs = pstmt.executeQuery();
+					while(rs.next()){
+						id = rs.getString("id");
+						name = rs.getString("name");
+						email = rs.getString("email");
+						
+						xmlStr += "<user>"
+								+ "<id>" + id + "</id>"
+								+ "<name>" + name + "</name>"
+								+ "<email>" + email + "</email>"
+								+ "</user>";
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt,rs);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				
+				xmlStr += "</data>";
+				
+				//xml 전송
+				response.setContentType("text/xml");
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("Cache-Control", "no-cache"); 
+				PrintWriter out = response.getWriter();
+				out.println(xmlStr);
+			}
 		}
 	}
 	
