@@ -2,6 +2,7 @@
 var idArr = new Array();
 var nameArr = new Array();
 var emailArr = new Array();
+var photoArr = new Array();
 
 /**
  * 유저의 목록을 전부 불러온다
@@ -45,6 +46,7 @@ function parseUserXML(response){
 		var id = user[i].getElementsByTagName("id")[0].firstChild.nodeValue;
 		var name = user[i].getElementsByTagName("name")[0].firstChild.nodeValue;
 		var email = user[i].getElementsByTagName("email")[0].firstChild.nodeValue;
+		var photo = user[i].getElementsByTagName("photo")[0].firstChild.nodeValue;
 		
 		//test code
 		//console.log(name);
@@ -53,6 +55,7 @@ function parseUserXML(response){
 		idArr.push(id);
 		nameArr.push(name);
 		emailArr.push(email);
+		photoArr.push(photo);
 	}
 }
 
@@ -65,6 +68,7 @@ function displayUserList(){
 	for(var i = 0; i < nameArr.length; i++){
 		str += '<li>';
 		str += '<div class=left><input type=radio name=user id=' + idArr[i] + ' value=\"' + nameArr[i] + '\"></div>';
+		str += '<div class=mid><img class=profile src=' + photoArr[i] + '></div>';
 		str += '<div class=right>이름: ' + nameArr[i] + '<br/>이메일: ' + emailArr[i] + '</div>';
 		str += '</li>';
 	}

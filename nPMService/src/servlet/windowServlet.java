@@ -66,6 +66,7 @@ public class windowServlet extends HttpServlet {
 		String saveDB = request.getParameter("savedb");//npm db세이브
 		String loadDB = request.getParameter("loaddb");//npm db로드
 		String user = request.getParameter("user");//회원
+		String project = request.getParameter("project");//프로젝트
 
 		if(saveText == null && loadText == null && loadDB != null){
 			Connection conn = null;
@@ -918,7 +919,7 @@ public class windowServlet extends HttpServlet {
 				}
 			}
 		}
-		//user 테이블에 유저정보 삽입
+		//user 테이블에 관련됨
 		else if(user != null){
 			//새로운 유저를 테이블에 삽입하고 동일한 유저가 있다면 하지 않는다
 			if(user.equals("new")){
@@ -966,11 +967,12 @@ public class windowServlet extends HttpServlet {
 				Connection conn = null;
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
-				String query = "select id,name,email from user order by name asc";
+				String query = "select id,name,email,photo from user order by name asc";
 				
 				String id = "";
 				String name = "";
 				String email = "";
+				String photo = "";
 				
 				String xmlStr = "<data>";
 				
@@ -982,11 +984,13 @@ public class windowServlet extends HttpServlet {
 						id = rs.getString("id");
 						name = rs.getString("name");
 						email = rs.getString("email");
+						photo = rs.getString("photo");
 						
 						xmlStr += "<user>"
 								+ "<id>" + id + "</id>"
 								+ "<name>" + name + "</name>"
 								+ "<email>" + email + "</email>"
+								+ "<photo>" + photo + "</photo>"
 								+ "</user>";
 					}
 				}catch(Exception e){
@@ -1007,6 +1011,58 @@ public class windowServlet extends HttpServlet {
 				response.setHeader("Cache-Control", "no-cache"); 
 				PrintWriter out = response.getWriter();
 				out.println(xmlStr);
+			}
+		}
+		//프로젝트 생성 및 수정에 관련
+		else if(project != null){
+			//새로운 프로젝트 생성
+			if(project.equals("new")){
+				//프로젝트 참여 멤버
+				String member_ = request.getParameter("member");
+				ArrayList<String> member = new ArrayList<String>();
+				StringTokenizer token = new StringTokenizer(member_, ",");
+				while(token.hasMoreElements())	member.add(token.nextToken());
+				
+				//가장 큰 번호를 프로젝트 고유 ID로 정한다
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String query = "select max(id) from project_list";
+				
+				int projectID = 0;
+				
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(query);
+					rs = pstmt.executeQuery();
+					if(rs.next()){
+						projectID = rs.getInt("max(id)");
+						projectID++;
+					}
+					//새로운 프로젝트 생성
+					query = "insert into project_list(id,name) values(?,?)";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, projectID);
+					pstmt.setString(2, request.getParameter("name"));
+					pstmt.executeUpdate();
+					
+					//프로젝트 멤버 추가
+					query = "insert into project_member(member,id) values(?,?)";
+					pstmt = conn.prepareStatement(query);
+					for(int i = 0; i < member.size(); i++){
+						pstmt.setString(1, member.get(i));
+						pstmt.setInt(2, projectID);
+						pstmt.executeUpdate();
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt,rs);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	}
