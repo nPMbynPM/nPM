@@ -25,6 +25,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -1054,6 +1055,44 @@ public class windowServlet extends HttpServlet {
 						pstmt.setInt(2, projectID);
 						pstmt.executeUpdate();
 					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt,rs);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			//해당 사용자에 대한 프로젝트 목록 불러오기
+			else if(project.equals("list")){
+				//사용자 ID
+				String id = request.getParameter("id");
+				String str = "";
+				
+				//사용자 ID가 참여하는 프로젝트의 고유 ID와 이름을 불러옴
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String query = "select a.id, a.name from project_list a inner join project_member b where a.id=b.id and b.member=?";
+				
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, id);
+					rs = pstmt.executeQuery();
+					while(rs.next()){
+						str += "<li value=" + rs.getInt("id") + ">";
+						str += rs.getString("name");
+						str += "</li>";
+					}
+					
+					response.setContentType("text/xml");
+					response.setCharacterEncoding("UTF-8");
+					response.setHeader("Cache-Control", "no-cache"); 
+					PrintWriter out = response.getWriter();
+					out.println(str);					
 				}catch(Exception e){
 					System.out.println(e.getMessage());
 				}finally{
