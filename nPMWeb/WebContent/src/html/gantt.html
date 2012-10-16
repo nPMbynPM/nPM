@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/jsgantt.css" />
+<script src="js/jsgantt.js"></script>
+<script src="js/npmGantt.js"></script>
+<script src="js/openID.js"></script>
+</head>
+<body>
+<!-- 반드시 첨부되어야 하는 태그 -->
+<div id="fb-root"></div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+window.fbAsyncInit = function() {
+	 FB.init({
+	   appId  : '494219040596723',
+	   status : true, // check login status
+	   cookie : true, // enable cookies to allow the server to access the session
+	   xfbml  : true  // parse XFBML
+	 });
+	 FB.getLoginStatus(function(response) {
+			flag = true;
+			fbIsLogin();
+		});
+	}
+</script>
+<!-- 반드시 첨부되어야 하는 태그 -->
+<div id='gantt_wrapper' style='width: 800px; margin: auto; border:1px solid #cacaca;'>
+	<div style='font-size:14px;font-weight:bold;width:673px;margin:auto;padding:10px 0 5px 0;'>테이블</div>
+	<div id="gantt_table" style='width:673px; margin:auto; border: 1px solid #cacaca;'></div>
+	<div style='font-size:14px;font-weight:bold;width:673px;margin:auto;padding:20px 0 5px 0;'>간트차트</div>
+	<div id="gantt_chart" style='width:673px; margin:0 auto 10px auto; border: 1px solid #cacaca;'></div>
+</div>
+</body>
+</html>
