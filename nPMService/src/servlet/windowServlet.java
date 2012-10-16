@@ -59,12 +59,13 @@ public class windowServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		String saveText = request.getParameter("savetext");
-		String loadText = request.getParameter("loadtext");
-		String ganttText = request.getParameter("gantttext");
-		String mindText = request.getParameter("mindtext");
-		String saveDB = request.getParameter("savedb");
-		String loadDB = request.getParameter("loaddb");
+		String saveText = request.getParameter("savetext");//npm xml 세이브
+		String loadText = request.getParameter("loadtext");//npm xml 로드
+		String ganttText = request.getParameter("gantttext");//간트차트
+		String mindText = request.getParameter("mindtext");//마인드맵
+		String saveDB = request.getParameter("savedb");//npm db세이브
+		String loadDB = request.getParameter("loaddb");//npm db로드
+		String user = request.getParameter("user");//회원
 
 		if(saveText == null && loadText == null && loadDB != null){
 			Connection conn = null;
@@ -915,6 +916,97 @@ public class windowServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 				}
+			}
+		}
+		//user 테이블에 유저정보 삽입
+		else if(user != null){
+			//새로운 유저를 테이블에 삽입하고 동일한 유저가 있다면 하지 않는다
+			if(user.equals("new")){
+				//유저 정보 관련 변수들
+				String id = request.getParameter("id");
+				String name = request.getParameter("name");
+				String birth = request.getParameter("birth");
+				String email = request.getParameter("email");
+				String work = request.getParameter("work");
+				String photo = request.getParameter("photo");
+				
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String SQL = "select id from user where id=?";
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(SQL);
+					pstmt.setString(1, id);
+					rs = pstmt.executeQuery();
+					
+					if(!rs.next()){
+						SQL = "insert into user(id,name,birth,email,work,photo) values(?,?,?,?,?,?)";
+						pstmt = conn.prepareStatement(SQL);
+						pstmt.setString(1, id);
+						pstmt.setString(2, name);
+						pstmt.setString(3, birth);
+						pstmt.setString(4, email);
+						pstmt.setString(5, work);
+						pstmt.setString(6, photo);
+						pstmt.executeUpdate();
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn, pstmt, rs);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			//DB에 존재하는 모든 유저의 목록을 불러온다
+			else if(user.equals("all")){
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String query = "select id,name,email from user order by name asc";
+				
+				String id = "";
+				String name = "";
+				String email = "";
+				
+				String xmlStr = "<data>";
+				
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(query);
+					rs = pstmt.executeQuery();
+					while(rs.next()){
+						id = rs.getString("id");
+						name = rs.getString("name");
+						email = rs.getString("email");
+						
+						xmlStr += "<user>"
+								+ "<id>" + id + "</id>"
+								+ "<name>" + name + "</name>"
+								+ "<email>" + email + "</email>"
+								+ "</user>";
+					}
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn,pstmt,rs);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				
+				xmlStr += "</data>";
+				
+				//xml 전송
+				response.setContentType("text/xml");
+				response.setCharacterEncoding("UTF-8");
+				response.setHeader("Cache-Control", "no-cache"); 
+				PrintWriter out = response.getWriter();
+				out.println(xmlStr);
 			}
 		}
 	}
