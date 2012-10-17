@@ -11,7 +11,7 @@ nPM is an open source project management system. methods including:
   * **nPMDesign** - nPM Web, Mobile icon and photo.
 
 ## Install
-There are a few different ways you can install pyechonest:
+There are a few different ways you can install nPM:
 
 * Download the zipfile from the [downloads](http://npmbynpm.github.com/nPM) page and install it. 
 * Checkout the source: "git clone https://github.com/nPMbynPM/nPM.git" and install it yourself.
