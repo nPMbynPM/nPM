@@ -1,4 +1,3 @@
-
 # nPM
 
 nPM github page. [nPM](http://solar4.ssu.ac.kr:8080) service.
@@ -7,7 +6,7 @@ nPM is an open source project management system. methods including:
 
   * **nPMCore** - Framework, Database, Web, Service, Mobile, Security.
   * **nPMService** - Project Management, Gantt Chart, Mind Map
-  * **nPMMobile** - upload a track to the Echo Nest and receive summary information about the track including key, duration, mode, tempo, time signature along with detailed track info including timbre, pitch, rhythm and loudness information.
+  * **nPMMobile** - Create iOS, Android, hybrid, and mobile web apps from The Titanium.
   * **nPMWeb** - nPM web page, Open ID (Facebook)
   * **nPMDesign** - nPM Web, Mobile icon and photo.
 
