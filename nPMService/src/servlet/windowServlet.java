@@ -69,7 +69,11 @@ public class windowServlet extends HttpServlet {
 		String user = request.getParameter("user");//회원
 		String project = request.getParameter("project");//프로젝트
 
-		if(saveText == null && loadText == null && loadDB != null){
+		//nPM DB로드
+		if(loadDB != null){
+			//프로젝트 ID
+			int projectID = Integer.parseInt(request.getParameter("project"));
+			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -104,8 +108,9 @@ public class windowServlet extends HttpServlet {
 				conn = mysqlConn();
 				
 				//person
-				String query = "select * from person";
+				String query = "select * from person where project=?";
 				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, projectID);
 				rs = pstmt.executeQuery();
 				xmlStr += "<Resources>";
 				while(rs.next()){
@@ -126,8 +131,9 @@ public class windowServlet extends HttpServlet {
 				xmlStr += "</Resources>";
 				
 				//todo
-				query = "select * from todo";
+				query = "select * from todo where project=?";
 				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, projectID);
 				rs = pstmt.executeQuery();
 				xmlStr += "<Tasks>";
 				while(rs.next()){
@@ -154,8 +160,9 @@ public class windowServlet extends HttpServlet {
 				xmlStr += "</Tasks>";
 				//conn_from, conn_to
 				//conn_from
-				query = "select * from conn_from";
+				query = "select * from conn_from where project=?";
 				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, projectID);
 				rs = pstmt.executeQuery();
 				xmlStr += "<conn>";
 				xmlStr += "<from>";
@@ -172,8 +179,9 @@ public class windowServlet extends HttpServlet {
 				}
 				xmlStr += "</from>";
 				//conn_to
-				query = "select * from conn_to";
+				query = "select * from conn_to where project=?";
 				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, projectID);
 				rs = pstmt.executeQuery();
 				xmlStr += "<to>";
 				while(rs.next()){
@@ -759,6 +767,9 @@ public class windowServlet extends HttpServlet {
 		else if(saveDB != null){
 			//현재 캔버스의 정보를 모두 저장
 			if(saveDB.equals("all")){
+				//프로젝트 ID
+				int projectID = Integer.parseInt(request.getParameter("project"));
+				
 				Connection conn = null;
 				PreparedStatement pstmt = null;
 				
@@ -852,22 +863,26 @@ public class windowServlet extends HttpServlet {
 				
 				try{
 					conn = mysqlConn();
-					//테이블의 내용을 모두 지운다
-					String query = "delete from person";
+					//해당 프로젝트의 내용을 모두 지운다
+					String query = "delete from person where project=?";
 					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, projectID);
 					pstmt.executeUpdate();
-					query = "delete from todo";
+					query = "delete from todo where project=?";
 					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, projectID);
 					pstmt.executeUpdate();
-					query = "delete from conn_from";
+					query = "delete from conn_from where project=?";
 					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, projectID);
 					pstmt.executeUpdate();
-					query = "delete from conn_to";
+					query = "delete from conn_to where project=?";
 					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, projectID);
 					pstmt.executeUpdate();
 					//테이블에 새롭게 갱신될 내용을 삽입한다
 					//person
-					query = "insert into person(x,y,name,img,font) value (?,?,?,?,?)";
+					query = "insert into person(x,y,name,img,font,project) value (?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query);
 					for(int i = 0; i < personX.size(); i++){
 						pstmt.setInt(1, Integer.parseInt(personX.get(i)));
@@ -875,10 +890,11 @@ public class windowServlet extends HttpServlet {
 						pstmt.setString(3, personName.get(i));
 						pstmt.setString(4, personImgSrc.get(i));
 						pstmt.setString(5, personFont.get(i));
+						pstmt.setInt(6, projectID);
 						pstmt.executeUpdate();						
 					}
 					//todo
-					query = "insert into todo(x,y,job,start,finish,font,color,isfinished) value (?,?,?,?,?,?,?,?)";
+					query = "insert into todo(x,y,job,start,finish,font,color,isfinished,project) value (?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query);
 					for(int i = 0; i < todoX.size(); i++){
 						pstmt.setInt(1, Integer.parseInt(todoX.get(i)));
@@ -889,24 +905,27 @@ public class windowServlet extends HttpServlet {
 						pstmt.setString(6, todoFont.get(i));
 						pstmt.setString(7, todoColor.get(i));
 						pstmt.setString(8, todoIsfinished.get(i));
+						pstmt.setInt(9, projectID);
 						pstmt.executeUpdate();						
 					}
 					//conn_from
-					query = "insert into conn_from(name,x,y) value (?,?,?)";
+					query = "insert into conn_from(name,x,y,project) value (?,?,?,?)";
 					pstmt = conn.prepareStatement(query);
 					for(int i = 0; i < fromClassName.size(); i++){
 						pstmt.setString(1, fromClassName.get(i));
 						pstmt.setInt(2, Integer.parseInt(fromX.get(i)));
 						pstmt.setInt(3, Integer.parseInt(fromY.get(i)));
+						pstmt.setInt(4, projectID);
 						pstmt.executeUpdate();						
 					}
 					//conn_to
-					query = "insert into conn_to(name,x,y) value (?,?,?)";
+					query = "insert into conn_to(name,x,y,project) value (?,?,?,?)";
 					pstmt = conn.prepareStatement(query);
 					for(int i = 0; i < toClassName.size(); i++){
 						pstmt.setString(1, toClassName.get(i));
 						pstmt.setInt(2, Integer.parseInt(toX.get(i)));
 						pstmt.setInt(3, Integer.parseInt(toY.get(i)));
+						pstmt.setInt(4, projectID);
 						pstmt.executeUpdate();						
 					}
 				}catch(Exception e){
@@ -1021,6 +1040,7 @@ public class windowServlet extends HttpServlet {
 				//프로젝트 ID, 이름
 				int projectID = 0;
 				String name = request.getParameter("name");
+				String member = request.getParameter("member");
 				
 				//가장 큰 번호를 프로젝트 고유 ID로 정한다
 				Connection conn = null;
@@ -1041,6 +1061,13 @@ public class windowServlet extends HttpServlet {
 					pstmt = conn.prepareStatement(query);
 					pstmt.setInt(1, projectID);
 					pstmt.setString(2, name);
+					pstmt.executeUpdate();
+					
+					//생성한 유저를 프로젝트 멤버로 입력
+					query = "insert into project_member(member,id) values(?,?)";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, member);
+					pstmt.setInt(2, projectID);
 					pstmt.executeUpdate();
 					
 					//생성된 프로젝트 ID를 리턴함
@@ -1078,9 +1105,12 @@ public class windowServlet extends HttpServlet {
 					pstmt.setString(1, id);
 					rs = pstmt.executeQuery();
 					while(rs.next()){
-						str += "<li value=" + rs.getInt("id") + " onclick='selectProject(this);'>";
+						//프로젝트 클릭했을 때 실행될 자바스크립트 함수 작성
+						str += "<div onclick=loadDB(" + rs.getInt("id") + ",'" + rs.getString("name") + "');>";
+						str += "<li>";
 						str += rs.getString("name");
 						str += "</li>";
+						str += "</div>";
 					}
 					//리턴 값이 없으면
 					if(str.equals("")){

@@ -1,24 +1,56 @@
 /**
- * 새로운 프로젝트를 생성한다
+ * 라디오 버튼이 선택됨에 따라 다른 페이지를 출력
  */
-function createProject(){
-	//페이스북으로 부터 로그인한 사용자 정보를 가져옴
+function tab(param){
+	var elem = param.value;
+	
+	if(elem == 'xml'){
+		document.getElementById('xml').style.display = 'block';
+		document.getElementById('list').style.display = 'none';
+	}
+	else{
+		document.getElementById('xml').style.display = 'none';
+		document.getElementById('list').style.display = 'block';
+	}
+}
+
+/**
+ * XML파일을 로드
+ */
+function loadXML(){
+	var loadText = document.getElementById('loadFilePath').value;
+
+	//.xml파일이 아니면 경고 메시지를 출력한다
+	if(loadText.substring(loadText.length-4, loadText.length) != '.xml'){
+		alert(".xml형식으로 입력하여야 합니다.");
+		return false;
+	}
+	
+	window.opener.loadXML(loadText);
+	window.close();
+}
+
+/**
+ * DB로드
+ */
+function loadDB(id, name){
+	window.opener.loadDB(id, name);
+	window.close();
+}
+
+
+/**
+ * 로그인 한 사용자가 참여하는 프로젝트의 목록을 보여준다
+ */
+function displayProject(){
 	fbEnsureInit(function(){
 		fbID = '';
 		FB.api('/me', function(response) {
 			fbID = response.id;
 			
 			if(fbID != null){
-				var projectName = document.getElementById("projectName").value;
-
-				//예외처리
-				if(projectName.replace(/^\s*/,'').replace(/\s*$/,'') == ''){
-					alert('프로젝트 이름을 입력해주세요');
-					return;
-				}
-				var param = "project=new"
-					+ "&name=" + projectName
-					+ "&member=" + fbID;
+				var param = "project=list"
+					+ "&id=" + fbID;
 				
 				var request = createRequest();
 
@@ -33,9 +65,7 @@ function createProject(){
 					request.onreadystatechange = function(){
 						if (request.readyState == 4) {
 							if (request.status == 200) {
-								//해당 팝업창을 닫는다
-								window.opener.initProject(request.responseText, projectName);
-								window.close();
+								document.getElementById("projectList").innerHTML = request.responseText;
 							}
 						}
 					};

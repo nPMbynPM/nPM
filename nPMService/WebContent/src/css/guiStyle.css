@@ -21,7 +21,19 @@
 #menu_inner .menu_hr {margin: 5px 0 5px 0; height: 1px; background: #CACACA; border: 0; width: 100%;}
 
 /* 우측 캔버스 레이아웃 */
-#canvas { width: 732px; height:615px; z-index: 1; left:0px; top:0px; opacity:1; display:block; }
+#notice {
+	float: left;
+	display: block;
+	position: absolute;
+	top: 13px;
+	font-size: 14px;
+	color: #444444;
+}
+#notice img {float: left;}
+#notice div {float: left; margin-top: 30px;}
+#notice div b {color:#002266;font-weight:bold;font-size: 15px;}
+
+#canvas { width: 732px; height:615px; z-index: 1; left:0px; top:0px; opacity:1; display:none; }
 #canvas {  -moz-user-select: none; -khtml-user-select: none; user-select: none; }
 #canvas .TM, #canvas .MM, #canvas .BM { width: 700px; }
 #canvas .ML, #canvas .MM, #canvas .MR { height: 575px; }
@@ -64,7 +76,7 @@
 #todoPopup .MM div.bottom { position:absolute; bottom: 20px; right: 30px; }
 
 #properties {  -moz-user-select: none; -khtml-user-select: none; user-select: none; }
-#properties { width: 225px; top:0px; left:740px; z-index:2; opacity:5; display:block; }
+#properties { width: 225px; top:0px; left:740px; z-index:2; opacity:5; display: none; }
 #properties .TM, #properties .MM, #properties .BM { width: 180px; }
 #properties .ML, #properties .MM, #properties .MR { height: 500px; }
 #properties .left { margin-top:3px; text-align:left; width: 100%; }
@@ -113,6 +125,7 @@
 #fontPopup .MM div .size { width: 50px; margin: 10px 5px 0 5px; }
 #fontPopup .MM div.bottom { position:absolute; bottom: 20px; right: 30px; }
 
+/* 윈도우 스타일 */
 .gui { opacity: 0; display: none; position: absolute; top: 0; left: 0; }
 .gui .TL { background: url('../../res/image/win_LT.png'); width: 16px; height: 26px; float: left; opacity:0.8; filter: alpha(opacity:'80'); }
 .gui .TM { background: url('../../res/image/win_MT.png'); cursor: move; width: 75px; height: 20px; float: left; text-align: left; padding-top: 6px; color: #444444; font-size: 11px; opacity:0.8; filter: alpha(opacity:'80');}
