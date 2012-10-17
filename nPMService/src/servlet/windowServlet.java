@@ -1018,19 +1018,15 @@ public class windowServlet extends HttpServlet {
 		else if(project != null){
 			//새로운 프로젝트 생성
 			if(project.equals("new")){
-				//프로젝트 참여 멤버
-				String member_ = request.getParameter("member");
-				ArrayList<String> member = new ArrayList<String>();
-				StringTokenizer token = new StringTokenizer(member_, ",");
-				while(token.hasMoreElements())	member.add(token.nextToken());
+				//프로젝트 ID, 이름
+				int projectID = 0;
+				String name = request.getParameter("name");
 				
 				//가장 큰 번호를 프로젝트 고유 ID로 정한다
 				Connection conn = null;
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
-				String query = "select max(id) from project_list";
-				
-				int projectID = 0;
+				String query = "select max(id) from project_list";				
 				
 				try{
 					conn = mysqlConn();
@@ -1044,17 +1040,16 @@ public class windowServlet extends HttpServlet {
 					query = "insert into project_list(id,name) values(?,?)";
 					pstmt = conn.prepareStatement(query);
 					pstmt.setInt(1, projectID);
-					pstmt.setString(2, request.getParameter("name"));
+					pstmt.setString(2, name);
 					pstmt.executeUpdate();
 					
-					//프로젝트 멤버 추가
-					query = "insert into project_member(member,id) values(?,?)";
-					pstmt = conn.prepareStatement(query);
-					for(int i = 0; i < member.size(); i++){
-						pstmt.setString(1, member.get(i));
-						pstmt.setInt(2, projectID);
-						pstmt.executeUpdate();
-					}
+					//생성된 프로젝트 ID를 리턴함
+					response.setContentType("text/xml");
+					response.setCharacterEncoding("UTF-8");
+					response.setHeader("Cache-Control", "no-cache"); 
+					PrintWriter out = response.getWriter();
+					out.println(projectID);	
+					
 				}catch(Exception e){
 					System.out.println(e.getMessage());
 				}finally{
@@ -1083,9 +1078,13 @@ public class windowServlet extends HttpServlet {
 					pstmt.setString(1, id);
 					rs = pstmt.executeQuery();
 					while(rs.next()){
-						str += "<li value=" + rs.getInt("id") + ">";
+						str += "<li value=" + rs.getInt("id") + " onclick='selectProject(this);'>";
 						str += rs.getString("name");
 						str += "</li>";
+					}
+					//리턴 값이 없으면
+					if(str.equals("")){
+						str += "<li>참여 중인 프로젝트가 없습니다</li>";
 					}
 					
 					response.setContentType("text/xml");

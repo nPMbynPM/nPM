@@ -36,6 +36,21 @@
 		<div id='npm_wrapper_left'>
 			<div id='menu_outer'>
 				<div id='menu_inner'>
+					<!-- 저장, 불러오기, 간트차트 -->
+					<div id='menu_stdio'>
+						<div id='save' class='stdio' onclick="window.open('new_project.html','window','location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=300,height=200,left=10, top=10, scrollbars=no');return false" title='새 프로젝트'>
+							<img src='../../../res/image/new.png' alt='새 프로젝트' />
+						</div>
+						<div id='load' class='stdio'
+							onclick="javascript:load_down('loadPopup');" title='불러오기'>
+							<img src='../../../res/image/load.png' alt='불러오기' />
+						</div>
+						<div id='save' class='stdio'
+							onclick="javascript:save_down('savePopup');" title='저장'>
+							<img src='../../../res/image/save.png' alt='저장' />
+						</div>
+					</div>
+					<hr class='menu_hr' />
 					<!-- 도구 -->
 					<div id='menu_tools'>
 						<div title='선택' id='tools_1'
@@ -50,6 +65,10 @@
 							onmouseup="javascript:tools_down('tools_3')" class='tools'>
 							<img src='../../../res/image/tools_3.png' alt='글꼴' />
 						</div>
+						<div title='삭제' id='tools_4'
+							onmouseup="javascript:tools_down('tools_4')" class='tools'>
+							<img src='../../../res/image/tools_4.png' alt='삭제' />
+						</div>
 					</div>
 					<hr class='menu_hr' />
 					<!-- 추가 -->
@@ -63,18 +82,6 @@
 							<img src='../../../res/image/adds_2.png' alt='할일추가' />
 						</div>
 					</div>
-					<hr class='menu_hr' />
-					<!-- 저장, 불러오기, 간트차트 -->
-					<div id='menu_stdio'>
-						<div id='save' class='stdio'
-							onclick="javascript:save_down('savePopup')" title='저장'>
-							<img src='../../../res/image/save.png' alt='저장' />
-						</div>
-						<div id='load' class='stdio'
-							onclick="javascript:load_down('loadPopup');" title='불러오기'>
-							<img src='../../../res/image/load.png' alt='불러오기' />
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -85,8 +92,7 @@
 				<div class='TL'></div>
 				<div class='TM' id='canvasTM'
 					onmousedown="javascript:window_down('canvas');">
-					<div class='center'>
-						<span>nPM</span>
+					<div id='projectName' class='center'>
 					</div>
 				</div>
 				<div class='TR'></div>

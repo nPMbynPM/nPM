@@ -1,3 +1,4 @@
+/* 전체 레이아웃 */
 #npm_wrapper {overflow: hidden; height: 1050px; width: 1680px; margin: 0; padding: 0; }
 
 #npm_wrapper img { border:0; }
@@ -7,24 +8,25 @@
 #npm_wrapper_left {position: relative; float: left; width: 150px; height: 800px; overflow: hidden;}
 #npm_wrapper_right {position: relative; float: left; width: 1530px; height: 1050px; overflow: auto;}
 
-#menu_outer {width: 140px; height: 500px; background: #A6B8C4; border-radius: 5px; border: 2px solid; border-color: #A6B8C4 #828282 #828282 #A6B8C4; margin: auto;}
-#menu_inner {width: 100px; height: 400px; margin: auto; padding: 20px 0 0 0;}
+/* 좌측 메뉴 레이아웃 */
+#menu_outer {width: 140px; background: #A6B8C4; border-radius: 5px; border: 2px solid; border-color: #A6B8C4 #828282 #828282 #A6B8C4; margin: auto;}
+#menu_inner {width: 100px; margin: auto; padding: 20px 0 20px 0;}
 
 #menu_inner #menu_tools {width: 100%; height: 100px;}
 #menu_inner #menu_adds {width: 100%; height: 100px;}
-#menu_inner #menu_stdio {width: 100%; height: 100px;}
+#menu_inner #menu_stdio {width: 100%; height: 150px;}
 #menu_inner .tools {display: block; margin: 4px; float:left; cursor: pointer; background: #FFFFFF; position: relative; border-radius: 5px; border: 1px solid; border-color: #CACACA #828282 #828282 #CACACA;}
 #menu_inner .adds {position: relative; float: left; display: block; cursor: pointer; margin: 4px 0; background: #FFFFFF; border-radius: 5px; border: 1px solid; border-color: #CACACA #828282 #828282 #CACACA;}
 #menu_inner .stdio {position: relative; float: left; display: block; cursor: pointer; margin: 4px 0; background: #FFFFFF; border-radius: 5px; border: 1px solid; border-color: #CACACA #828282 #828282 #CACACA;}
 #menu_inner .menu_hr {margin: 5px 0 5px 0; height: 1px; background: #CACACA; border: 0; width: 100%;}
 
+/* 우측 캔버스 레이아웃 */
 #canvas { width: 732px; height:615px; z-index: 1; left:0px; top:0px; opacity:1; display:block; }
 #canvas {  -moz-user-select: none; -khtml-user-select: none; user-select: none; }
 #canvas .TM, #canvas .MM, #canvas .BM { width: 700px; }
 #canvas .ML, #canvas .MM, #canvas .MR { height: 575px; }
 #canvas .MM canvas { position: absolute; }
-#canvas .center { margin-top: 3px; text-align: center; width: 100%; }
-#canvas .center span { font-size: 12px; width: 0; font-weight: bold; }
+#canvas .center { margin-top: 3px; text-align: center; width: 100%; font-size: 12px; font-weight: bold; }
 
 #ctx_canvas { background-color:#f8f8f8; width:700px; height:575px; }
 #bound { height: 575px; overflow: hidden; position: absolute; top: 29px; left: 16px; width: 700px; }

@@ -1,5 +1,3 @@
-window.onload = windowAddEvent;
-
 var TMDowned = false;
 var TMResize = false;
 var TMDownedTop = 0;
@@ -18,13 +16,12 @@ var personSelected = '';	//작업자의 이미지 경로
  * 윈도우 이벤트를 등록한다
  */
 function windowAddEvent(){
-	fbIsLogin();
 	window.addEventListener('mousemove', window_move, false);
 	window.addEventListener('mouseup', window_up, false);
 	//canvas에도 이벤트 등록
 	canvasAddEvent();
 	//DB에 정보가 있다면 불러온다
-	loadDB();
+	//loadDB();
 }
 
 /**
