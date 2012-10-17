@@ -21,7 +21,7 @@ There are a few different ways you can install pyechonest:
  
 
 ## Examples
-*All examples assume you have already setup your api key!*
+*All examples on nPM API*
 
 HTML5 Canvas drawing HTML:
 
@@ -51,7 +51,7 @@ Titaninum property:
 
     var goUserHome = function(site) {
     document.location.href = site;
-   };
+    };
 
 
 
