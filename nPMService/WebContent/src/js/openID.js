@@ -62,7 +62,7 @@ function fbGetUser() {
 			if(work != null){
 				fbWork = work[0].employer.name;
 			}
-			//정보가 오지 않으면 리턴
+			//정보가 오지 않으면 초기화
 			if(fbID == null){
 				document.getElementById('photo').src = "../../../res/image/person1.png";
 				document.getElementById('name').innerHTML = "";

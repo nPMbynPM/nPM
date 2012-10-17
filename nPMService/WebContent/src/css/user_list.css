@@ -2,7 +2,7 @@
 
 .wrapper {
 	margin: auto;
-	width: 260px;
+	width: 350px;
 	height: 350px;
 	color: #444444;
 	font-size: 13px;
@@ -39,6 +39,15 @@
 	float: left;
 	width: 20px;
 	text-align: center;
+}
+.name li .mid{
+	margin-left: 5px;
+	float: left;
+}
+.name li .mid .profile {
+	width: 40px;
+	height: 40px;
+	border: 1px solid #444444;
 }
 .name li .right {
 	margin-left : 5px;
