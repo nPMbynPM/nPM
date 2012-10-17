@@ -1,23 +1,59 @@
-nPM
-===
+# nPM
 
-nPM github page.
+nPM github page. [nPM](http://solar4.ssu.ac.kr:8080) service.
 
-nPMCore
-===
---프레임워크, DB, Web, Service, Mobile, Security 
+nPM is an open source project management system. methods including:
 
-nPMService
-===
---일정관리, 마인드맵, 간트차트, 
+  * **nPMCore** - Framework, Database, Web, Service, Mobile, Security.
+  * **nPMService** - Project Management, Gantt Chart, Mind Map
+  * **nPMMobile** - Create iOS, Android, hybrid, and mobile web apps from The Titanium.
+  * **nPMWeb** - nPM web page, Open ID (Facebook)
+  * **nPMDesign** - nPM Web, Mobile icon and photo.
 
-nPMMobile
-===
---모바일(아이폰, 안드로이드, 테블릿)
+## Install
+There are a few different ways you can install nPM:
 
-nPMWeb
-===
---웹페이지
+* Download the zipfile from the [downloads](http://npmbynpm.github.com/nPM) page and install it. 
+* Checkout the source: "git clone https://github.com/nPMbynPM/nPM.git" and install it yourself.
+   
+## Getting Started
+ * Install nPM
+ 
+
+## Examples
+*All examples on nPM API*
+
+HTML5 Canvas drawing HTML:
+
+    <canvas id="canvasId" width="800" height="600"></canvas>
+    var context = document.getElementById("canvasId").getContext("2d");
+
+HTML5 Canvas drawing JS:
+
+    var context = document.getElementById("canvasId").getContext("2d");
+    // Draw a path
+    context.beginPath();
+    context.moveTo(padding + width/2, padding);        // Top Corner
+    context.lineTo(padding + width, height + padding); // Bottom Right
+    context.lineTo(padding, height + padding);         // Bottom Left
+    context.closePath();
+
+    // Fill the path
+    context.fillStyle = "#ffc821";
+    context.fill();
+
+Database Connection:
+
+    mysql jdbc: "org.gjt.mm.mysql.Driver"; 
+    oracle jdbc: "oracle.jdbc.driver.OracleDriver";
+
+Titaninum property:
+
+    var goUserHome = function(site) {
+    document.location.href = site;
+    };
 
 
 
+
+![alt text](http://2.bp.blogspot.com/-c4Wzf-Ff4c8/T3ENzYRc6EI/AAAAAAAABPQ/gHO9Bw09Q-s/s1600/Alyssa-Cartwheel.gif "funny nPM")
