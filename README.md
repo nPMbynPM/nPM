@@ -55,5 +55,5 @@ Titaninum property:
 
 
 
-![alt text](http://i.imgur.com/WWLYo.gif "Frustrated cat can't believe this is the 12th time he's clicked on an auto-linked README.md URL")
+![alt text](http://2.bp.blogspot.com/-c4Wzf-Ff4c8/T3ENzYRc6EI/AAAAAAAABPQ/gHO9Bw09Q-s/s1600/Alyssa-Cartwheel.gif "funny nPM")
 
