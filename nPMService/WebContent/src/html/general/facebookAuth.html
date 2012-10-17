@@ -1,0 +1,41 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>fb test</title>
+<script src="../../js/openID.js"></script>
+</head>
+<body>
+<div></div>
+
+<!-- 반드시 첨부되어야 하는 태그 -->
+<div id="fb-root"></div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+window.fbAsyncInit = function() {
+ FB.init({
+   appId  : '494219040596723',
+   status : true, // check login status
+   cookie : true, // enable cookies to allow the server to access the session
+   xfbml  : true  // parse XFBML
+ });
+ FB.getLoginStatus(function(response) {
+		flag = true;
+		fbGetUser();
+	});
+}
+</script>
+<!-- 반드시 첨부되어야 하는 태그 -->
+
+
+
+<input id='fb_login_button' type='button' value='로그인' onclick='fbLogin()'/>
+<input type='button' value='정보 불러오기' onclick='fbGetUser()'/>
+<input type='button' value='로그인 여부' onclick='fbIsLogin()'/>
+<div id='name'></div>
+<div id='birth'></div>
+<div id='email'></div>
+<div id='work'></div>
+<img id='photo' src=""/>
+</body>
+</html>
+ 
