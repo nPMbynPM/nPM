@@ -123,6 +123,15 @@ function displayProject(){
 }
 
 /**
+ * 프로젝트를 선택함
+ * @param param
+ */
+function selectProject(param){
+//	alert(param.value);
+//	alert(param.firstChild.nodeValue);
+}
+
+/**
  * 비동기 요청을 위한 요청 객체를 생성
  */
 function createRequest() {

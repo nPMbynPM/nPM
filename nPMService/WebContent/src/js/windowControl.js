@@ -1,5 +1,3 @@
-window.onload = windowAddEvent;
-
 var TMDowned = false;
 var TMResize = false;
 var TMDownedTop = 0;
@@ -18,13 +16,12 @@ var personSelected = '';	//작업자의 이미지 경로
  * 윈도우 이벤트를 등록한다
  */
 function windowAddEvent(){
-	fbIsLogin();
 	window.addEventListener('mousemove', window_move, false);
 	window.addEventListener('mouseup', window_up, false);
 	//canvas에도 이벤트 등록
 	canvasAddEvent();
 	//DB에 정보가 있다면 불러온다
-	loadDB();
+	//loadDB();
 }
 
 /**
@@ -123,8 +120,10 @@ function window_up(ev){
  * 도구가 선택 되었을 때의 배경색 변경
  */
 function tools_down(param){
+	var elem = getElementsByName_iefix('div', 'tools_name');
+	
 	//모든 도구의 배경색을 초기화한다
-	for(var i = 1; i < 4; i++){
+	for(var i = 1; i < elem.length + 1; i++){
 		var tools = 'tools_' + i;
 		document.getElementById(tools).style.background = '#FFFFFF';
 	}	
@@ -138,7 +137,7 @@ function tools_down(param){
  * 추가리스트가 선택 되었을 때의 이벤트
  */
 function adds_down(param){
-	var url = "url('../../../res/cursor/" + param + ".png'), pointer";
+	var url = "url('../../../res/cursor/" + param + ".gif'),url('../../../res/cursor/" + param + ".cur'),pointer";
 	var canvasId = document.getElementById('bound');
 	//마우스 커서 모양을 변경한다
 	canvasId.style.cursor = url;
@@ -286,4 +285,24 @@ function modify_down(){
 		return false;
 	}
 	drawAll();
+}
+
+/**
+ * IE에서 getElementsByName 효과를 내는 함수
+ * @param tag
+ * @param name
+ * @returns {Array}
+ */
+function getElementsByName_iefix(tag, name) {
+    
+    var elem = document.getElementsByTagName(tag);
+    var arr = new Array();
+    for(i = 0,iarr = 0; i < elem.length; i++) {
+         att = elem[i].getAttribute("name");
+         if(att == name) {
+              arr[iarr] = elem[i];
+              iarr++;
+         }
+    }
+    return arr;
 }

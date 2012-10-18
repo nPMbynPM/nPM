@@ -1,0 +1,79 @@
+/* 프로젝트 불러오기 */
+
+.wrapper {
+	width: 350px;
+	margin: auto;
+	border: 1px solid #cacaca;
+	border-radius: 10px;
+	font-size: 13px;
+	color: #444444;
+	text-align: center;
+}
+
+.radio {
+	height: 30px;
+	border-bottom: 1px solid #cacaca;
+}
+
+.title{
+	margin: 10px 0 10px 0;
+	font-weight: bold;
+}
+
+.content{
+	margin: 30px;
+}
+
+.bottom{
+	margin: 20px 0 0 0;
+	text-align: center;
+}
+
+.inputText{
+	width: 90%;
+	margin: 0 0 10px 0;
+	padding: 5px;
+}
+
+#xml {
+	display: none;
+}
+
+/* 버튼 */
+
+.button {
+	border-left: 1px solid #828282;
+	border-top: 1px solid #828282;
+	border-right: 2px solid #444444;
+	border-bottom: 2px solid #444444;
+	width: 90px;
+	background: #f8f8f8;
+	color: #444444;
+	cursor: pointer;
+}
+
+/* 리스트 스타일 */
+.list{
+	margin-top: 5px;
+	display: block;
+}
+
+.projectList{
+	border: 1px solid #cacaca;
+	border-radius: 5px;
+	text-align: left;
+	display: block;
+	height: 300px;
+	overflow: auto;	
+}
+
+.projectList li {
+	list-style: none;
+	border-bottom: 1px solid #828282;
+	padding: 10px 0 10px 10px;
+	cursor: pointer;
+}
+
+.projectList li:hover{
+	background-color: #f0f0f0;
+}

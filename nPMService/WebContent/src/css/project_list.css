@@ -36,9 +36,9 @@ hr {
 
 .list li {
 	list-style: none;
-	width: 100%;
 	border-bottom: 1px solid #828282;
-	padding: 20px 0 20px 0;
+	padding: 20px 0 20px 10px;
+	cursor: pointer;
 }
 
 .list li:hover{
