@@ -71,8 +71,9 @@ public class windowServlet extends HttpServlet {
 
 		//nPM DB로드
 		if(loadDB != null){
-			//프로젝트 ID
+			//프로젝트 ID, name
 			int projectID = Integer.parseInt(request.getParameter("project"));
+			String projectName = "";
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
@@ -107,8 +108,20 @@ public class windowServlet extends HttpServlet {
 			try{				
 				conn = mysqlConn();
 				
+				//projectName
+				String query = "select name from project_list where id=?";
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, projectID);
+				rs = pstmt.executeQuery();
+				xmlStr += "<Name>";
+				if(rs.next()){
+					projectName = rs.getString("name");
+					xmlStr += projectName;
+				}
+				xmlStr += "</Name>";
+				
 				//person
-				String query = "select * from person where project=?";
+				query = "select * from person where project=?";
 				pstmt = conn.prepareStatement(query);
 				pstmt.setInt(1, projectID);
 				rs = pstmt.executeQuery();
@@ -1106,7 +1119,7 @@ public class windowServlet extends HttpServlet {
 					rs = pstmt.executeQuery();
 					while(rs.next()){
 						//프로젝트 클릭했을 때 실행될 자바스크립트 함수 작성
-						str += "<div onclick=loadDB(" + rs.getInt("id") + ",'" + rs.getString("name") + "');>";
+						str += "<div onclick=loadDB(" + rs.getInt("id") + ");>";
 						str += "<li>";
 						str += rs.getString("name");
 						str += "</li>";

@@ -33,8 +33,10 @@ function createProject(){
 					request.onreadystatechange = function(){
 						if (request.readyState == 4) {
 							if (request.status == 200) {
+								var projID = request.responseText.replace(/\s/g,'');
+								window.opener.clearAll();
+								window.opener.initProject(projID, projectName);
 								//해당 팝업창을 닫는다
-								window.opener.initProject(request.responseText, projectName);
 								window.close();
 							}
 						}

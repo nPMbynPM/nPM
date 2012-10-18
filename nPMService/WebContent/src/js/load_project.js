@@ -33,8 +33,8 @@ function loadXML(){
 /**
  * DB로드
  */
-function loadDB(id, name){
-	window.opener.loadDB(id, name);
+function loadDB(id){
+	window.opener.loadDB(id);
 	window.close();
 }
 
