@@ -218,8 +218,7 @@ function saveAsDB(){
 		personX.push(personArray[i].x);
 		personY.push(personArray[i].y);
 		var imgSrc = personArray[i].img.src;
-//		console.log('../../../' + imgSrc.substring(imgSrc.length-21, imgSrc.length));
-		personImgSrc.push('../../../' + imgSrc.substring(imgSrc.length-21, imgSrc.length));
+		personImgSrc.push(imgSrc);
 		personName.push(personArray[i].name);
 		personFont.push(personArray[i].font);
 	}
@@ -367,6 +366,7 @@ function xmlParsing(response){
 		var name = personId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
 		var font = personId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
 
+		//작업자 배열에 정보를 넣는다
 		var tmpClass = new personClass(Number(x), Number(y), String(name));
 		tmpClass.img.src = imgSrc;
 		tmpClass.font = font;

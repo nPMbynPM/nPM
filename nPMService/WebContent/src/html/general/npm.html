@@ -96,24 +96,24 @@
 				</div>
 			</div>
 			<!-- 캔버스 -->
-			<div id='canvas' class='gui'>
+			<div id='canvas' class='gui' style='width: 1056px; height:846px; '>
 				<div class='TL'></div>
-				<div class='TM' id='canvasTM'
+				<div class='TM' style='width: 1024px;' id='canvasTM'
 					onmousedown="javascript:window_down('canvas');">
 					<div id='projectName' class='center'>
 					</div>
 				</div>
 				<div class='TR'></div>
-				<div class='ML' id='canvasML'></div>
-				<div class='MM' id='canvasMM'>
-					<div id='bound'>
-						<canvas id='ctx_canvas' width=700 height=575>이 브라우저는
+				<div class='ML' style='height:800px;' id='canvasML'></div>
+				<div class='MM' style='width: 1024px;height:800px' id='canvasMM'>
+					<div id='bound' style='width:1024px;height:800px;'>
+						<canvas id='ctx_canvas'>이 브라우저는
 						HTML5 canvas 기능을 지원하지 않습니다.</canvas>
 					</div>
 				</div>
-				<div class='MR' id='canvasMR'></div>
+				<div class='MR' style='height:800px;' id='canvasMR'></div>
 				<div class='BL'></div>
-				<div class='BM' id='canvasBM'></div>
+				<div class='BM' style='width: 1024px;' id='canvasBM'></div>
 				<div class='BR' onmousedown="javascript:canvas_resize();"></div>
 			</div>
 			<!-- 작업자 추가 팝업창 -->
@@ -129,35 +129,14 @@
 				<div class='ML'></div>
 				<div class='MM'>
 					<div class='hr'></div>
-					<div class='title'>
-						<span>이름</span>
+					<div class='memberFind'>
+						<input type='button' class='button' value='멤버찾기' onclick="window.open('user_list.html','window','location=no, directories=no,resizable=no,status=no,toolbar=no,menubar=no, width=400,height=350,left=10, top=10, scrollbars=no');return false;"/>
 					</div>
-					<div class='content'>
-						<input title='이름은 10글자 내로 작성해주세요' id='personName' type='text'
-							maxlength='10' placeholder='작업자의 이름을 입력해주세요' />
-					</div>
-					<div class='title'>
-						<span>이미지 선택</span>
-					</div>
-					<div>
-						<img id='person1' src='../../../res/image/person1.png'
-							onclick="javascript:person_down('person1');" /> <img
-							id='person2' src='../../../res/image/person2.png'
-							onclick="javascript:person_down('person2');" /> <img
-							id='person3' src='../../../res/image/person3.png'
-							onclick="javascript:person_down('person3');" /> <img
-							id='person4' src='../../../res/image/person4.png'
-							onclick="javascript:person_down('person4');" />
-					</div>
-					<div>
-						<img id='person5' src='../../../res/image/person5.png'
-							onclick="javascript:person_down('person5');" /> <img
-							id='person6' src='../../../res/image/person6.png'
-							onclick="javascript:person_down('person6');" />
-							<img id='person7' src='../../../res/image/person7.png'
-							onclick="javascript:person_down('person7');" />
-							<img id='person8' src='../../../res/image/person8.png'
-							onclick="javascript:person_down('person8');" />
+					<div class='profile'>
+						<div class='content'>
+								<img id='memberImg' src='../../../res/image/person8.png'/>
+								<div id='memberInfo' class='memberInfo'>멤버를 선택해주세요</div>
+						</div>
 					</div>
 					<div class='bottom'>
 						<input type='button' class='button' value='확인'
@@ -407,10 +386,10 @@
 			</div>
 			<!-- 이미지 로드 -->
 			<img src='../../../res/cursor/adds_1.png'
-				style="top: -1000px; left: -1000px; display: none;" /> <img
-				src='../../../res/cursor/adds_2.png'
-				style="top: -1000px; left: -1000px; display: none;" /> <img
-				src='../../../res/image/todo.png'
+				style="top: -1000px; left: -1000px; display: none;" />
+			<img src='../../../res/cursor/adds_2.png'
+				style="top: -1000px; left: -1000px; display: none;" />
+			<img src='../../../res/image/todo.png'
 				style="top: -1000px; left: -1000px; display: none;" />
 		</div>
 	</div>
