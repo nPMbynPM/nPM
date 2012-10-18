@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-type"
+	content="application/x-www-form-urlencoded; charset=UTF-8" />
+<title>프로젝트 불러오기</title>
+<!-- 스타일 -->
+<link rel='stylesheet' type='text/css' href='../../css/load_project.css'>
+<!-- 자바스크립트 -->
+<script src="../../js/openID.js"></script>
+<script src="../../js/load_project.js"></script>
+</head>
+<body onload='displayProject();'>
+<!-- 페이스북 관련 -->
+<div id="fb-root"></div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId : '494219040596723',
+			status : true, // check login status
+			cookie : true, // enable cookies to allow the server to access the session
+			xfbml : true
+		// parse XFBML
+		});
+		FB.getLoginStatus(function(response) {
+				flag = true;
+				fbIsLogin();
+		});
+	}
+</script>
+<!-- 레이아웃 -->
+<div class='wrapper'>
+	<div class='content'>
+		<!-- 불러오기 선택 -->
+		<div class='radio'>
+			<input type='radio' name='load' value='list' checked onclick='tab(this);'/>프로젝트 목록&nbsp;&nbsp;
+			<input type='radio' name='load' value='xml' onclick='tab(this);'/>XML 파일
+		</div>
+		<!-- 프로젝트 목록 -->
+		<div id='list' class='list'>
+			<div id='projectList' class='projectList'>
+				
+			</div>
+			<!-- 확인, 취소 -->
+			<div class='bottom'>
+				<input class='button' type='button' onclick='window.close();' value='취소'/>
+			</div>
+		</div>
+		<!-- xml 파일 -->
+		<div id='xml'>
+			<div class='title'>파일 불러오기</div>
+			<input class='inputText' id='loadFilePath' type='text' value=''/>
+			<!-- 확인, 취소 -->
+			<div class='bottom'>
+				<input class='button' type='button' onclick='loadXML();' value='확인'/>
+				<input class='button' type='button' onclick='window.close();' value='취소'/>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

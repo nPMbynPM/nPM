@@ -188,7 +188,7 @@ function saveAsXML(){
 }
 
 /**
- * 현재의 상태를 DB 테이블에 저장하기 위해 비동기 요청
+ * 현재의 프로젝트를 DB 테이블에 저장하기 위해 비동기 요청
  */
 function saveAsDB(){
 	//작업자 정보
@@ -246,7 +246,7 @@ function saveAsDB(){
 	var param = "savedb=all"+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
 	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
-	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished;
+	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished+"&project="+projectID;
 
 	var saveRequest = createRequest();
 	
@@ -276,15 +276,7 @@ function saveAsDB(){
 /**
  * XML 파일로 부터 정보를 가져온다
  */
-function loadXML(){
-	var loadText = document.getElementById('loadFilePath').value;
-
-	//.xml파일이 아니면 경고 메시지를 출력한다
-	if(loadText.substring(loadText.length-4, loadText.length) != '.xml'){
-		alert(".xml형식으로 입력하여야 합니다.");
-		return false;
-	}
-
+function loadXML(loadText){
 	//Ajax를 이용한 xml파일 비동기 요청
 	var param = "loadtext="+loadText;
 
@@ -307,8 +299,8 @@ function loadXML(){
 						return false;
 					}
 					else{
+						initProject(-1, '^^');
 						xmlParsing(responseDoc);
-						document.getElementById('loadPopup').style.display = 'none';
 						drawAll();
 					}
 				}
@@ -321,8 +313,9 @@ function loadXML(){
 /**
  * DB 정보 로드
  */
-function loadDB(){
-	var param = "loaddb=all";
+function loadDB(id){
+	var param = "loaddb=all"
+		+ "&project=" + id;
 	
 	var request = createRequest();
 
@@ -337,9 +330,10 @@ function loadDB(){
 		request.onreadystatechange = function(){
 			if (request.readyState == 4) {
 				if (request.status == 200) {
-//					alert(request.responseText);
+					//프로젝트 초기화
 					var xml = request.responseXML;
-					xmlParsing(xml);
+					var name = xmlParsing(xml);
+					initProject(id, name);
 					drawAll();
 				}
 			}
@@ -350,15 +344,18 @@ function loadDB(){
 
 /**
  * load 된 정보를 파싱하여 배열에 삽입한다
+ * return projectName;
  */
 function xmlParsing(response){
-	personArray = new Array();	//작업자 배열
-	todoArray = new Array();	//할일 배열
-	connArray = new Array();	//작업자-할일 연결정보 배열
+	clearAll();
 	
 	var person = response.getElementsByTagName("Resources");
 	var todo = response.getElementsByTagName("Tasks");
 	var conn = response.getElementsByTagName("conn");
+	var name = response.getElementsByTagName("Name");
+	
+	//프로젝트 이름 정보 파싱
+	var projName = name[0].firstChild.nodeValue;
 	
 	//작업자 정보를 파싱한다
 	var personId = person[0].getElementsByTagName("Resource");
@@ -439,6 +436,8 @@ function xmlParsing(response){
 		
 		connArray.push(tmpConn);
 	}
+	
+	return projName;
 }
 
 /**
