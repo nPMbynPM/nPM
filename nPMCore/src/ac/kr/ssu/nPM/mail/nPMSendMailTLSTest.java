@@ -14,7 +14,7 @@ public class nPMSendMailTLSTest {
 	public static void main(String[] args) {
  
 		final String username = "test@gmail.com";
-		final String password = "*****";
+		final String password = "*******";
  
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -32,8 +32,8 @@ public class nPMSendMailTLSTest {
 		try {
  
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("doubletaken@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("doubletaken@gmail.com"));
+			message.setFrom(new InternetAddress("from@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("to@gmail.com"));
 			message.setSubject("Testing Subject");
 			message.setText("Added nPM Project..!");
  
