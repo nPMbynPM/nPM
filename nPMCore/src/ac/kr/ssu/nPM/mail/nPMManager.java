@@ -8,7 +8,7 @@ public interface nPMManager {
 	
 	public static final String NAME = "DAEWOONG JO";
 	public static final String ID = "doubletaken@gmail.com";
-	public static final String PASSWORD = "serious23";
+	public static final String PASSWORD = "xxxxxxx";
 	public static final String EMAIL = "doubletaken@gmail.com";
 	
 	public static final String SUBJECT = "[nPM]_Added Project";
