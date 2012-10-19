@@ -10,19 +10,21 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
  
+/**
+ * @author Complete
+ *
+ */
 public class nPMSendMailTLSTest {
 	
 	public static void main(String[] args) {
  
-		final String username = "test@gmail.com";
-		final String password = "xxxxx";
- 
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
- 
+		final String username = nPMManager.ID;
+		final String password = nPMManager.PASSWORD;
+
+		//call property
+		Properties props = new nPMProperty().getProperties();	
+		
+		//session connection
 		Session session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -33,14 +35,14 @@ public class nPMSendMailTLSTest {
 		try {
  
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("doubletaken@gmail.com"));
+			message.setFrom(new InternetAddress(nPMManager.EMAIL));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("doubletaken@gmail.com"));
-			message.setSubject("Testing Subject");
-			message.setText("Added nPM Project..!");
+			message.setSubject(nPMManager.SUBJECT);
+			message.setText(nPMManager.TEXT);
  
 			Transport.send(message);
  
-			System.out.println("Done");
+			System.out.println("Completed..");
  
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
