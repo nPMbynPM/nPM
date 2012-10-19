@@ -107,6 +107,7 @@ function saveAsXML(){
 	}
 
 	//작업자 정보
+	var personID = new Array();
 	var personX = new Array();
 	var personY = new Array();
 	var personImgSrc = new Array();
@@ -130,10 +131,11 @@ function saveAsXML(){
 	var toY = new Array();
 
 	for(var i = 0; i < personArray.length; i++){
+		personID.push(personArray[i].id);
 		personX.push(personArray[i].x);
 		personY.push(personArray[i].y);
 		var imgSrc = personArray[i].img.src;
-		personImgSrc.push('../../../' + imgSrc.substring(imgSrc.length-21, imgSrc.length));
+		personImgSrc.push(imgSrc);
 		personName.push(personArray[i].name);
 		personFont.push(personArray[i].font);
 	}
@@ -157,10 +159,10 @@ function saveAsXML(){
 	}
 	
 	//Ajax를 이용한 비동기 요청
-	var param = "savetext="+saveText+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
+	var param = "savetext="+saveText+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
 	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
-	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished;
+	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished+"&project="+projectID;
 
 	var saveRequest = createRequest();
 	
@@ -192,6 +194,7 @@ function saveAsXML(){
  */
 function saveAsDB(){
 	//작업자 정보
+	var personID = new Array();
 	var personX = new Array();
 	var personY = new Array();
 	var personImgSrc = new Array();
@@ -215,6 +218,7 @@ function saveAsDB(){
 	var toY = new Array();
 
 	for(var i = 0; i < personArray.length; i++){
+		personID.push(personArray[i].id);
 		personX.push(personArray[i].x);
 		personY.push(personArray[i].y);
 		var imgSrc = personArray[i].img.src;
@@ -242,7 +246,7 @@ function saveAsDB(){
 	}
 	
 	//Ajax를 이용한 비동기 요청
-	var param = "savedb=all"+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
+	var param = "savedb=all"+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
 	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
 	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished+"&project="+projectID;
@@ -360,6 +364,7 @@ function xmlParsing(response){
 	var personId = person[0].getElementsByTagName("Resource");
 
 	for(var i = 0; i < personId.length; i++){
+		var id = personId[i].getElementsByTagName("id")[0].firstChild.nodeValue;
 		var x = personId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
 		var y = personId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
 		var imgSrc = personId[i].getElementsByTagName("imgSrc")[0].firstChild.nodeValue;
@@ -370,6 +375,7 @@ function xmlParsing(response){
 		var tmpClass = new personClass(Number(x), Number(y), String(name));
 		tmpClass.img.src = imgSrc;
 		tmpClass.font = font;
+		tmpClass.id = id;
 		personArray.push(tmpClass);
 	}
 	

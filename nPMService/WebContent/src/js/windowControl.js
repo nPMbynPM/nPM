@@ -50,8 +50,6 @@ function windowRemoveEvent(){
  */
 function window_down(param){
 	TMDownedId = document.getElementById(param);
-	prevX = window.event.x;
-	prevY = window.event.y;
 	TMDownedTop = document.getElementById(param).offsetTop;
 	TMDownedLeft = document.getElementById(param).offsetLeft;
 	TMDowned = true;
