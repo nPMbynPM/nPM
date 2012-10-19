@@ -1,4 +1,4 @@
-package ac.kr.ssu.nPM.Mail;
+package ac.kr.ssu.nPM.mail;
 import java.util.Properties;
  
 import javax.mail.Message;
