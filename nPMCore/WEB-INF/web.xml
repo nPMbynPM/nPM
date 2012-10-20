@@ -10,7 +10,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>nPMMailPush</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/nPMMailPush</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
