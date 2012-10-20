@@ -53,7 +53,13 @@ Titaninum property:
     document.location.href = site;
     };
 
+Mail push service:
 
+    using post method
+    parameter name is "mailAddress"
+    
+    //For example
+    http://solar4.ssu.ac.kr:8080?mailAddress=test@gmail.com    
 
 
 ![alt text](http://2.bp.blogspot.com/-c4Wzf-Ff4c8/T3ENzYRc6EI/AAAAAAAABPQ/gHO9Bw09Q-s/s1600/Alyssa-Cartwheel.gif "funny nPM")
