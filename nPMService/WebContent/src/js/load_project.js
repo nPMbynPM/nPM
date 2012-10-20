@@ -34,7 +34,7 @@ function loadXML(){
  * DB로드
  */
 function loadDB(id){
-	window.opener.loadDB(id);
+	window.opener.loadDB(Number(id));
 	window.close();
 }
 

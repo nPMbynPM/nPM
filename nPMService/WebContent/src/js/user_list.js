@@ -1,4 +1,4 @@
-//유저 정보를 담기위한 배열
+//유저 정보를 담기위한 변수
 var idArr = new Array();
 var nameArr = new Array();
 var emailArr = new Array();
@@ -79,15 +79,19 @@ function displayUserList(){
 }
 
 /**
- * 선택한 유저를 목록으로 내보낸다
+ * 선택한 유저의 정보를 내보낸다
  */
 function selectUser(){
 	var radioObj = document.getElementsByName('user');
 	
 	for(var i = 0; i < radioObj.length; i++){
 		if(radioObj[i].checked){
-			window.opener.addList(radioObj[i].id, radioObj[i].value);
-			window.close();
+			for(var j = 0; j < idArr.length; j++){
+				if(radioObj[i].id == idArr[j]){
+					window.opener.personInfo(idArr[j], nameArr[j], emailArr[j], photoArr[j]);
+					window.close();					
+				}
+			}
 		}
 	}
 }

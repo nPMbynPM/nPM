@@ -80,6 +80,7 @@ public class windowServlet extends HttpServlet {
 			ResultSet rs = null;
 			
 			//person
+			String personID = "";
 			int personX = 0;
 			int personY = 0;
 			String personName = "";
@@ -127,6 +128,7 @@ public class windowServlet extends HttpServlet {
 				rs = pstmt.executeQuery();
 				xmlStr += "<Resources>";
 				while(rs.next()){
+					personID = rs.getString("id");
 					personX = rs.getInt("x");
 					personY = rs.getInt("y");
 					personName = rs.getString("name");
@@ -134,6 +136,7 @@ public class windowServlet extends HttpServlet {
 					personFont = rs.getString("font");
 					
 					xmlStr += "<Resource>"
+							+ "<id>" + personID + "</id>"
 							+ "<x>" + personX + "</x>"
 							+ "<y>" + personY + "</y>"
 							+ "<imgSrc>" + personImg + "</imgSrc>"
@@ -232,9 +235,13 @@ public class windowServlet extends HttpServlet {
 		//saveText가 null이 아니면 저장
 		else if(saveText != null && loadText == null){
 			System.out.println("save file name : " + saveText);
+			
+			//projectID
+			String projectID = request.getParameter("project");
 
 			//String
 			//작업자
+			String personID_ = request.getParameter("personID");
 			String personX_ = request.getParameter("personX");
 			String personY_ = request.getParameter("personY");
 			String personImgSrc_ = request.getParameter("personImgSrc");
@@ -259,6 +266,7 @@ public class windowServlet extends HttpServlet {
 
 			//ArrayList
 			//작업자
+			ArrayList<String> personID = new ArrayList<String>();
 			ArrayList<String> personX = new ArrayList<String>();
 			ArrayList<String> personY = new ArrayList<String>();
 			ArrayList<String> personImgSrc = new ArrayList<String>();
@@ -281,7 +289,9 @@ public class windowServlet extends HttpServlet {
 			ArrayList<String> toX = new ArrayList<String>();
 			ArrayList<String> toY = new ArrayList<String>();
 
-			StringTokenizer token = new StringTokenizer(personX_, ",");
+			StringTokenizer token = new StringTokenizer(personID_, ",");
+			while(token.hasMoreElements())	personID.add(token.nextToken());
+			token = new StringTokenizer(personX_, ",");
 			while(token.hasMoreElements())	personX.add(token.nextToken());
 			token = new StringTokenizer(personY_, ",");
 			while(token.hasMoreElements())	personY.add(token.nextToken());
@@ -330,35 +340,44 @@ public class windowServlet extends HttpServlet {
 				Document doc = docBuilder.newDocument();
 				Element data = doc.createElement("Project");
 				doc.appendChild(data);
+				
+				//project name
+				Element projName = doc.createElement("Name");
+				data.appendChild(projName);
+				projName.appendChild(doc.createTextNode(projectID));
 
-				// person
+				// Resources
 				Element person = doc.createElement("Resources");
 				data.appendChild(person);
-				// person의 child
+				// Resources의 child
 				for(int i = 0; i < personX.size(); i++){
+					// Resource
+					Element resource = doc.createElement("Resource");
+					person.appendChild(resource);
 					// id
-					Element id = doc.createElement("Resource");
-					person.appendChild(id);
+					Element id = doc.createElement("id");
+					id.appendChild(doc.createTextNode(personID.get(i)));
+					resource.appendChild(id);
 					// x
 					Element x = doc.createElement("x");
 					x.appendChild(doc.createTextNode(personX.get(i)));
-					id.appendChild(x);
+					resource.appendChild(x);
 					// y
 					Element y = doc.createElement("y");
 					y.appendChild(doc.createTextNode(personY.get(i)));
-					id.appendChild(y);
+					resource.appendChild(y);
 					// imgSrc
 					Element imgSrc = doc.createElement("imgSrc");
 					imgSrc.appendChild(doc.createTextNode(personImgSrc.get(i)));
-					id.appendChild(imgSrc);
+					resource.appendChild(imgSrc);
 					// name
 					Element name = doc.createElement("Name");
 					name.appendChild(doc.createTextNode(personName.get(i)));
-					id.appendChild(name);
+					resource.appendChild(name);
 					// font
 					Element font = doc.createElement("font");
 					font.appendChild(doc.createTextNode(personFont.get(i)));
-					id.appendChild(font);
+					resource.appendChild(font);
 				}
 
 				// todo
@@ -789,6 +808,7 @@ public class windowServlet extends HttpServlet {
 				//관련 변수
 				//String
 				//작업자
+				String personID_ = request.getParameter("personID");
 				String personX_ = request.getParameter("personX");
 				String personY_ = request.getParameter("personY");
 				String personImgSrc_ = request.getParameter("personImgSrc");
@@ -813,6 +833,7 @@ public class windowServlet extends HttpServlet {
 
 				//ArrayList
 				//작업자
+				ArrayList<String> personID = new ArrayList<String>();
 				ArrayList<String> personX = new ArrayList<String>();
 				ArrayList<String> personY = new ArrayList<String>();
 				ArrayList<String> personImgSrc = new ArrayList<String>();
@@ -835,7 +856,9 @@ public class windowServlet extends HttpServlet {
 				ArrayList<String> toX = new ArrayList<String>();
 				ArrayList<String> toY = new ArrayList<String>();
 
-				StringTokenizer token = new StringTokenizer(personX_, ",");
+				StringTokenizer token = new StringTokenizer(personID_, ",");
+				while(token.hasMoreElements())	personID.add(token.nextToken());
+				token = new StringTokenizer(personX_, ",");
 				while(token.hasMoreElements())	personX.add(token.nextToken());
 				token = new StringTokenizer(personY_, ",");
 				while(token.hasMoreElements())	personY.add(token.nextToken());
@@ -895,7 +918,7 @@ public class windowServlet extends HttpServlet {
 					pstmt.executeUpdate();
 					//테이블에 새롭게 갱신될 내용을 삽입한다
 					//person
-					query = "insert into person(x,y,name,img,font,project) value (?,?,?,?,?,?)";
+					query = "insert into person(x,y,name,img,font,project,id) value (?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query);
 					for(int i = 0; i < personX.size(); i++){
 						pstmt.setInt(1, Integer.parseInt(personX.get(i)));
@@ -904,6 +927,7 @@ public class windowServlet extends HttpServlet {
 						pstmt.setString(4, personImgSrc.get(i));
 						pstmt.setString(5, personFont.get(i));
 						pstmt.setInt(6, projectID);
+						pstmt.setString(7, personID.get(i));
 						pstmt.executeUpdate();						
 					}
 					//todo
