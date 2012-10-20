@@ -28,7 +28,7 @@ public class nPMSendMail {
 		
 	}
 	
-	protected void getProperty(){
+	public void getProperty(){
 		
 		this.props = new nPMProperty().getProperties();
 		
@@ -41,10 +41,11 @@ public class nPMSendMail {
 		  });
 	}
 	
-	protected void sendMail(){
+	public void sendMail(){
 		
 		try {
-			 
+			System.out.println("Sending mail.."); 
+			
 			this.message = new MimeMessage(this.session);
 			this.message.setFrom(new InternetAddress(nPMManager.EMAIL));
 			this.message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(this.mailAddress));

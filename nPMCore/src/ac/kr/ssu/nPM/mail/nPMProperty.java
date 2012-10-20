@@ -22,7 +22,7 @@ public class nPMProperty {
 		this.props.put("mail.smtp.port", nPMSMTPList.GMAILPORT);
 	}
 	
-	public Properties getProperties(){	
+	protected Properties getProperties(){	
 		
 		return this.props;	
 	}
