@@ -54,20 +54,28 @@
 					<!-- 도구 -->
 					<div id='menu_tools'>
 						<div title='선택' name='tools_name' id='tools_1'
-							onmouseup="javascript:if(projectID!='')tools_down('tools_1')" class='tools'>
+							onmouseup="javascript:if(projectID!='')tools_down('tools_1');" class='tools'>
 							<img src='../../../res/image/tools_1.png' alt='선택' />
 						</div>
 						<div title='연결' name='tools_name' id='tools_2'
-							onmouseup="javascript:if(projectID!='')tools_down('tools_2')" class='tools'>
+							onmouseup="javascript:if(projectID!='')tools_down('tools_2');" class='tools'>
 							<img src='../../../res/image/tools_2.png' alt='연결' />
 						</div>
 						<div title='글꼴' name='tools_name' id='tools_3'
-							onmouseup="javascript:if(projectID!='')tools_down('tools_3')" class='tools'>
+							onmouseup="javascript:if(projectID!='')tools_down('tools_3');" class='tools'>
 							<img src='../../../res/image/tools_3.png' alt='글꼴' />
 						</div>
 						<div title='삭제' name='tools_name' id='tools_4'
-							onmouseup="javascript:if(projectID!='')tools_down('tools_4')" class='tools'>
+							onmouseup="javascript:if(projectID!='')tools_down('tools_4');" class='tools'>
 							<img src='../../../res/image/tools_4.png' alt='삭제' />
+						</div>
+						<div title='확대' name='tools_name' id='tools_5'
+							onmouseup="javascript:if(projectID!='')zoomIn();" class='tools'>
+							<img src='../../../res/image/tools_5.png' alt='삭제' />
+						</div>
+						<div title='축소' name='tools_name' id='tools_6'
+							onmouseup="javascript:if(projectID!='')zoomOut();" class='tools'>
+							<img src='../../../res/image/tools_6.png' alt='삭제' />
 						</div>
 					</div>
 					<hr class='menu_hr' />
@@ -81,6 +89,63 @@
 							onmouseup="javascript:if(projectID!='')adds_down('adds_2')">
 							<img src='../../../res/image/adds_2.png' alt='할일추가' />
 						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 정보 창 -->
+			<div id='properties'>
+				<div class='inner'>
+					<div class='left'>
+						<span>정보</span>
+					</div>
+					<div class='hr'></div>
+					<div class='title'>
+						<span>작업자</span>
+					</div>
+					<div class='content'>
+						<input id='personProperties_name' type='text' value=''
+							class='text' readonly/>
+					</div>
+					<div class='title'>
+						<span>할일</span>
+					</div>
+					<div class='content'>
+						<textarea rows='5' cols='21' id='todoProperties_todo'></textarea>
+					</div>
+					<div class='title'>
+						<span>시작일자</span>
+					</div>
+					<div class='content'>
+						<input id='todoProperties_start' type='text' value='' class='text' />
+					</div>
+					<div class='title'>
+						<span>종료일자</span>
+					</div>
+					<div class='content'>
+						<input id='todoProperties_finish' type='text' value=''
+							class='text' />
+					</div>
+					<div class='title'>
+						<span>연관된 작업자</span>
+					</div>
+					<div class='content_who' id='todoProperties_who'></div>
+					<!--  -->
+					<div class='title'>
+						<span>할 일 색상</span>
+					</div>
+					<div class='content'>
+						<input class='color' value='' id='colorSelect' style='cursor:pointer;'/>
+					</div>
+					<div class='title'>
+						<span>완료여부</span>
+					</div>
+					<div class='content'>
+						<input id='finishYes' name='finishRadio' type='radio' value='true' />예
+						<input id='finishNo' name='finishRadio' type='radio' value='false' />아니오
+					</div>
+					<div class='bottom'>
+						<input type='button' class='button' value='수정'
+							onclick="modify_down();" />
 					</div>
 				</div>
 			</div>
@@ -199,73 +264,7 @@
 			</div>
 			<div id='calendarStart'></div>
 			<div id='calendarClose'></div>
-			<!-- 정보 창 -->
-			<div id='properties' class='gui'>
-				<div class='TL'></div>
-				<div class='TM' name='TM'
-					onmousedown="javascript:window_down('properties');">
-					<div class='left'>
-						<span>정보</span>
-					</div>
-				</div>
-				<div class='TR'></div>
-				<div class='ML'></div>
-				<div class='MM'>
-					<div class='hr'></div>
-					<div class='title'>
-						<span>작업자</span>
-					</div>
-					<div class='content'>
-						<input id='personProperties_name' type='text' value=''
-							class='text' />
-					</div>
-					<div class='title'>
-						<span>할일</span>
-					</div>
-					<div class='content'>
-						<textarea rows='5' cols='21' id='todoProperties_todo'></textarea>
-					</div>
-					<div class='title'>
-						<span>시작일자</span>
-					</div>
-					<div class='content'>
-						<input id='todoProperties_start' type='text' value='' class='text' />
-					</div>
-					<div class='title'>
-						<span>종료일자</span>
-					</div>
-					<div class='content'>
-						<input id='todoProperties_finish' type='text' value=''
-							class='text' />
-					</div>
-					<div class='title'>
-						<span>연관된 작업자</span>
-					</div>
-					<div class='content_who' id='todoProperties_who'></div>
-					<!--  -->
-					<div class='title'>
-						<span>할 일 색상</span>
-					</div>
-					<div class='content'>
-						<input class='color' value='' id='colorSelect' style='cursor:pointer;'/>
-					</div>
-					<div class='title'>
-						<span>완료여부</span>
-					</div>
-					<div class='content'>
-						<input id='finishYes' name='finishRadio' type='radio' value='true' />예
-						<input id='finishNo' name='finishRadio' type='radio' value='false' />아니오
-					</div>
-					<div class='bottom'>
-						<input type='button' class='button' value='수정'
-							onclick="modify_down();" />
-					</div>
-				</div>
-				<div class='MR'></div>
-				<div class='BL'></div>
-				<div class='BM'></div>
-				<div class='BR'></div>
-			</div>
+			
 			<!-- 저장 팝업 -->
 			<div id='savePopup' class='gui'>
 				<div class='TL'></div>

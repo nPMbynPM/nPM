@@ -1,12 +1,12 @@
 /* 전체 레이아웃 */
-#npm_wrapper {overflow: hidden; height: 1050px; width: 1680px; margin: 0; padding: 0; }
+#npm_wrapper {overflow: hidden; height: 1110px; width: 1660px; margin: 0; padding: 0; }
 
 #npm_wrapper img { border:0; }
 #npm_wrapper input.button { border:0; color:#444444; font-size: 12px; background-color:#f8f8f8; border:1px solid; border-color: #fff #444444 #444444 #fff; }
 #npm_wrapper input.button:hover { border-color: #000 #000 #000 #000; cursor: pointer; }
 
-#npm_wrapper_left {position: relative; float: left; width: 150px; height: 800px; overflow: hidden;}
-#npm_wrapper_right {position: relative; float: left; width: 1530px; height: 1050px; overflow: auto;}
+#npm_wrapper_left {position: relative; float: left; width: 150px; height: 1100px; overflow: hidden;}
+#npm_wrapper_right {position: relative; float: left; width: 1500px; height: 1100px; overflow: auto;}
 
 /* 좌측 메뉴 레이아웃 */
 #menu_outer {width: 140px; background: #A6B8C4; border-radius: 5px; border: 2px solid; border-color: #A6B8C4 #828282 #828282 #A6B8C4; margin: auto;}
@@ -19,6 +19,20 @@
 #menu_inner .adds {position: relative; float: left; display: block; cursor: pointer; margin: 4px 0; background: #FFFFFF; border-radius: 5px; border: 1px solid; border-color: #CACACA #828282 #828282 #CACACA;}
 #menu_inner .stdio {position: relative; float: left; display: block; cursor: pointer; margin: 4px 0; background: #FFFFFF; border-radius: 5px; border: 1px solid; border-color: #CACACA #828282 #828282 #CACACA;}
 #menu_inner .menu_hr {margin: 5px 0 5px 0; height: 1px; background: #CACACA; border: 0; width: 100%;}
+
+/* 프로퍼티 창 레이아웃 */
+#properties { width: 140px; display: none; background: #e6e6e6; border-radius: 5px; border: 2px solid; border-color: #e6e6e6 #828282 #828282 #e6e6e6; margin: 10px auto 0 auto; }
+#properties .inner { width: 130px; margin: auto; padding: 5px 0 5px 0; }
+#properties .left { margin-top:3px; text-align:left; width: 100%; }
+#properties .left span { font-size: 11px; white-space: no-wrap; width: 0; font-weight: bold; }
+#properties div.hr { margin:0; margin: 3px 0 5px 0; background:#cacaca; height:1px; border:0; width:100%; }
+#properties div.title { margin: 3px 0 0 0; font-size: 11px; color: #444444; padding:3px 0 3px 0; }
+#properties div.content { margin: 2px 0 2px 0; width: 100%; font-size: 11px; }
+#properties div.content input.text { width: 97%; }
+#properties div.content textarea { width: 97%; }
+#properties #colorSelect { width: 97%; }
+#properties div.content_who { font-size: 12px; margin: 2px 0; width: 97%; height: 80px; background: #FFF; overflow: auto; white-space: nowrap; border: 1px solid #cacaca; }
+#properties div.bottom { margin-top : 10px; width: 100%; text-align: right; }
 
 /* 우측 캔버스 레이아웃 */
 #notice {
@@ -71,20 +85,6 @@
 #todoPopup .MM div.content input { width: 100%; }
 #todoPopup .MM div.content input:focus { background-color: #F0CB85; }
 #todoPopup .MM div.bottom { position:absolute; bottom: 20px; right: 30px; }
-
-#properties {  -moz-user-select: none; -khtml-user-select: none; user-select: none; }
-#properties { width: 225px; top:0px; left:740px; z-index:2; opacity:5; display: none; }
-#properties .TM, #properties .MM, #properties .BM { width: 180px; }
-#properties .ML, #properties .MM, #properties .MR { height: 500px; }
-#properties .left { margin-top:3px; text-align:left; width: 100%; }
-#properties .left span { font-size: 11px; white-space: no-wrap; width: 0; font-weight: bold; }
-#properties .MM div.hr { margin:0; margin: 3px 0 5px 0; background:#cacaca; height:1px; border:0; width:100%; }
-#properties .MM div.title { margin: 3px 0 0 0; font-size: 11px; color: #444444; padding:3px 0 3px 0; }
-#properties .MM div.content { margin: 2px 0 2px 0; width: 100%; font-size: 11px; }
-#properties .MM div.content input.text { width: 175px; }
-#properties .MM div.content textarea { width: 174px; }
-#properties .MM div.content_who { font-size: 11px; margin: 2px 0; width: 178px; height: 80px; background: #FFF; overflow: auto; white-space: nowrap; border: 1px solid #abadb3; }
-#properties .MM div.bottom { position:absolute; bottom: 20px; right: 30px; }
 
 #savePopup {  -moz-user-select: none; -khtml-user-select: none; user-select: none; font-size:13px; }
 #savePopup { width: 235px; top:50px; left:50px; z-index:3; opacity:5; display: none; }
