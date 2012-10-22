@@ -64,7 +64,7 @@ function fbGetUser() {
 			}
 			//정보가 오지 않으면 초기화
 			if(fbID == null){
-				document.getElementById('photo').src = "../../../res/image/person1.png";
+				document.getElementById('photo').setAttribute('src', "../../../res/image/person8.png");
 				document.getElementById('name').innerHTML = "";
 				document.getElementById('birth').innerHTML = "";
 				document.getElementById('email').innerHTML = "";
@@ -81,7 +81,7 @@ function fbGetUser() {
 			else{
 				fbSrc = "http://graph.facebook.com/"
 					+ fbID + "/picture?type=large";
-				document.getElementById('photo').src = fbSrc;
+				document.getElementById('photo').setAttribute('src', fbSrc);
 				document.getElementById('name').innerHTML = fbName;
 				document.getElementById('birth').innerHTML = fbBirth;
 				document.getElementById('email').innerHTML = fbEmail;
