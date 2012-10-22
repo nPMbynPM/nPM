@@ -12,7 +12,7 @@
 #menu_outer {width: 140px; background: #A6B8C4; border-radius: 5px; border: 2px solid; border-color: #A6B8C4 #828282 #828282 #A6B8C4; margin: auto;}
 #menu_inner {width: 100px; margin: auto; padding: 20px 0 20px 0;}
 
-#menu_inner #menu_tools {width: 100%; height: 100px;}
+#menu_inner #menu_tools {width: 100%; height: 150px;}
 #menu_inner #menu_adds {width: 100%; height: 100px;}
 #menu_inner #menu_stdio {width: 100%; height: 150px;}
 #menu_inner .tools {display: block; margin: 4px; float:left; cursor: pointer; background: #FFFFFF; position: relative; border-radius: 5px; border: 1px solid; border-color: #CACACA #828282 #828282 #CACACA;}

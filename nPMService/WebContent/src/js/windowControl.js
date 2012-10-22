@@ -210,29 +210,49 @@ function calendar_down(param){
  * 폰트 스타일이 선택되었을 때의 이벤트
  */
 function font_down(param){
-	var bgcolor = document.getElementById(param).style.background;
-	//활성 -> 비활성
-	if(bgcolor == 'rgb(240, 203, 133)'){
-		document.getElementById(param).style.background = '#FFFFFF';
-		//글꼴의 스타일을 변수에 저장
-		if(param == 'fontBold'){
+	if(param == 'fontBold'){
+		if(isFontBold == true){
+			document.getElementById(param).style.background = '#FFFFFF';
 			isFontBold = false;
 		}
-		else if(param == 'fontItalic'){
-			isFontItalic = false;
-		}
-	}
-	//비활성 -> 활성
-	else if(bgcolor == 'rgb(255, 255, 255)'){
-		document.getElementById(param).style.background = '#F0CB85';
-		//글꼴의 스타일을 변수에 저장
-		if(param == 'fontBold'){
+		else{
+			document.getElementById(param).style.background = '#F0CB85';
 			isFontBold = true;
 		}
-		else if(param == 'fontItalic'){
+	}
+	else if(param == 'fontItalic'){
+		if(isFontItalic == true){
+			document.getElementById(param).style.background = '#FFFFFF';
+			isFontItalic = false;
+		}
+		else{
+			document.getElementById(param).style.background = '#F0CB85';
 			isFontItalic = true;
 		}
 	}
+//	var bgcolor = document.getElementById(param).style.background;
+//	//활성 -> 비활성
+//	if(bgcolor == 'rgb(240, 203, 133)'){
+//		document.getElementById(param).style.background = '#FFFFFF';
+//		//글꼴의 스타일을 변수에 저장
+//		if(param == 'fontBold'){
+//			isFontBold = false;
+//		}
+//		else if(param == 'fontItalic'){
+//			isFontItalic = false;
+//		}
+//	}
+//	//비활성 -> 활성
+//	else if(bgcolor == 'rgb(255, 255, 255)'){
+//		document.getElementById(param).style.background = '#F0CB85';
+//		//글꼴의 스타일을 변수에 저장
+//		if(param == 'fontBold'){
+//			isFontBold = true;
+//		}
+//		else if(param == 'fontItalic'){
+//			isFontItalic = true;
+//		}
+//	}
 }
 
 /**
