@@ -2,12 +2,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>nPM - Gantt chart</title>
+<!-- 스타일 -->
 <link rel="stylesheet" type="text/css" href="../../css/jsgantt.css" />
+<!-- 자바스크립트 -->
 <script src="../../js/jsgantt.js"></script>
 <script src="../../js/npmGantt.js"></script>
 <script src="../../js/openID.js"></script>
 </head>
-<body>
+<body onload="displayProject();">
 <!-- 반드시 첨부되어야 하는 태그 -->
 <div id="fb-root"></div>
 <script src="http://connect.facebook.net/en_US/all.js"></script>
@@ -26,11 +29,23 @@ window.fbAsyncInit = function() {
 	}
 </script>
 <!-- 반드시 첨부되어야 하는 태그 -->
-<div id='gantt_wrapper' style='width: 800px; margin: auto; border:1px solid #cacaca;'>
-	<div style='font-size:14px;font-weight:bold;width:673px;margin:auto;padding:10px 0 5px 0;'>테이블</div>
+<!-- 테이블 및 차트 -->
+<div id='gantt_wrapper' style='width: 800px; margin: auto; border:1px solid #cacaca;text-align:center;display:none;'>
+	<div id='gantt_title' style='font-size: 15px;margin:auto;padding:20px 0 10px 0;font-weight:bold;border-bottom:2px solid #cacaca;'></div>
+	<div style='font-size:13px;width:673px;margin:auto;padding:10px 0 5px 0;text-align:left;'>테이블</div>
 	<div id="gantt_table" style='width:673px; margin:auto; border: 1px solid #cacaca;'></div>
-	<div style='font-size:14px;font-weight:bold;width:673px;margin:auto;padding:20px 0 5px 0;'>간트차트</div>
+	<div style='font-size:13px;width:673px;margin:auto;padding:20px 0 5px 0;text-align:left;'>간트차트</div>
 	<div id="gantt_chart" style='width:673px; margin:0 auto 10px auto; border: 1px solid #cacaca;'></div>
+</div>
+<!-- 튜토리얼 -->
+<div id='ganttNotice' style="width:400px; margin: auto; text-align:center;">
+	<div style='font-size: 14px;color:#444444;margin:15px 0 15px 0;font-weight:bold;'>프로젝트 목록</div>
+	<!-- 프로젝트 목록 -->
+	<div id='list' class='list'>
+		<div id='projectList' class='projectList'>
+			<li>불러오는 중...</li>
+		</div>
+	</div>
 </div>
 </body>
 </html>

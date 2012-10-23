@@ -21,7 +21,7 @@
 #menu_inner .menu_hr {margin: 5px 0 5px 0; height: 1px; background: #CACACA; border: 0; width: 100%;}
 
 /* 프로퍼티 창 레이아웃 */
-#properties { width: 140px; display: none; background: #e6e6e6; border-radius: 5px; border: 2px solid; border-color: #e6e6e6 #828282 #828282 #e6e6e6; margin: 10px auto 0 auto; }
+#properties { width: 140px; display: none; background: #A6B8C4; border-radius: 5px; border: 2px solid; border-color: #A6B8C4 #828282 #828282 #A6B8C4; margin: 10px auto 0 auto; }
 #properties .inner { width: 130px; margin: auto; padding: 5px 0 5px 0; }
 #properties .left { margin-top:3px; text-align:left; width: 100%; }
 #properties .left span { font-size: 11px; white-space: no-wrap; width: 0; font-weight: bold; }
