@@ -7,8 +7,8 @@ package ac.kr.ssu.nPM.mail;
 public interface nPMManager {
 	
 	public static final String NAME = "MANAGER";
-	public static final String ID = "manager@gmail.com";
-	public static final String PASSWORD = "******";
+	public static final String ID = "test@gmail.com";
+	public static final String PASSWORD = "xxxxxx";
 	
 	public static final String EMAIL = "doubletaken@gmail.com";
 	
