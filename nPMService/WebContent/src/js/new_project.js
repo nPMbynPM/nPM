@@ -33,9 +33,9 @@ function createProject(){
 					request.onreadystatechange = function(){
 						if (request.readyState == 4) {
 							if (request.status == 200) {
-								var projID = request.responseText.replace(/\s/g,'');
+								var projID = request.responseText;
 								window.opener.clearAll();
-								window.opener.initProject(projID, projectName);
+								window.opener.initProject(Number(projID), projectName);
 								//해당 팝업창을 닫는다
 								window.close();
 							}
