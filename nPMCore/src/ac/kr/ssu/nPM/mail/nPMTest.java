@@ -8,7 +8,7 @@ public class nPMTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		nPMSendMail sd = new nPMSendMail();
-		sd.setMail("doubletaken@naver.com");
+		sd.setMail("doubletaken@gmail.com");
 		sd.getProperty();
 		sd.sendMail();
 	}
