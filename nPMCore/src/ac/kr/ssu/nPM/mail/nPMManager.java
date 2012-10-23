@@ -4,16 +4,87 @@ package ac.kr.ssu.nPM.mail;
  * @author Complete
  *
  */
-public interface nPMManager {
+public class nPMManager{
 	
-	public static final String NAME = "MANAGER";
-	public static final String ID = "manager@gmail.com";
-	public static final String PASSWORD = "xxxxxxx";
+	private String name = "MANAGER";
+	private String id = "manager@gmail.com";
+	private String passWord = "xxxxxxx";
 	
-	public static final String EMAIL = "manager@gmail.com";
+	private String email = "manager@gmail.com";	
+	private String subject = "[nPM]_Added Project";	
+	private String text = "Added to new project";
 	
-	public static final String SUBJECT = "[nPM]_Added Project";
+	public nPMManager(){
+		
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text){
+		this.text = text;
+	}
 	
-	public static final String TEXT = "Added New Project..!\n\n"
-									+ "Completed..";
+	public void addedProject() {
+		
+		StringBuilder added = new StringBuilder();
+		
+		added.append("You were added to new project.\n");
+		added.append("Please check project list.\n");
+		added.append("go to --> http://solar4.ssu.ac.kr:8080 \n\n\n");
+		added.append("Best regards.\n\n");
+		added.append("--By Manager\n");
+		
+		this.text = added.toString();
+	}
+	
+	public void deletedProject(){
+		
+	}
+	
+	public void updatedProject(){
+		
+	}
+		
 }

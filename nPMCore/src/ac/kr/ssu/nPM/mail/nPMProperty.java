@@ -10,7 +10,7 @@ import java.util.Properties;
  *
  */
 public class nPMProperty {
-
+	
 	private Properties props;
 	
 	public nPMProperty(){

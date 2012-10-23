@@ -5,9 +5,13 @@ package ac.kr.ssu.nPM.mail;
 
 /**
  * @author Complete
- *
+ * SMTP Constants.
  */
-public interface nPMSMTPList {
+public final class nPMSMTPList {
+	
+	private nPMSMTPList(){
+		
+	}
 	
 	public static final String GMAIL = "smtp.gmail.com";
 	public static final String GMAILPORT = "587";

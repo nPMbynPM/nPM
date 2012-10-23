@@ -21,10 +21,24 @@ public class nPMSendMail {
 	private Session session;
 	private Properties props;
 	
-	private static final String username = nPMManager.ID;
-	private static final String password = nPMManager.PASSWORD;
+	private String userName;
+	private String password;
+	
+	private String email;
+	private String subject;
+	private String text;
 	
 	public nPMSendMail(){
+		
+		nPMManager manager = new nPMManager();
+		
+		this.userName = manager.getName();
+		this.password = manager.getPassWord();
+		this.email = manager.getEmail();
+		this.subject = manager.getSubject();
+		
+		manager.addedProject();
+		this.text = manager.getText();
 		
 	}
 	
@@ -36,7 +50,7 @@ public class nPMSendMail {
 		this.session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
+				return new PasswordAuthentication(userName, password);
 			}
 		  });
 	}
@@ -46,10 +60,10 @@ public class nPMSendMail {
 		try {
 			 
 			this.message = new MimeMessage(this.session);
-			this.message.setFrom(new InternetAddress(nPMManager.EMAIL));
+			this.message.setFrom(new InternetAddress(this.email));
 			this.message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(this.mailAddress));
-			this.message.setSubject(nPMManager.SUBJECT);
-			this.message.setText(nPMManager.TEXT);
+			this.message.setSubject(this.subject);
+			this.message.setText(this.text);
  
 			Transport.send(message);
  
