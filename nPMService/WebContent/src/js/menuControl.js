@@ -275,7 +275,7 @@ function saveAsDB(){
 					for(var i = 0; i < personEmail.length; i++){
 						var mailRequest = createRequest();
 						var mailAddr = "&mailAddress="+personEmail[i];
-						mailRequest.open("POST", "http://solar4.ssu.ac.kr:8080", true);
+						mailRequest.open("POST", "/mail", true);
 						mailRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 						mailRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 						mailRequest.setRequestHeader("Pragma","no-cache");

@@ -197,7 +197,7 @@ function ganttInit(projectName){
  * DB 정보 로드
  */
 function loadDB(id){
-	console.log(id);
+	//console.log(id);
 	var param = "loaddb=all"
 		+ "&project=" + id;
 	
