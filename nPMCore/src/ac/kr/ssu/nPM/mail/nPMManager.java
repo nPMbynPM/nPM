@@ -8,7 +8,7 @@ public class nPMManager{
 	
 	private String name = "MANAGER";
 	private String id = "manager@gmail.com";
-	private String passWord = "xxxxxxx";
+	private String passWord = "*******";
 	
 	private String email = "manager@gmail.com";	
 	private String subject = "[nPM]_Added Project";	
