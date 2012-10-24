@@ -84,6 +84,7 @@ public class windowServlet extends HttpServlet {
 			int personX = 0;
 			int personY = 0;
 			String personName = "";
+			String personEmail = "";
 			String personImg = "";
 			String personFont = "";
 			//todo
@@ -132,6 +133,7 @@ public class windowServlet extends HttpServlet {
 					personX = rs.getInt("x");
 					personY = rs.getInt("y");
 					personName = rs.getString("name");
+					personEmail = rs.getString("email");
 					personImg = rs.getString("img");
 					personFont = rs.getString("font");
 					
@@ -141,6 +143,7 @@ public class windowServlet extends HttpServlet {
 							+ "<y>" + personY + "</y>"
 							+ "<imgSrc>" + personImg + "</imgSrc>"
 							+ "<Name>" + personName + "</Name>"
+							+ "<Email>" + personEmail + "</Email>"
 							+ "<font>" + personFont + "</font>"
 							+ "</Resource>";
 				}
@@ -246,6 +249,7 @@ public class windowServlet extends HttpServlet {
 			String personY_ = request.getParameter("personY");
 			String personImgSrc_ = request.getParameter("personImgSrc");
 			String personName_ = request.getParameter("personName");
+			String personEmail_ = request.getParameter("personEmail");
 			String personFont_ = request.getParameter("personFont");
 			//할일
 			String todoX_ = request.getParameter("todoX");
@@ -271,6 +275,7 @@ public class windowServlet extends HttpServlet {
 			ArrayList<String> personY = new ArrayList<String>();
 			ArrayList<String> personImgSrc = new ArrayList<String>();
 			ArrayList<String> personName = new ArrayList<String>();
+			ArrayList<String> personEmail = new ArrayList<String>();
 			ArrayList<String> personFont = new ArrayList<String>();
 			//할일
 			ArrayList<String> todoX = new ArrayList<String>();
@@ -299,6 +304,8 @@ public class windowServlet extends HttpServlet {
 			while(token.hasMoreElements())	personImgSrc.add(token.nextToken());
 			token = new StringTokenizer(personName_, ",");
 			while(token.hasMoreElements())	personName.add(token.nextToken());
+			token = new StringTokenizer(personEmail_, ",");
+			while(token.hasMoreElements())	personEmail.add(token.nextToken());
 			token = new StringTokenizer(personFont_, ",");
 			while(token.hasMoreElements())	personFont.add(token.nextToken());
 			token = new StringTokenizer(todoX_, ",");
@@ -374,6 +381,10 @@ public class windowServlet extends HttpServlet {
 					Element name = doc.createElement("Name");
 					name.appendChild(doc.createTextNode(personName.get(i)));
 					resource.appendChild(name);
+					// email
+					Element email = doc.createElement("Email");
+					email.appendChild(doc.createTextNode(personEmail.get(i)));
+					resource.appendChild(email);
 					// font
 					Element font = doc.createElement("font");
 					font.appendChild(doc.createTextNode(personFont.get(i)));
@@ -813,6 +824,7 @@ public class windowServlet extends HttpServlet {
 				String personY_ = request.getParameter("personY");
 				String personImgSrc_ = request.getParameter("personImgSrc");
 				String personName_ = request.getParameter("personName");
+				String personEmail_ = request.getParameter("personEmail");
 				String personFont_ = request.getParameter("personFont");
 				//할일
 				String todoX_ = request.getParameter("todoX");
@@ -838,6 +850,7 @@ public class windowServlet extends HttpServlet {
 				ArrayList<String> personY = new ArrayList<String>();
 				ArrayList<String> personImgSrc = new ArrayList<String>();
 				ArrayList<String> personName = new ArrayList<String>();
+				ArrayList<String> personEmail = new ArrayList<String>();
 				ArrayList<String> personFont = new ArrayList<String>();
 				//할일
 				ArrayList<String> todoX = new ArrayList<String>();
@@ -866,6 +879,8 @@ public class windowServlet extends HttpServlet {
 				while(token.hasMoreElements())	personImgSrc.add(token.nextToken());
 				token = new StringTokenizer(personName_, ",");
 				while(token.hasMoreElements())	personName.add(token.nextToken());
+				token = new StringTokenizer(personEmail_, ",");
+				while(token.hasMoreElements())	personEmail.add(token.nextToken());
 				token = new StringTokenizer(personFont_, ",");
 				while(token.hasMoreElements())	personFont.add(token.nextToken());
 				token = new StringTokenizer(todoX_, ",");
@@ -918,7 +933,7 @@ public class windowServlet extends HttpServlet {
 					pstmt.executeUpdate();
 					//테이블에 새롭게 갱신될 내용을 삽입한다
 					//person
-					query = "insert into person(x,y,name,img,font,project,id) value (?,?,?,?,?,?,?)";
+					query = "insert into person(x,y,name,img,font,project,id,email) value (?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query);
 					for(int i = 0; i < personX.size(); i++){
 						pstmt.setInt(1, Integer.parseInt(personX.get(i)));
@@ -928,6 +943,7 @@ public class windowServlet extends HttpServlet {
 						pstmt.setString(5, personFont.get(i));
 						pstmt.setInt(6, projectID);
 						pstmt.setString(7, personID.get(i));
+						pstmt.setString(8, personEmail.get(i));
 						pstmt.executeUpdate();						
 					}
 					//todo
