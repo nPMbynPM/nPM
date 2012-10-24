@@ -112,6 +112,7 @@ function saveAsXML(){
 	var personY = new Array();
 	var personImgSrc = new Array();
 	var personName = new Array();
+	var personEmail = new Array();
 	var personFont = new Array();
 	//할일 정보
 	var todoX = new Array();
@@ -137,6 +138,7 @@ function saveAsXML(){
 		var imgSrc = personArray[i].img.src;
 		personImgSrc.push(imgSrc);
 		personName.push(personArray[i].name);
+		personEmail.push(personArray[i].email);
 		personFont.push(personArray[i].font);
 	}
 	for(var i = 0; i < todoArray.length; i++){
@@ -159,7 +161,7 @@ function saveAsXML(){
 	}
 	
 	//Ajax를 이용한 비동기 요청
-	var param = "savetext="+saveText+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
+	var param = "savetext="+saveText+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+"&personEmail="+personEmail+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
 	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
 	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished+"&project="+projectID;
@@ -199,6 +201,7 @@ function saveAsDB(){
 	var personY = new Array();
 	var personImgSrc = new Array();
 	var personName = new Array();
+	var personEmail = new Array();
 	var personFont = new Array();
 	//할일 정보
 	var todoX = new Array();
@@ -224,6 +227,7 @@ function saveAsDB(){
 		var imgSrc = personArray[i].img.src;
 		personImgSrc.push(imgSrc);
 		personName.push(personArray[i].name);
+		personEmail.push(personArray[i].email);
 		personFont.push(personArray[i].font);
 	}
 	for(var i = 0; i < todoArray.length; i++){
@@ -246,7 +250,7 @@ function saveAsDB(){
 	}
 	
 	//Ajax를 이용한 비동기 요청
-	var param = "savedb=all"+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
+	var param = "savedb=all"+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+"&personEmail="+personEmail+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
 	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
 	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished+"&project="+projectID;
@@ -266,6 +270,17 @@ function saveAsDB(){
 				if (saveRequest.status == 200) {
 					alert("저장 완료!");
 					document.getElementById('savePopup').style.display = 'none';
+					
+					//프로젝트에 참여한 사람들에게 mail push
+					for(var i = 0; i < personEmail.length; i++){
+						var mailRequest = createRequest();
+						var mailAddr = "&mailAddress="+personEmail[i];
+						mailRequest.open("POST", "/mail", true);
+						mailRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+						mailRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+						mailRequest.setRequestHeader("Pragma","no-cache");
+						mailRequest.send(mailAddr);
+					}
 				}
 				else{
 					alert("저장에 실패하였습니다.");
@@ -302,7 +317,7 @@ function loadXML(loadText){
 						return false;
 					}
 					else{
-						initProject(-1, '^^');
+						initProject(-1, 'nPM');
 						xmlParsing(responseDoc);
 						drawAll();
 					}
@@ -336,7 +351,7 @@ function loadDB(id){
 					//프로젝트 초기화
 					var xml = request.responseXML;
 					var name = xmlParsing(xml);
-					initProject(id, name);
+					initProject(Number(id), name);
 					drawAll();
 				}
 			}
@@ -369,6 +384,7 @@ function xmlParsing(response){
 		var y = personId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
 		var imgSrc = personId[i].getElementsByTagName("imgSrc")[0].firstChild.nodeValue;
 		var name = personId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
+		var email = personId[i].getElementsByTagName("Email")[0].firstChild.nodeValue;
 		var font = personId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
 
 		//작업자 배열에 정보를 넣는다
@@ -376,6 +392,7 @@ function xmlParsing(response){
 		tmpClass.img.src = imgSrc;
 		tmpClass.font = font;
 		tmpClass.id = id;
+		tmpClass.email = email;
 		personArray.push(tmpClass);
 	}
 	
