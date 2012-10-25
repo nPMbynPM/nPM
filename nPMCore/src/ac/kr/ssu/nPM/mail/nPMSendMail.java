@@ -34,7 +34,7 @@ public class nPMSendMail {
 		nPMManager manager = new nPMManager();
 		
 		this.userName = manager.getName();
-		
+		ff
 		this.id = manager.getId();
 		this.password = manager.getPassWord();
 		this.email = manager.getEmail();
