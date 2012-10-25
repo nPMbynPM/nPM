@@ -21,7 +21,7 @@ var alarm_Image = Titanium.UI.createImageView({
 
 //모버알 nPM_alarm Label 생성
 var alarm_Label = Titanium.UI.createLabel({
-	color : '#999',
+	color : '#999',g
 	text : 'nPM 공지사항',
 	font : {
 		fontSize : 25,
