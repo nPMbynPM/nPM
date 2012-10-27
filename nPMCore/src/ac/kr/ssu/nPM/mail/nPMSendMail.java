@@ -22,6 +22,7 @@ public class nPMSendMail {
 	private Properties props;
 	
 	private String userName;
+	private String id;
 	private String password;
 	
 	private String email;
@@ -33,8 +34,11 @@ public class nPMSendMail {
 		nPMManager manager = new nPMManager();
 		
 		this.userName = manager.getName();
+		
+		this.id = manager.getId();
 		this.password = manager.getPassWord();
 		this.email = manager.getEmail();
+		
 		this.subject = manager.getSubject();
 		
 		manager.addedProject();
@@ -50,7 +54,7 @@ public class nPMSendMail {
 		this.session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(userName, password);
+				return new PasswordAuthentication(id, password);
 			}
 		  });
 	}
@@ -86,7 +90,7 @@ public class nPMSendMail {
 	 */
 	public void setMail(String mailAddress) {
 		this.mailAddress = mailAddress;
-		this.checkMailAddress(this.mailAddress);
+		//this.checkMailAddress(this.mailAddress);
 	}
 	
 	private void checkMailAddress(String mailAddress){
