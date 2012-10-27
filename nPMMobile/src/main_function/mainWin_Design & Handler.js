@@ -63,3 +63,4 @@ back_Home.addEventListener('click', function() {
 });
 
 top_View.add(back_Home);
+top_View.add(top_button);
