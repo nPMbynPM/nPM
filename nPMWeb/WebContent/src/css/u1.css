@@ -1,0 +1,167 @@
+﻿
+    *
+    {
+    	padding:0px;
+    	margin:0px;
+    }
+    
+    body
+    {
+    	width:1200px;
+    	margin:0px auto;
+    }
+    
+    section,article{display:block;} 
+    
+    h1
+    {
+    	color:Orange;
+    }
+    
+    p
+    {
+    	font-size:15px;
+    }
+   
+    header nav
+    {
+    	background-color:Orange;
+    }
+    header nav ul
+    {
+    	list-style-type:none;
+    	overflow:hidden;
+    }
+    
+     header nav ul a
+    {
+    	color:White;
+    	font-family:Broadway;
+    	text-decoration:none;
+    }
+    
+    header nav ul li
+    {
+    	float:left;
+    	display:block;
+    	width:100px;
+    	height:40px;
+    	padding-top:20px;
+    	padding-left:10px;
+    }
+    
+    header nav ul li:hover
+    {
+    	background-color:rgba(260,100,100,0.5);
+    }
+    section section section article
+    {
+    	margin:15px;
+    	width:700px;
+    	float:left;
+    	font-family:Serif Fonts;
+    }
+    	
+    section section section article section
+    {
+    	width:540px;
+    	height:110px;
+    	float:right;
+    }
+    
+    #Section1
+    {
+    	margin-top:40px;
+    	float:left
+    }
+    
+    #Section2
+    {
+    	width:1200px;
+    	margin-top:20px;
+    	clear:both;
+    }
+     
+    #Section2 img
+    {
+    	width:150px;
+    }
+    
+    #Section1 h1
+    {
+    	color:Black;
+    	width:370px;
+    	margin-bottom:27px;
+    	margin-top:10px;
+    }
+    
+    #outerSection
+    {
+    	width:720px;
+    	height:120px;
+    	overflow:hidden;
+    	float:left;
+    }
+    
+    #innerSection
+    {
+    	
+    }
+    
+    #first
+    {
+    	width:10px;
+    	height:10px;
+    	position:absolute;
+    	background-color:Red;
+    	margin-top:100px;
+    	margin-left:180px;
+    }
+    #second
+    {
+    	width:10px;
+    	height:10px;
+    	position:absolute;
+    	background-color:Lime;
+    	margin-top:100px;
+    	margin-left:200px;
+    }
+    #third
+    {
+    	width:10px;
+    	height:10px;
+    	position:absolute;
+    	background-color:Blue;
+    	margin-top:100px;
+    	margin-left:220px;
+    }
+    
+    #look a
+    {
+    	font-size:10px;
+    	position:absolute;
+    	margin-top:100px;
+    	margin-left:540px;
+    	text-decoration:none;
+    }
+    
+    #fixed
+    {
+    	margin-left:5px;
+    	width:280px;
+    	height:120px;
+        float:left;
+        padding-left:10px;
+    	border-left-style:dotted;
+    	border-left-color:Gray;
+    	border-left-width:thin;
+    }
+    
+    #how a
+    {
+    	position:absolute;
+    	font-size:10px;
+    	margin-top:15px;
+    	margin-left:110px;
+    	text-decoration:none;
+    }

@@ -1,5 +1,3 @@
-window.onload = loadDB;
-
 var personArray = new Array();	//작업자 배열
 var todoArray = new Array();	//할일 배열
 var connArray = new Array();	//작업자-할일 연결정보 배열
@@ -14,8 +12,10 @@ function personClass(x, y, name){
 	this.width = 50;
 	this.height = 50;
 	this.img = new Image();
-	this.img.src = 'image/person1.png';
+	this.img.src = '';
+	this.imgLoaded = false;
 	this.selected = false;
+	this.id = '';	//작업자 ID
 	this.font = '12px san-serif';	//폰트
 	this.name = name;	//작업자 이름
 }
@@ -71,7 +71,13 @@ function createRequest() {
 /**
  * 간트차트 초기화
  */
-function ganttInit(){
+function ganttInit(projectName){
+	//튜토리얼 display:none, 테이블 display:block
+	document.getElementById('ganttNotice').style.display = 'none';
+	document.getElementById('gantt_wrapper').style.display = 'block';
+	//프로젝트 이름
+	document.getElementById('gantt_title').innerHTML = projectName;
+	
 	tableDiv = document.getElementById('gantt_table');
 	chartDiv = document.getElementById('gantt_chart');
 	//할일에 대한 작업자 정보
@@ -190,8 +196,10 @@ function ganttInit(){
 /**
  * DB 정보 로드
  */
-function loadDB(){
-	var param = "loaddb=all";
+function loadDB(id){
+	//console.log(id);
+	var param = "loaddb=all"
+		+ "&project=" + id;
 	
 	var request = createRequest();
 
@@ -199,7 +207,7 @@ function loadDB(){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");
@@ -226,20 +234,27 @@ function xmlParsing(response){
 	var person = response.getElementsByTagName("Resources");
 	var todo = response.getElementsByTagName("Tasks");
 	var conn = response.getElementsByTagName("conn");
+	var name = response.getElementsByTagName("Name");
+	
+	//프로젝트 이름 정보 파싱
+	var projName = name[0].firstChild.nodeValue;
 	
 	//작업자 정보를 파싱한다
 	var personId = person[0].getElementsByTagName("Resource");
 
 	for(var i = 0; i < personId.length; i++){
+		var id = personId[i].getElementsByTagName("id")[0].firstChild.nodeValue;
 		var x = personId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
 		var y = personId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
 		var imgSrc = personId[i].getElementsByTagName("imgSrc")[0].firstChild.nodeValue;
 		var name = personId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
 		var font = personId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
 
+		//작업자 배열에 정보를 넣는다
 		var tmpClass = new personClass(Number(x), Number(y), String(name));
 		tmpClass.img.src = imgSrc;
 		tmpClass.font = font;
+		tmpClass.id = id;
 		personArray.push(tmpClass);
 	}
 	
@@ -274,7 +289,7 @@ function xmlParsing(response){
 		var className1 = fromId[i].getElementsByTagName("className")[0].firstChild.nodeValue;
 		var x1 = fromId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
 		var y1 = fromId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
-		var className2 = toId[i].getElementsByTagName("className")[0].firstChild.nodeValue;
+		//var className2 = toId[i].getElementsByTagName("className")[0].firstChild.nodeValue;
 		var x2 = toId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
 		var y2 = toId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
 		
@@ -306,7 +321,8 @@ function xmlParsing(response){
 		
 		connArray.push(tmpConn);
 	}
-	ganttInit();
+	//파싱을 완료하면 간트차트 초기화
+	ganttInit(projName);
 }
 
 /**
@@ -346,4 +362,42 @@ function getObjectClass(obj) {
 		}
 	}
 	return undefined;
+}
+
+
+/**
+ * 로그인 한 사용자가 참여하는 프로젝트의 목록을 보여준다
+ */
+function displayProject(){
+	fbEnsureInit(function(){
+		fbID = '';
+		FB.api('/me', function(response) {
+			fbID = response.id;
+			
+			if(fbID != null){
+				var param = "project=list"
+					+ "&id=" + fbID;
+				
+				var request = createRequest();
+
+				if(request == null){
+					alert("서버 접속에 실패하였습니다");
+				}
+				else{
+					request.open("POST", "../../../nPM", true);
+					request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+					request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+					request.setRequestHeader("Pragma","no-cache");
+					request.onreadystatechange = function(){
+						if (request.readyState == 4) {
+							if (request.status == 200) {
+								document.getElementById("projectList").innerHTML = request.responseText;
+							}
+						}
+					};
+					request.send(param);
+				}
+			}
+		});
+	});
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="../../css/joinus.css" />
+<title>nPM 프로젝트에 참여하세요</title>
+</head>
+<body>
+<!-- 반드시 첨부되어야 하는 태그 -->
+<div id="fb-root"></div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script src="../../js/openID.js"></script>
+<script>
+window.fbAsyncInit = function() {
+ FB.init({
+   appId  : '494219040596723',
+   status : true, // check login status
+   cookie : true, // enable cookies to allow the server to access the session
+   xfbml  : true  // parse XFBML
+ });
+ FB.getLoginStatus(function(response) {
+		flag = true;
+	});
+}
+</script>
+<!-- 반드시 첨부되어야 하는 태그 -->
+	<div id='joinus_wrapper'>
+		<div id='joinus_inner'>
+			<div>
+				프로젝트에 참여하는 인원만 볼 수 있습니다.
+			</div>
+			<div>
+				Facebook에 로그인하여 프로젝트에 참여하세요!
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 간트차트 버튼이 눌렸을 때
  * @param param
  */
@@ -107,10 +107,12 @@ function saveAsXML(){
 	}
 
 	//작업자 정보
+	var personID = new Array();
 	var personX = new Array();
 	var personY = new Array();
 	var personImgSrc = new Array();
 	var personName = new Array();
+	var personEmail = new Array();
 	var personFont = new Array();
 	//할일 정보
 	var todoX = new Array();
@@ -130,11 +132,13 @@ function saveAsXML(){
 	var toY = new Array();
 
 	for(var i = 0; i < personArray.length; i++){
+		personID.push(personArray[i].id);
 		personX.push(personArray[i].x);
 		personY.push(personArray[i].y);
 		var imgSrc = personArray[i].img.src;
-		personImgSrc.push(imgSrc.substring(imgSrc.length-17, imgSrc.length));
+		personImgSrc.push(imgSrc);
 		personName.push(personArray[i].name);
+		personEmail.push(personArray[i].email);
 		personFont.push(personArray[i].font);
 	}
 	for(var i = 0; i < todoArray.length; i++){
@@ -157,10 +161,10 @@ function saveAsXML(){
 	}
 	
 	//Ajax를 이용한 비동기 요청
-	var param = "savetext="+saveText+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
+	var param = "savetext="+saveText+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+"&personEmail="+personEmail+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
 	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
-	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished;
+	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished+"&project="+projectID;
 
 	var saveRequest = createRequest();
 	
@@ -168,7 +172,7 @@ function saveAsXML(){
 		alert("요청에 실패했습니다!");
 	}
 	else{
-		saveRequest.open("POST", "nPM", true);
+		saveRequest.open("POST", "../../../nPM", true);
 		saveRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		saveRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		saveRequest.setRequestHeader("Pragma","no-cache");
@@ -188,14 +192,16 @@ function saveAsXML(){
 }
 
 /**
- * 현재의 상태를 DB 테이블에 저장하기 위해 비동기 요청
+ * 현재의 프로젝트를 DB 테이블에 저장하기 위해 비동기 요청
  */
 function saveAsDB(){
 	//작업자 정보
+	var personID = new Array();
 	var personX = new Array();
 	var personY = new Array();
 	var personImgSrc = new Array();
 	var personName = new Array();
+	var personEmail = new Array();
 	var personFont = new Array();
 	//할일 정보
 	var todoX = new Array();
@@ -215,11 +221,13 @@ function saveAsDB(){
 	var toY = new Array();
 
 	for(var i = 0; i < personArray.length; i++){
+		personID.push(personArray[i].id);
 		personX.push(personArray[i].x);
 		personY.push(personArray[i].y);
 		var imgSrc = personArray[i].img.src;
-		personImgSrc.push(imgSrc.substring(imgSrc.length-17, imgSrc.length));
+		personImgSrc.push(imgSrc);
 		personName.push(personArray[i].name);
+		personEmail.push(personArray[i].email);
 		personFont.push(personArray[i].font);
 	}
 	for(var i = 0; i < todoArray.length; i++){
@@ -242,10 +250,10 @@ function saveAsDB(){
 	}
 	
 	//Ajax를 이용한 비동기 요청
-	var param = "savedb=all"+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+
+	var param = "savedb=all"+"&personID="+personID+"&personX="+personX+"&personY="+personY+"&personImgSrc="+personImgSrc+"&personName="+personName+"&personFont="+personFont+"&personEmail="+personEmail+
 	"&todoX="+todoX+"&todoY="+todoY+"&todoTodo="+todoTodo+"&todoStart="+todoStart+"&todoFinish="+todoFinish+"&todoFont="+todoFont+
 	"&fromClassName="+fromClassName+"&fromX="+fromX+"&fromY="+fromY+"&toClassName="+toClassName+"&toX="+toX+"&toY="+toY
-	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished;
+	+"&todoColor="+todoColor+"&todoIsfinished="+todoIsfinished+"&project="+projectID;
 
 	var saveRequest = createRequest();
 	
@@ -253,7 +261,7 @@ function saveAsDB(){
 		alert("요청에 실패했습니다!");
 	}
 	else{
-		saveRequest.open("POST", "nPM", true);
+		saveRequest.open("POST", "../../../nPM", true);
 		saveRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		saveRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		saveRequest.setRequestHeader("Pragma","no-cache");
@@ -262,6 +270,17 @@ function saveAsDB(){
 				if (saveRequest.status == 200) {
 					alert("저장 완료!");
 					document.getElementById('savePopup').style.display = 'none';
+					
+					//프로젝트에 참여한 사람들에게 mail push
+					for(var i = 0; i < personEmail.length; i++){
+						var mailRequest = createRequest();
+						var mailAddr = "&mailAddress="+personEmail[i];
+						mailRequest.open("POST", "/mail", true);
+						mailRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+						mailRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+						mailRequest.setRequestHeader("Pragma","no-cache");
+						mailRequest.send(mailAddr);
+					}
 				}
 				else{
 					alert("저장에 실패하였습니다.");
@@ -275,15 +294,7 @@ function saveAsDB(){
 /**
  * XML 파일로 부터 정보를 가져온다
  */
-function loadXML(){
-	var loadText = document.getElementById('loadFilePath').value;
-
-	//.xml파일이 아니면 경고 메시지를 출력한다
-	if(loadText.substring(loadText.length-4, loadText.length) != '.xml'){
-		alert(".xml형식으로 입력하여야 합니다.");
-		return false;
-	}
-
+function loadXML(loadText){
 	//Ajax를 이용한 xml파일 비동기 요청
 	var param = "loadtext="+loadText;
 
@@ -293,7 +304,7 @@ function loadXML(){
 		alert("불러오기 실패");
 	}
 	else{
-		loadRequest.open("POST","nPM",true);
+		loadRequest.open("POST","../../../nPM",true);
 		loadRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		loadRequest.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		loadRequest.setRequestHeader("Pragma","no-cache");
@@ -306,8 +317,8 @@ function loadXML(){
 						return false;
 					}
 					else{
+						initProject(-1, 'nPM');
 						xmlParsing(responseDoc);
-						document.getElementById('loadPopup').style.display = 'none';
 						drawAll();
 					}
 				}
@@ -320,8 +331,9 @@ function loadXML(){
 /**
  * DB 정보 로드
  */
-function loadDB(){
-	var param = "loaddb=all";
+function loadDB(id){
+	var param = "loaddb=all"
+		+ "&project=" + id;
 	
 	var request = createRequest();
 
@@ -329,16 +341,17 @@ function loadDB(){
 		alert("서버 접속에 실패하였습니다");
 	}
 	else{
-		request.open("POST", "nPM", true);
+		request.open("POST", "../../../nPM", true);
 		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
 		request.setRequestHeader("Pragma","no-cache");
 		request.onreadystatechange = function(){
 			if (request.readyState == 4) {
 				if (request.status == 200) {
-//					alert(request.responseText);
+					//프로젝트 초기화
 					var xml = request.responseXML;
-					xmlParsing(xml);
+					var name = xmlParsing(xml);
+					initProject(Number(id), name);
 					drawAll();
 				}
 			}
@@ -349,29 +362,37 @@ function loadDB(){
 
 /**
  * load 된 정보를 파싱하여 배열에 삽입한다
+ * return projectName;
  */
 function xmlParsing(response){
-	personArray = new Array();	//작업자 배열
-	todoArray = new Array();	//할일 배열
-	connArray = new Array();	//작업자-할일 연결정보 배열
+	clearAll();
 	
 	var person = response.getElementsByTagName("Resources");
 	var todo = response.getElementsByTagName("Tasks");
 	var conn = response.getElementsByTagName("conn");
+	var name = response.getElementsByTagName("Name");
+	
+	//프로젝트 이름 정보 파싱
+	var projName = name[0].firstChild.nodeValue;
 	
 	//작업자 정보를 파싱한다
 	var personId = person[0].getElementsByTagName("Resource");
 
 	for(var i = 0; i < personId.length; i++){
+		var id = personId[i].getElementsByTagName("id")[0].firstChild.nodeValue;
 		var x = personId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
 		var y = personId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
 		var imgSrc = personId[i].getElementsByTagName("imgSrc")[0].firstChild.nodeValue;
 		var name = personId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
+		var email = personId[i].getElementsByTagName("Email")[0].firstChild.nodeValue;
 		var font = personId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
 
+		//작업자 배열에 정보를 넣는다
 		var tmpClass = new personClass(Number(x), Number(y), String(name));
 		tmpClass.img.src = imgSrc;
 		tmpClass.font = font;
+		tmpClass.id = id;
+		tmpClass.email = email;
 		personArray.push(tmpClass);
 	}
 	
@@ -438,6 +459,8 @@ function xmlParsing(response){
 		
 		connArray.push(tmpConn);
 	}
+	
+	return projName;
 }
 
 /**
