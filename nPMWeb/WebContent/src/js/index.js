@@ -1,5 +1,5 @@
-ï»¿//iframeì´ ë¡œë“œë ë•Œë§ˆë‹¤ ì‚¬ì´ì¦ˆ ì¡°ì ˆ
-var baseHeight = document.getElementById("iframe1").scrollHeight; //ê¸°ë³¸ì‚¬ì´ì¦ˆì„¸íŒ…
+//iframeÀÌ ·ÎµåµÉ¶§¸¶´Ù »çÀÌÁî Á¶Àı
+//var baseHeight = document.getElementById("iframe1").scrollHeight; //±âº»»çÀÌÁî¼¼ÆÃ
 
 function resizeHeight(obj) {
     thisHeight = obj.contentWindow.document.body.scrollHeight;
@@ -7,7 +7,7 @@ function resizeHeight(obj) {
     if (thisHeight > baseHeight) {
         obj.height = thisHeight;
     } else {
-        //ê¸°ë³¸ì‚¬ì´ì¦ˆë³´ë‹¤ ì‘ì•„ë„ ê¸°ë³¸ì‚¬ì´ì¦ˆ ìœ ì§€
+        //±âº»»çÀÌÁîº¸´Ù ÀÛ¾Æµµ ±âº»»çÀÌÁî À¯Áö
         obj.height = baseHeight;
     }
 }

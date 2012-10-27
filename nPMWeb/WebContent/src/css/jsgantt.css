@@ -51,3 +51,30 @@ DIV.scroll { BORDER-RIGHT: #efefef 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #e
 
 DIV.scroll2 { position:relative; PADDING-RIGHT: 0px; overflow:auto ; overflow-y:hidden; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; WIDTH: 673px; PADDING-TOP: 0px; BACKGROUND-COLOR: #ffffff }
 
+/* 리스트 스타일 */
+.list{
+	color: #444444;
+	font-size: 14px;
+	margin-top: 5px;
+	display: block;
+}
+
+.projectList{
+	border: 1px solid #cacaca;
+	border-radius: 5px;
+	text-align: left;
+	display: block;
+	height: 300px;
+	overflow: auto;	
+}
+
+.projectList li {
+	list-style: none;
+	border-bottom: 1px solid #828282;
+	padding: 10px 0 10px 10px;
+	cursor: pointer;
+}
+
+.projectList li:hover{
+	background-color: #f0f0f0;
+}

@@ -1,5 +1,3 @@
-window.onload = windowAddEvent;
-
 var TMDowned = false;
 var TMResize = false;
 var TMDownedTop = 0;
@@ -14,17 +12,27 @@ var toolSelected = -1;	//1:선택, 2:드래그, 3:연결
 var addSelected = -1;	//1:작업자 추가, 2:할일 추가
 var personSelected = '';	//작업자의 이미지 경로
 
+//추가하려는 작업자의 정보
+var memberID = "";
+var memberName = "";
+var memberEmail = "";
+var memberPhoto = "";
+
 /**
  * 윈도우 이벤트를 등록한다
  */
 function windowAddEvent(){
-	fbIsLogin();
+	//현재 캔버스의 너비, 높이를 설정한다
+	document.getElementById('ctx_canvas').width = document.getElementById('bound').style.width.replace('px','');
+	document.getElementById('ctx_canvas').height = document.getElementById('bound').style.height.replace('px','');
+		
+	//윈도우 이벤트 등록
 	window.addEventListener('mousemove', window_move, false);
 	window.addEventListener('mouseup', window_up, false);
 	//canvas에도 이벤트 등록
 	canvasAddEvent();
 	//DB에 정보가 있다면 불러온다
-	loadDB();
+	//loadDB();
 }
 
 /**
@@ -42,8 +50,6 @@ function windowRemoveEvent(){
  */
 function window_down(param){
 	TMDownedId = document.getElementById(param);
-	prevX = window.event.x;
-	prevY = window.event.y;
 	TMDownedTop = document.getElementById(param).offsetTop;
 	TMDownedLeft = document.getElementById(param).offsetLeft;
 	TMDowned = true;
@@ -52,17 +58,17 @@ function window_down(param){
 /**
  * 마우스가 move 되었을 때의 윈도우 이벤트
  */
-function window_move(ev){
+function window_move(ev){	
 	if(TMDowned == true){
 		if(0 <= TMDownedTop	&& TMDownedLeft >= 0){
-			TMDownedId.style.top = TMDownedTop + (window.event.y-prevY) + 'px';
-			TMDownedId.style.left = TMDownedLeft + (window.event.x-prevX) + 'px';
+			TMDownedId.style.top = TMDownedTop + (ev.pageY-prevY) + 'px';
+			TMDownedId.style.left = TMDownedLeft + (ev.pageX-prevX) + 'px';
 			
 			TMDownedTop = TMDownedId.offsetTop;
 			TMDownedLeft = TMDownedId.offsetLeft;
 			
-			prevX = window.event.x;
-			prevY = window.event.y;
+			prevX = ev.pageX;
+			prevY = ev.pageY;
 		}
 		//윈도우가 윗 부분을 넘어가지 않게
 		else if(0 >= TMDownedTop){
@@ -77,10 +83,20 @@ function window_move(ev){
 	}
 	//캔버스의 크기 조절
 	if(TMResize == true){
-		var outerWidth = TMDownedWidth + window.event.x - prevX;
-		var outerHeight = TMDownedHeight + window.event.y - prevY;
-		var innerWidth = canvasWidth + window.event.x - prevX;
-		var innerHeight = canvasHeight + window.event.y - prevY;
+		var outerWidth = TMDownedWidth + (ev.pageX - prevX);
+		var outerHeight = TMDownedHeight + (ev.pageY - prevY);
+		var innerWidth = canvasWidth + (ev.pageX - prevX);
+		var innerHeight = canvasHeight + (ev.pageY - prevY);
+		
+		if(innerWidth < 50){
+			outerWidth += 5;
+			innerWidth += 5;
+		}
+		else if(innerHeight < 50){
+			outerHeight += 5;
+			innerHeight += 5;
+		}
+		
 		//canvas
 		TMDownedId.style.width = outerWidth + 'px';
 		TMDownedId.style.height = outerHeight + 'px';
@@ -93,8 +109,8 @@ function window_move(ev){
 		document.getElementById('canvasMM').style.height = innerHeight + 'px';
 		document.getElementById('canvasMR').style.height = innerHeight + 'px';
 		//ctx_canvas
-		document.getElementById('ctx_canvas').style.width = innerWidth + 'px';
-		document.getElementById('ctx_canvas').style.height = innerHeight + 'px';
+		//document.getElementById('ctx_canvas').style.width = innerWidth + 'px';
+		//document.getElementById('ctx_canvas').style.height = innerHeight + 'px';
 		document.getElementById('ctx_canvas').width = innerWidth;
 		document.getElementById('ctx_canvas').height = innerHeight;
 		//bound
@@ -102,12 +118,16 @@ function window_move(ev){
 		document.getElementById('bound').style.height = innerHeight + 'px';
 		
 		TMDownedWidth = TMDownedId.offsetWidth;
-		TMDownedHeight = TMDownedId.offsetHeight;
-		canvasWidth = document.getElementById('ctx_canvas').offsetWidth;
-		canvasHeight = document.getElementById('ctx_canvas').offsetHeight;
-		prevX = window.event.x;
-		prevY = window.event.y;
+		TMDownedHeight = TMDownedId.offstHeight;
+		canvasWidth = document.getElementById('bound').offsetWidth;
+		canvasHeight = document.getElementById('bound').offsetHeight;
+		prevX = ev.pageX;
+		prevY = ev.pageY;
 		drawAll();
+	}
+	else{
+		prevX = ev.pageX;
+		prevY = ev.pageY;		
 	}
 }
 
@@ -123,8 +143,10 @@ function window_up(ev){
  * 도구가 선택 되었을 때의 배경색 변경
  */
 function tools_down(param){
+	var elem = getElementsByName_iefix('div', 'tools_name');
+	
 	//모든 도구의 배경색을 초기화한다
-	for(var i = 1; i < 4; i++){
+	for(var i = 1; i < elem.length + 1; i++){
 		var tools = 'tools_' + i;
 		document.getElementById(tools).style.background = '#FFFFFF';
 	}	
@@ -138,12 +160,26 @@ function tools_down(param){
  * 추가리스트가 선택 되었을 때의 이벤트
  */
 function adds_down(param){
-	var url = "url('cursor/" + param + ".png'), pointer";
+	var url = "url('../../../res/cursor/" + param + ".gif'),url('../../../res/cursor/" + param + ".cur'),pointer";
 	var canvasId = document.getElementById('bound');
 	//마우스 커서 모양을 변경한다
 	canvasId.style.cursor = url;
 	//어떤 추가리스트가 선택되었는지 변수에 저장한다
 	addSelected = Number(param.charAt(param.length-1));
+}
+
+/**
+ * 작업자 정보 출력
+ */
+function personInfo(id, name, email, photo){
+	//출력
+	document.getElementById("memberImg").src = photo;
+	document.getElementById("memberInfo").innerHTML = name + '<br/>' + email;
+	//변수에 저장
+	memberID = id;
+	memberName = name;
+	memberEmail = email;
+	memberPhoto = photo;
 }
 
 /**
@@ -174,29 +210,49 @@ function calendar_down(param){
  * 폰트 스타일이 선택되었을 때의 이벤트
  */
 function font_down(param){
-	var bgcolor = document.getElementById(param).style.background;
-	//활성 -> 비활성
-	if(bgcolor == 'rgb(240, 203, 133)'){
-		document.getElementById(param).style.background = '#FFFFFF';
-		//글꼴의 스타일을 변수에 저장
-		if(param == 'fontBold'){
+	if(param == 'fontBold'){
+		if(isFontBold == true){
+			document.getElementById(param).style.background = '#FFFFFF';
 			isFontBold = false;
 		}
-		else if(param == 'fontItalic'){
-			isFontItalic = false;
-		}
-	}
-	//비활성 -> 활성
-	else if(bgcolor == 'rgb(255, 255, 255)'){
-		document.getElementById(param).style.background = '#F0CB85';
-		//글꼴의 스타일을 변수에 저장
-		if(param == 'fontBold'){
+		else{
+			document.getElementById(param).style.background = '#F0CB85';
 			isFontBold = true;
 		}
-		else if(param == 'fontItalic'){
+	}
+	else if(param == 'fontItalic'){
+		if(isFontItalic == true){
+			document.getElementById(param).style.background = '#FFFFFF';
+			isFontItalic = false;
+		}
+		else{
+			document.getElementById(param).style.background = '#F0CB85';
 			isFontItalic = true;
 		}
 	}
+//	var bgcolor = document.getElementById(param).style.background;
+//	//활성 -> 비활성
+//	if(bgcolor == 'rgb(240, 203, 133)'){
+//		document.getElementById(param).style.background = '#FFFFFF';
+//		//글꼴의 스타일을 변수에 저장
+//		if(param == 'fontBold'){
+//			isFontBold = false;
+//		}
+//		else if(param == 'fontItalic'){
+//			isFontItalic = false;
+//		}
+//	}
+//	//비활성 -> 활성
+//	else if(bgcolor == 'rgb(255, 255, 255)'){
+//		document.getElementById(param).style.background = '#F0CB85';
+//		//글꼴의 스타일을 변수에 저장
+//		if(param == 'fontBold'){
+//			isFontBold = true;
+//		}
+//		else if(param == 'fontItalic'){
+//			isFontItalic = true;
+//		}
+//	}
 }
 
 /**
@@ -204,12 +260,11 @@ function font_down(param){
  */
 function canvas_resize(){
 	TMDownedId = document.getElementById('canvas');
-	prevX = window.event.x;
-	prevY = window.event.y;
 	TMDownedWidth = TMDownedId.offsetWidth;
 	TMDownedHeight = TMDownedId.offsetHeight;
-	canvasWidth = document.getElementById('ctx_canvas').offsetWidth;
-	canvasHeight = document.getElementById('ctx_canvas').offsetHeight;
+	canvasWidth = document.getElementById('bound').offsetWidth;
+	canvasHeight = document.getElementById('bound').offsetHeight;
+
 	TMResize = true;
 }
 
@@ -286,4 +341,26 @@ function modify_down(){
 		return false;
 	}
 	drawAll();
+}
+
+/**
+ * IE에서 getElementsByName 효과를 내는 함수
+ * @param tag
+ * @param name
+ * @returns {Array}
+ */
+function getElementsByName_iefix(tag, name) {
+    
+    var elem = document.getElementsByTagName(tag);
+    var arr = new Array();
+    var i;
+    var iarr;
+    for(i = 0,iarr = 0; i < elem.length; i++) {
+         att = elem[i].getAttribute("name");
+         if(att == name) {
+              arr[iarr] = elem[i];
+              iarr++;
+         }
+    }
+    return arr;
 }
