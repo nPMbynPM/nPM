@@ -15,7 +15,7 @@ Ti.Facebook.permissions = ['publish_stream', 'read_stream', "user_checkins", "pu
 Ti.Facebook.addEventListener('login', function(e) {
 
 	var check = "no";
-	var faceBtn = "no"
+	var faceBtn = "no";
 
 	if (e.success) {//  login이 성공적이라
 		alert('Logged In');
