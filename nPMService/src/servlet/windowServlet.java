@@ -707,7 +707,7 @@ public class windowServlet extends HttpServlet {
 					}
 				}
 			}
-			//DB정보 리턴
+			//DB정보 로드
 			else if(mindText.equals("load")){
 				Connection conn = null;
 				PreparedStatement pstmt = null;
@@ -795,6 +795,34 @@ public class windowServlet extends HttpServlet {
 					pstmt.setInt(2, Integer.parseInt(request.getParameter("newy")));
 					pstmt.setInt(3, Integer.parseInt(request.getParameter("number")));
 					pstmt.executeUpdate();
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn, pstmt);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			//노드 삭제
+			else if(mindText.equals("delete")){
+				//노드 number 받아오기
+				String delNumber_ = request.getParameter("number");
+				ArrayList<String> delNumber = new ArrayList<String>();
+				StringTokenizer token = new StringTokenizer(delNumber_, ",");
+				while(token.hasMoreTokens())	delNumber.add(token.nextToken());
+				
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String updateSQL = "delete from mindmap where number=?";
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(updateSQL);
+					for(int i = 0; i < delNumber.size(); i++){
+						pstmt.setInt(1, Integer.parseInt(delNumber.get(i)));
+						pstmt.executeUpdate();
+					}
 				}catch(Exception e){
 					System.out.println(e.getMessage());
 				}finally{
