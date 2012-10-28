@@ -2,9 +2,11 @@ package servlet;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -520,8 +522,10 @@ public class windowServlet extends HttpServlet {
 			response.setHeader("Cache-Control", "no-cache"); 
 			PrintWriter out = response.getWriter();
 			BufferedReader br = null;
+			File file = new File("C:\\" + loadText);
+			
 			try{
-				br = new BufferedReader(new FileReader("C:\\" + loadText));
+				br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
 				String str = null;
 				String xmlStr = "";
 
