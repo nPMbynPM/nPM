@@ -31,7 +31,7 @@ window.onload = function(){
 	context = document.getElementById('mindmap_canvas').getContext('2d');
 	addEvent();
 	loadData();
-//	setInterval("tellTheClock()", 1000);
+	setInterval("tellTheClock()", 60000);
 };
 
 function addEvent(){
@@ -994,7 +994,7 @@ function tellTheClock(){
 	if(timer > 5){
 		timer = 0;
 //		saveData();
-//		loadData();
+		loadData();
 	}
 }
 
