@@ -1,10 +1,11 @@
 // 모버알 nPM_git_hurb 홈페이지 주소 연결
-var github_Homepage = Ti.UI.createWebView({
+var gantt_Homepage = Ti.UI.createWebView({
 
 	top : 50,
-	url : 'http://github.com/nPMbynPM/nPM',
+	url : 'http://203.253.25.150:8080/nPMService/mobileServlet?gantt=' + label_uid.text,
 	width : 'auto',
 	height : 'auto'
+
 });
 
 //모버알 nPM_gantt 버튼 생성
@@ -36,15 +37,18 @@ var gantt_Label = Titanium.UI.createLabel({
 
 //gantt_Button 클릭 시 발생하는 이벤트 핸들러
 gantt_Button.addEventListener('click', function(e) {
-	/*
-	 gantt_Homepage.addEventListener('load', function(e)
-	 {});
-	 */
-	top_View.show();
-	main_Win.add(top_View);
-
-	gantt_Homepage.show();
-	main_Win.add(gantt_Homepage);
+	if(Titanium.Facebook.loggedIn == false)
+	{
+		alert("facebook 로그인 하세요");
+	//	page_Mainview.hide();
+		return;
+		
+	}
+	else{
+		top_View.show();
+		gantt_Homepage.show();
+		
+	}
 });
 
 main_Win.add(gantt_Button);

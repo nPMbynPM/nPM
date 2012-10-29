@@ -34,12 +34,19 @@ var project_Label = Titanium.UI.createLabel({
 
 //project_Button 클릭 시 발생하는 이벤트 핸들러
 project_Button.addEventListener('click', function(e) {
-	/*
-	 project_Homepage.addEventListener('load', function(e)
-	 {});
-	 */
-	top_View.show();
-	project_Homepage.show();
+	if(Titanium.Facebook.loggedIn == false)
+	{
+		alert("facebook 로그인 하세요");
+	//	page_Mainview.hide();
+		return;
+		
+	}
+	else{
+		top_View.show();
+		project_Homepage.show();
+		
+	}
+	
 
 	main_Win.add(top_View);
 	main_Win.add(project_Homepage);
