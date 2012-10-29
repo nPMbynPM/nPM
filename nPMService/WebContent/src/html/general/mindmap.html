@@ -48,6 +48,15 @@ window.fbAsyncInit = function() {
 					<textarea id='export_text_area'></textarea>
 					<input type='button' id='export_text_close' value='닫기' onclick='exportToTextClose();'/>
 				</div>
+				<div id='delete_div'>
+					<div class='title'>
+						정말 삭제하시겠습니까?
+					</div>
+					<div>
+						<input type='button' id='delete_ok' value='확인' onclick='deleteNodeOk();'/>
+						<input type='button' id='delete_cancel' value='취소' onclick='deleteNodeCancel();'/>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!--
