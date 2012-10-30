@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-type"
@@ -71,11 +71,11 @@
 						</div>
 						<div title='확대' name='tools_name' id='tools_5'
 							onmouseup="javascript:if(projectID!='')zoomIn();" class='tools'>
-							<img src='../../../res/image/tools_5.png' alt='삭제' />
+							<img src='../../../res/image/tools_5.png' alt='확대' />
 						</div>
 						<div title='축소' name='tools_name' id='tools_6'
 							onmouseup="javascript:if(projectID!='')zoomOut();" class='tools'>
-							<img src='../../../res/image/tools_6.png' alt='삭제' />
+							<img src='../../../res/image/tools_6.png' alt='축소' />
 						</div>
 					</div>
 					<hr class='menu_hr' />
@@ -161,7 +161,7 @@
 				</div>
 			</div>
 			<!-- 캔버스 -->
-			<div id='canvas' class='gui' style='width: 1472%; height:1006px; '>
+			<div id='canvas' class='gui' style='width: 1472px; height:1006px; '>
 				<div class='TL'></div>
 				<div class='TM' style='width: 1440px;' id='canvasTM'
 					onmousedown="javascript:window_down('canvas');">
@@ -376,6 +376,32 @@
 							onclick="javascript:okButton_down('fontPopup');" /> <input
 							type='button' class='button' value='취소'
 							onclick="javascript:cancelButton_down('fontPopup');" />
+					</div>
+				</div>
+				<div class='MR'></div>
+				<div class='BL'></div>
+				<div class='BM'></div>
+				<div class='BR'></div>
+			</div>
+			<!-- 삭제 확인 팝업 -->
+			<div id='deletePopup' class='gui'>
+				<div class='TL'></div>
+				<div class='TM' name='TM'
+					onmousedown="javascript:window_down('deletePopup');">
+					<div class='left'>
+						<span>삭제 확인</span>
+					</div>
+				</div>
+				<div class='TR'></div>
+				<div class='ML'></div>
+				<div class='MM'>
+					<div class='hr'></div>
+					<div class='comment'>정말 삭제하시겠습니까?</div>
+					<div class='bottom'>
+						<input type='button' class='button' value='확인'
+							onclick="javascript:okButton_down('deletePopup');" /> <input
+							type='button' class='button' value='취소'
+							onclick="javascript:cancelButton_down('deletePopup');" />
 					</div>
 				</div>
 				<div class='MR'></div>
