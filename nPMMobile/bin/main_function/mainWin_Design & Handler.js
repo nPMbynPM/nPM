@@ -6,6 +6,20 @@ var main_Win = Titanium.UI.createWindow();
 
 // main 윈도우의 배경화면 설정(이미지 삽)
 main_Win.setBackgroundImage('nPMMobile_Image/background_Icon.png');
+var facebook_Logincheck = false;    // facebook 로그인 체크 여부 변수
+
+// facebook에 로그인 햇을 떄의 사용자 app를 가져오기 위한 label 생성
+var label_uid = Ti.UI.createLabel({
+	text : Ti.Facebook.uid,
+	font : {
+		fontSize : 14
+	},
+	height : 'auto',
+	top : 10,
+	textAlign : 'center'
+});
+
+
 
 // 연결된 링크 주소로 이동위, 메인 페이지로 돌아가기 위해 생성한 버튼
 var back_Home = Ti.UI.createButton({

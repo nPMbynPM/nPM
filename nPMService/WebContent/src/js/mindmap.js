@@ -1,6 +1,7 @@
 var isPopupedRoot = false;
 var isPopupedChild = false;
 var isModified = false;
+var isDeleted = false;
 var popupRootStatus = null;
 var popupChildStatus = new Array();
 var makeNodeFlag = '';
@@ -18,6 +19,7 @@ var elementDownedX = null;
 var elementDownedY = null;
 var elementUped = null;
 var elementModify = null;
+var elementDelete = null;
 var crossX = 0;
 var crossY = 0;
 
@@ -29,7 +31,7 @@ window.onload = function(){
 	context = document.getElementById('mindmap_canvas').getContext('2d');
 	addEvent();
 	loadData();
-	setInterval("tellTheClock()", 1000);
+	setInterval("tellTheClock()", 60000);
 };
 
 function addEvent(){
@@ -207,6 +209,11 @@ function mouseUp(ev){
 			document.getElementById('export_text').style.display = 'block';
 			document.getElementById('export_text_area').value = str;
 		}
+		//노드 삭제
+		else if((canvasCurX > popupChildStatus[3].x && canvasCurX < popupChildStatus[3].x + popupChildStatus[3].width)
+				&& (canvasCurY > popupChildStatus[3].y && canvasCurY < popupChildStatus[3].y + popupChildStatus[3].height)){
+			deleteNode(canvasCurX, canvasCurY);
+		}
 		else{
 			isPopupedChild = false;
 			drawAll();
@@ -343,7 +350,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
  */
 function drawAll(){
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
-	//연결 화살표 그리기
+	//연결 상태 그리기
 	for(var i = 0; i < nodeArray.length; i++){
 		if(nodeArray[i].parent != null){
 			var ax1 = nodeArray[i].parent.x+nodeArray[i].parent.width/2; 
@@ -375,16 +382,13 @@ function drawAll(){
 			getCrossPoint(ax1, ay1, ax2, ay2, bx1_2, by1_2, bx2_2, by2_2);
 			getCrossPoint(ax1, ay1, ax2, ay2, bx1_3, by1_3, bx2_3, by2_3);
 			getCrossPoint(ax1, ay1, ax2, ay2, bx1_4, by1_4, bx2_4, by2_4);
-			//화살표를 그린다
+			//연결 선을 그린다
 			context.strokeStyle = '#444444';
 			context.lineWidth = 1;
 			context.beginPath();
 			context.moveTo(ax1, ay1);
 			context.lineTo(crossX, crossY);
 			context.stroke();
-//			context.moveTo(crossX, crossY);
-//			context.arc(crossX, crossY, 5, 0, Math.PI*2, true);
-//			context.fill();
 			context.closePath();
 		}
 	}
@@ -680,6 +684,40 @@ function drawChildPopup(x, y){
 	wrapText(context, text, x, y, maxWidth, lineHeight);
 
 	popupChildStatus.push(new childPopupClass(x, y, maxWidth, height));
+	
+	//노드 삭제
+	var maxWidth = 110;
+	var lineHeight = 20;
+	var height = 30;
+	var text = "노드 삭제";
+
+	var radius = 5;
+	var y = y + height;
+	var r = x + maxWidth;
+	var b = y + height;
+
+	context.beginPath();
+	context.fillStyle = '#f0f0f0';
+	context.strokeStyle = '#cacaca';
+	context.lineWidth="1";
+	context.moveTo(x+radius, y);
+	context.lineTo(r-radius, y);
+	context.quadraticCurveTo(r, y, r, y+radius);
+	context.lineTo(r, b-radius);
+	context.quadraticCurveTo(r, b, r-radius, b);
+	context.lineTo(x+radius, b);
+	context.quadraticCurveTo(x, b, x, b-radius);
+	context.lineTo(x, y+radius);
+	context.quadraticCurveTo(x, y, x+radius, y);
+	context.fill();
+	context.stroke();
+
+	context.font = "12px Calibri";
+	context.fillStyle = "#444";
+
+	wrapText(context, text, x, y, maxWidth, lineHeight);
+
+	popupChildStatus.push(new childPopupClass(x, y, maxWidth, height));
 }
 
 /**
@@ -830,6 +868,74 @@ function modifyNodeCancel(){
 	isModified = false;
 	elementModify = null;
 	var node = document.getElementById('modify_div');
+	node.style.display = 'none';
+	drawAll();
+}
+
+/**
+ * 노드 삭제 팝업 생성
+ */
+function deleteNode(x, y){
+	//메뉴 없애고
+	isPopupedChild = false;
+	drawAll();
+	isDeleted = true;
+	elementDelete = elementUped;
+	//삭제 확인 팝업을 띄움
+	var node = document.getElementById('delete_div');
+	
+	node.style.left = elementUped.x + 'px';
+	node.style.top = elementUped.y + 'px';
+	node.style.width = elementUped.width + 'px';
+	node.style.height = elementUped.height + 20 + 'px';
+	node.style.display = 'block';
+}
+
+/**
+ * 노드 삭제
+ */
+function deleteNodeOk(){
+	if(isDeleted){
+		var node = document.getElementById('delete_div');
+		node.style.display = 'none';
+		isDeleted = false;
+		//관련 노드 삭제
+		var delNumber = new Array();
+		for(var i = nodeArray.length - 1; i >= 0; i--){
+			if(nodeArray[i].parent == elementDelete || nodeArray[i].me == elementDelete){
+				delNumber.push(Number(nodeArray[i].me.number));
+				nodeArray.splice(i, 1);
+			}
+		}
+
+		//DB 내용 수정
+		var param = "mindtext=delete" + "&number=" + delNumber;
+		elementDelete = null;
+
+		var request = createRequest();
+
+		if(request == null){
+			alert("서버 접속에 실패하였습니다");
+		}
+		else{
+			request.open("POST", "../../../nPM", true);
+			request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+			request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+			request.setRequestHeader("Pragma","no-cache");
+			request.send(param);
+		}
+		
+		drawAll();
+	}
+}
+
+/**
+ * 노드 삭제 취소
+ */
+function deleteNodeCancel(){
+	isDeleted = false;
+	elementDelete = null;
+	var node = document.getElementById('delete_div');
 	node.style.display = 'none';
 	drawAll();
 }

@@ -2,9 +2,11 @@ package servlet;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -520,8 +522,10 @@ public class windowServlet extends HttpServlet {
 			response.setHeader("Cache-Control", "no-cache"); 
 			PrintWriter out = response.getWriter();
 			BufferedReader br = null;
+			File file = new File("C:\\" + loadText);
+			
 			try{
-				br = new BufferedReader(new FileReader("C:\\" + loadText));
+				br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
 				String str = null;
 				String xmlStr = "";
 
@@ -707,7 +711,7 @@ public class windowServlet extends HttpServlet {
 					}
 				}
 			}
-			//DB정보 리턴
+			//DB정보 로드
 			else if(mindText.equals("load")){
 				Connection conn = null;
 				PreparedStatement pstmt = null;
@@ -795,6 +799,34 @@ public class windowServlet extends HttpServlet {
 					pstmt.setInt(2, Integer.parseInt(request.getParameter("newy")));
 					pstmt.setInt(3, Integer.parseInt(request.getParameter("number")));
 					pstmt.executeUpdate();
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+				}finally{
+					try{
+						close(conn, pstmt);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			//노드 삭제
+			else if(mindText.equals("delete")){
+				//노드 number 받아오기
+				String delNumber_ = request.getParameter("number");
+				ArrayList<String> delNumber = new ArrayList<String>();
+				StringTokenizer token = new StringTokenizer(delNumber_, ",");
+				while(token.hasMoreTokens())	delNumber.add(token.nextToken());
+				
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				String updateSQL = "delete from mindmap where number=?";
+				try{
+					conn = mysqlConn();
+					pstmt = conn.prepareStatement(updateSQL);
+					for(int i = 0; i < delNumber.size(); i++){
+						pstmt.setInt(1, Integer.parseInt(delNumber.get(i)));
+						pstmt.executeUpdate();
+					}
 				}catch(Exception e){
 					System.out.println(e.getMessage());
 				}finally{
