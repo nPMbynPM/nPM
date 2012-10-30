@@ -7,7 +7,7 @@ Licence: <a href="http://www.os-templates.com/template-terms">Website Template L
 */
 
 #header #topnav{
-	display:block;
+	
 	float:right;
 	width:940px;
 	margin:20px 0 0 0;
@@ -32,13 +32,11 @@ Licence: <a href="http://www.os-templates.com/template-terms">Website Template L
 	margin:0;
 	padding:0 3px 10px 3px;
 	color:#FFFFFF;
-	background-color:#2D3134;
-	border-bottom:1px solid #2D3134;
+
 	}
 
 #header li a:hover, #header li.active a{
 	color:#02ACEE;
-	background-color:#2D3134;
 	border-bottom-color:#02ACEE;
 	}
 

@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="EN" lang="EN" dir="ltr">
+<head profile="http://gmpg.org/xfn/11">
+
+    <title>nPM</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    
+    <link rel="stylesheet" href="src/css/page/layout3.css" type="text/css" />
+    
+    <script type="text/javascript" src="src/js/jquery-1.4.1.min.js"></script>
+    <script type="text/javascript" src="src/js/jquery.slidepanel.setup.js"></script>
+    <script type="text/javascript" src="src/js/jquery.cycle.min.js"></script>
+    <script type="text/javascript" src="src/js/jquery.cycle.setup.js"></script>
+    <script type="text/javascript" src="src/js/index.js"></script>
+    
+    <!-- login -->
+    <script src="src/js/openID.js"></script>
+    
+	<!-- 페이스북 관련 -->
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
+	
+	<script>
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId : '494219040596723',
+			status : true, // check login status
+			cookie : true, // enable cookies to allow the server to access the session
+			xfbml : true
+		// parse XFBML
+		});
+		FB.getLoginStatus(function(response) {
+				flag = true;
+				fbGetUser();
+		});
+	}
+	</script>
+	
+</head>
+
+<body>
+    <div class="wrapper col0">
+        <div id="topbar">
+            <div id="slidepanel">
+                <div class="topbox">
+                    <h2>사진</h2>
+                    <div style='width: 268px; height: 205px; border: 1px solid #cacaca;'>
+                        <img id='photo' src='' style='width: 100%; height: 100%;' />
+                    </div>
+                </div>
+                <div class="topbox">
+                    <h2>프로필</h2>
+                    <fieldset>
+                        <p>
+                            이름: <span id='name'></span>
+                        </p>
+                        <p>
+                            생년월일: <span id='birth'></span>
+                        </p>
+                        <p>
+                            연락처: <span id='email'></span>
+                        </p>
+                        <p>
+                            직업: <span id='work'></span>
+                        </p>
+                    </fieldset>
+                </div>
+                <div class="topbox last">
+                    <h2>경력</h2>
+                    <fieldset>
+                        <p>
+                            nPM 프로젝트
+                        </p>
+                        <p>
+                            ezTrans 프로젝트
+                        </p>
+                    </fieldset>
+                </div>
+                <br class="clear" />
+            </div>
+            <div id="loginpanel">
+                <ul>
+                    <li class="left">
+                        <input id='fb_login_button' type='button' value='로그인' style='width: 80px; height: 19px; cursor: pointer; background: #5a74a8; border: 1px solid #1a356e; color: #fff; border-radius: 5px;' onclick='fbLogin();' /></li>
+                    <li class="right" id="toggle"><a id="slideit" href="#slidepanel">&raquo;My Page</a><a id="closeit" style="display: none;" href="#slidepanel">&raquo;Close</a></li>
+                </ul>
+            </div>
+            <br class="clear" />
+        </div>
+    </div>
+    
+    <!-- ####################################################################################################### -->
+    <div class="wrapper col1">
+        <div id="header">
+            <div id="logo">
+                <a href="index.html">
+                    <img src="res/image/logo.png" width="200px" height="107px" />
+                </a>
+            </div>
+            <div id="topnav">
+                <ul>
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="src/html/page/project_Management.html">Project Management</a></li>
+                    <li><a href="src/html/page/gantt_Chart.html">Gantt Chart</a></li>
+                    <li><a href="src/html/page/mind_Map.html">Mind Map</a></li>
+                    <li><a href="src/html/page/board.html">Board</a></li>
+                    <li><a href="src/html/page/sticker_board.html">Sticker Notes</a></li>
+                    <li><a href="https://github.com/nPMbynPM" target="blank">Source Download</a></li>
+                    <li class="last"><a href="src/html/page/notice.html">Notice</a></li>
+                </ul>
+            </div>
+            <br class="clear" />
+        </div>
+    </div>
+    
+    <!-- ####################################################################################################### -->
+    <div class="wrapper col2">
+    	<div id="second">
+    		N-Screen Project Management
+    	</div>
+    </div>
+    
+   <!-- ######################################################################################################## -->
+    <div class="wrapper col3">
+    	<div id="homecontent">  	  
+    		
+    		<div id="post1">
+    			<img src="res/image/pm.jpg" width="950px" height="230px"/>
+    		</div>
+    		
+    		
+    		<div id="post2">
+				<h2>Welcome to nPM</h2>
+				<img class="alignleft" src="res/image/logo.png" width="200" height="200" alt="" />
+				<p>
+					여긴 <strong>nPM</strong> 프로젝트 매니지먼트 툴이 서비스 되고 있는 사이트 입니다.
+					웹 표준을 지킨 HTML5 기반의 매니지먼트 툴로 무료로 이용가능하며 <strong><a href="https://github.com/nPMbynPM/nPM">guthub</a></strong>
+					에 공개되어 운영되는 오픈소스 프로젝트 입니다.<br></br>
+					<strong>nPM</strong>은 웹 기반에서 동작하기 때문에 다양한 디바이스 (Desktop, Mobile, Tablet) 에서 접근하여
+					<strong>쉽고, 빠르게, 프로젝트 관리</strong>가 가능합니다.
+				</p>
+			</div>
+			
+			<div id="post3">
+				<h3>Features</h3>
+				<ul class="section-list">
+				
+					<li class="first"><img class="alignleft" src="res/image/tita.png" alt="" />
+					<h4>N-SCREEN</h4>
+					<span>Desktop, Mobile, Tablet에서 언제 어디서나 접근하여 프로젝트 매니지먼트 관리가 가능</span>
+					</li>
+					
+					<li><img class="alignleft" src="res/image/cloud.png" alt="" />
+					<h4>CLOUD</h4>
+					<span>프로젝트에 참여된 사용자, 프로젝트 별로 리소스들을 따로 관리하여 아이디만 가지면 언제나 해당 프로젝트의 변경사항 및 데이터들을
+					접근하고, 관리할 수 있다.</span>
+					</li>
+					
+					<li class="last"><img class="alignleft" src="res/image/github.png" alt="" />
+					
+					<h4>SOCIAL</h4>
+					<span>OpenID(Facebook)를 이용하여 nPM내의 서비스들을 이용할 수 있다.</span>
+					</li>
+					
+				</ul>
+			</div>
+			
+			<div id="post4">
+				<h4>nPM Project</h4>
+			
+			</div>
+    		
+    	</div>
+    </div>
+    
+    <!-- ####################################################################################################### -->
+    <div class="wrapper col5">
+        <div id="copyright">
+            <p class="fl_left"></p>
+            <p class="fl_right">Copyrightⓒ2012 by nPM</p>
+            <br class="clear" />
+        </div>
+    </div>
+</body>
+</html>
