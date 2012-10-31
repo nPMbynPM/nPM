@@ -2,7 +2,7 @@
 var gantt_Homepage = Ti.UI.createWebView({
 
 	top : 50,
-	url : 'http://203.253.25.150:8080/nPMService/mobileServlet?gantt=' + label_uid.text,
+	url : 'http://solar4.ssu.ac.kr:8080/src/html/mobile/m_gantt.html?gantt=' + get_Facebook,
 	width : 'auto',
 	height : 'auto'
 
