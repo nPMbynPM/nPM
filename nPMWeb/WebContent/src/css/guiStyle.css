@@ -122,6 +122,15 @@
 #fontPopup .MM div .size { width: 50px; margin: 10px 5px 0 5px; }
 #fontPopup .MM div.bottom { position:absolute; bottom: 20px; right: 30px; }
 
+#deletePopup { width: 175px; top:100px; left:500px; z-index:3; opacity:5; display: none; }
+#deletePopup .TM, #deletePopup .MM, #deletePopup .BM { width: 140px; }
+#deletePopup .ML, #deletePopup .MM, #deletePopup .MR { height: 60px; }
+#deletePopup .left { margin-top:3px; text-align:left; width: 100%; }
+#deletePopup .left span { font-size: 12px; white-space: no-wrap; width: 0; font-weight: bold; }
+#deletePopup .comment { font-size: 12px; }
+#deletePopup .MM div.hr { margin: 3px 0 5px 0; background:#cacaca; height:1px; border:0; width:100%; }
+#deletePopup .MM div.bottom { text-align: right; margin-top: 15px; }
+
 /* 윈도우 스타일 */
 .gui { opacity: 0; display: none; position: absolute; top: 0; left: 0; }
 .gui .TL { background: url('../../res/image/win_LT.png'); width: 16px; height: 26px; float: left; opacity:0.8; filter: alpha(opacity:'80'); }

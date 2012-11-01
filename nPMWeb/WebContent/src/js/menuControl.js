@@ -312,6 +312,7 @@ function loadXML(loadText){
 			if (loadRequest.readyState == 4) {
 				if (loadRequest.status == 200) {
 					var responseDoc = loadRequest.responseXML;
+					alert(loadRequest.responseText);
 					if(responseDoc == null){
 						alert("올바른 파일 형식이 아닙니다");
 						return false;
