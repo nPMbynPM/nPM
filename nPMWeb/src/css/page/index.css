@@ -1,0 +1,53 @@
+﻿a
+{
+    text-decoration: none;
+}
+
+#out
+{
+    border-top: solid 1px #2D3D46;
+    border-bottom: solid 1px #2D3D46;
+    overflow: hidden;
+    width: 461px;
+    height: 325px;
+}
+
+#in
+{
+    overflow: hidden;
+    width: 1383px;
+    height: 325px;
+}
+
+#one
+{
+    float: left;
+    width: 461px;
+    height: 325px;
+}
+
+#two
+{
+    float: left;
+    width: 461px;
+    height: 325px;
+}
+
+#three
+{
+    float: left;
+    width: 461px;
+    height: 325px;
+}
+
+#right-B
+{
+    width: 30px;
+    height: 30px;
+}
+
+#left-B
+{
+    width: 30px;
+    height: 30px;
+}

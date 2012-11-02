@@ -1,0 +1,35 @@
+.wrapper {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+.content{
+	padding: 10px;
+}
+
+/* 리스트 스타일 */
+.list{
+	margin-top: 5px;
+	display: block;
+}
+
+.projectList{
+	border: 1px solid #cacaca;
+	border-radius: 5px;
+	display: block;
+	height: 300px;
+	overflow: auto;	
+}
+
+.projectList li {
+	list-style: none;
+	border-bottom: 1px solid #828282;
+	padding: 10px 0 10px 10px;
+	cursor: pointer;
+}
+
+.projectList li:hover{
+	background-color: #f0f0f0;
+}
