@@ -1,18 +1,26 @@
-//iframe이 로드될때마다 사이즈 조절
-//var baseHeight = document.getElementById("iframe1").scrollHeight; //기본사이즈세팅
+var numberOfDiv;
+var currentPosition = 0;
 
-function resizeHeight(obj) {
-    thisHeight = obj.contentWindow.document.body.scrollHeight;
+$(document).ready(function () {
+    numberOfDiv = 3;
+    $("#in").css("width", 461 * numberOfDiv);
+});
 
-    if (thisHeight > baseHeight) {
-        obj.height = thisHeight;
-    } else {
-        //기본사이즈보다 작아도 기본사이즈 유지
-        obj.height = baseHeight;
+function toLeftButtonClick() {
+    currentPosition--;
+    if (currentPosition < 0) {
+        currentPosition = numberOfDiv - 1;
     }
+    animation();
 }
-function setheight() {
-    if (parent.document.getElementById("iframe1")) {
-        parent.document.getElementById("iframe1").height = document.body.clientHeight;
+function toRightButtonClick() {
+    currentPosition++;
+    if (currentPosition >= numberOfDiv) {
+        currentPosition = 0;
     }
+    animation();
+}
+function animation() {
+    var willMove = 461 * (-currentPosition);
+    $("#in").animate({ 'marginLeft': willMove }, "slow");
 }
