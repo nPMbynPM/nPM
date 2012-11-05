@@ -2,6 +2,7 @@
 
 nPM github page. [nPM](http://solar4.ssu.ac.kr:8080) service.
 
+
 nPM is an open source project management system. methods including:
 
   * **nPMCore** - Framework, Database, Web, Service, Mobile, Security.
@@ -9,6 +10,9 @@ nPM is an open source project management system. methods including:
   * **nPMMobile** - Create iOS, Android, hybrid, and mobile web apps from The Titanium.
   * **nPMWeb** - nPM web page, Open ID (Facebook)
   * **nPMDesign** - nPM Web, Mobile icon and photo.
+
+  (c) 2012 nPM
+  This code is licensed under GPL 2.0 license (see LICENSE.txt for details)
 
 ## Install
 There are a few different ways you can install nPM:
