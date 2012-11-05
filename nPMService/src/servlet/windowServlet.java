@@ -1182,7 +1182,7 @@ public class windowServlet extends HttpServlet {
 				Connection conn = null;
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
-				String query = "select a.id, a.name from project_list a inner join project_member b where a.id=b.id and b.member=?";
+				String query = "select a.id, a.name from project_list a, person b where a.id=b.project and b.id=?";
 				
 				try{
 					conn = mysqlConn();

@@ -2,7 +2,7 @@
 var project_Homepage = Ti.UI.createWebView({
 	//	url:'http://solar4.ssu.ac.kr:8080/m_npm.html',
 	top : 50,
-	url : 'http://solar4.ssu.ac.kr:8080/project_Management.html',
+	url : 'http://solar4.ssu.ac.kr:8080/src/html/mobile/m_load_project.html?npm=',
 	width : 'auto',
 	height : 'auto'
 });
