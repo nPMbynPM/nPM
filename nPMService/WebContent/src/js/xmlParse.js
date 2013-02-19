@@ -201,3 +201,170 @@ function userXMLParsing(response){
 		photoArr.push(photo);
 	}
 }
+
+/**
+ * 간트차트 XML정보를 파싱함
+ * @param response
+ */
+function ganttXMLParsing(response){
+	personArray = new Array();	//작업자 배열
+	todoArray = new Array();	//할일 배열
+	connArray = new Array();	//작업자-할일 연결정보 배열
+	
+	var person = response.getElementsByTagName("Resources");
+	var todo = response.getElementsByTagName("Tasks");
+	var conn = response.getElementsByTagName("conn");
+	var name = response.getElementsByTagName("Name");
+	
+	//프로젝트 이름 정보 파싱
+	var projName = name[0].firstChild.nodeValue;
+	
+	//작업자 정보를 파싱한다
+	var personId = person[0].getElementsByTagName("Resource");
+
+	for(var i = 0; i < personId.length; i++){
+		var id = personId[i].getElementsByTagName("id")[0].firstChild.nodeValue;
+		var x = personId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
+		var y = personId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
+		var imgSrc = personId[i].getElementsByTagName("imgSrc")[0].firstChild.nodeValue;
+		var name = personId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
+		var font = personId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
+
+		//작업자 배열에 정보를 넣는다
+		var tmpClass = new personClass(Number(x), Number(y), String(name));
+		tmpClass.img.src = imgSrc;
+		tmpClass.font = font;
+		tmpClass.id = id;
+		personArray.push(tmpClass);
+	}
+	
+	//할일 정보를 파싱한다
+	var todoId = todo[0].getElementsByTagName("Task");
+	
+	for(var i = 0; i < todoId.length; i++){
+		var x = todoId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
+		var y = todoId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
+		var job = todoId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
+		var start = todoId[i].getElementsByTagName("Start")[0].firstChild.nodeValue;
+		var finish = todoId[i].getElementsByTagName("Finish")[0].firstChild.nodeValue;
+		var font = todoId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
+		var color = todoId[i].getElementsByTagName("color")[0].firstChild.nodeValue;
+		var isfinished = todoId[i].getElementsByTagName("isfinished")[0].firstChild.nodeValue;
+
+		var tmpClass = new todoClass(Number(x), Number(y), String(job), String(start), String(finish));
+		tmpClass.font = font;
+		tmpClass.color = color;
+		if(isfinished == 'true')		tmpClass.isFinished = true;
+		else	tmpClass.isFinished = false;
+		todoArray.push(tmpClass);
+	}
+	
+	//연결 정보를 파싱한다
+	var from = conn[0].getElementsByTagName("from");
+	var to = conn[0].getElementsByTagName("to");
+	var fromId = from[0].getElementsByTagName("id");
+	var toId = to[0].getElementsByTagName("id");
+	
+	for(var i = 0; i < fromId.length; i++){
+		var className1 = fromId[i].getElementsByTagName("className")[0].firstChild.nodeValue;
+		var x1 = fromId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
+		var y1 = fromId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
+		//var className2 = toId[i].getElementsByTagName("className")[0].firstChild.nodeValue;
+		var x2 = toId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
+		var y2 = toId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
+		
+		var tmpClass1 = null;
+		var tmpClass2 = null;
+		if(className1 == 'personClass'){
+			for(var j = 0; j < personArray.length; j++){
+				if(personArray[j].x == Number(x1) && personArray[j].y == Number(y1)){
+					tmpClass1 = personArray[j];
+					break;
+				}
+			}
+		}
+		else if(className1 == 'todoClass'){
+			for(var j = 0; j < todoArray.length; j++){
+				if(todoArray[j].x == Number(x1) && todoArray[j].y == Number(y1)){
+					tmpClass1 = todoArray[j];
+					break;
+				}
+			}
+		}
+		for(var j = 0; j < todoArray.length; j++){
+			if(todoArray[j].x == Number(x2) && todoArray[j].y == Number(y2)){
+				tmpClass2 = todoArray[j];
+				break;
+			}
+		}
+		var tmpConn = new connClass(tmpClass1, tmpClass2);
+		
+		connArray.push(tmpConn);
+	}
+	//파싱을 완료하면 간트차트 초기화
+	ganttInit(projName);
+}
+
+/**
+ * 마인드맵 XML정보를 파싱함
+ * @param response
+ */
+function mindmapXMLParsing(response){
+	nodeArray = new Array();	//노드 배열 초기화
+	
+	var data = response.getElementsByTagName("data");
+	
+	//노드 정보를 파싱한다
+	var id = data[0].getElementsByTagName("id");
+
+	for(var i = 0; i < id.length; i++){
+		var number = Number(id[i].getElementsByTagName("number")[0].firstChild.nodeValue);
+		var parentnumber = Number(id[i].getElementsByTagName("parentnumber")[0].firstChild.nodeValue);
+		var parentnode = id[i].getElementsByTagName("parentnode")[0].firstChild.nodeValue;
+		var parentx = Number(id[i].getElementsByTagName("parentx")[0].firstChild.nodeValue);
+		var parenty = Number(id[i].getElementsByTagName("parenty")[0].firstChild.nodeValue);
+		var parenttext = id[i].getElementsByTagName("parenttext")[0].firstChild.nodeValue;
+		var mynode = id[i].getElementsByTagName("mynode")[0].firstChild.nodeValue;
+		var myx = Number(id[i].getElementsByTagName("myx")[0].firstChild.nodeValue);
+		var myy = Number(id[i].getElementsByTagName("myy")[0].firstChild.nodeValue);
+		var mytext = id[i].getElementsByTagName("mytext")[0].firstChild.nodeValue;
+		
+//		alert(number + ',' + parentnumber + ',' + parentnode + ',' + parentx + ',' + parenty + ',' + parenttext + ',' + 
+//				mynode + ',' +  myx + ',' + myy + ',' + mytext);
+		
+		if(parentnode == 'none'){
+			var rootNode = new rootClass();
+			rootNode.number = number;
+			rootNode.x = myx;
+			rootNode.y = myy;
+			rootNode.text = mytext;
+			context.font = rootNode.fontSize + ' Calibri';
+			context.fillStyle = rootNode.textFill;
+			rootNode.height = wrapText(context, rootNode.text, rootNode.x, rootNode.y, rootNode.width, 20) + 10;
+			
+			var conn = new connClass(null, rootNode);
+			nodeArray.push(conn);
+		}
+		else{
+			var parentNode = null;
+			for(var j = 0; j < nodeArray.length; j++){
+				if(nodeArray[j].me.number == parentnumber){
+					parentNode = nodeArray[j].me;
+				}
+			}
+
+			var myNode = new childClass();
+			myNode.number = number;
+			myNode.x = myx;
+			myNode.y = myy;
+			myNode.text = mytext;
+			context.font = myNode.fontSize + ' Calibri';
+			context.fillStyle = myNode.textFill;
+			myNode.height = wrapText(context, myNode.text, myNode.x, myNode.y, myNode.width, 20) + 10;
+			
+			var conn = new connClass(parentNode, myNode);
+			nodeArray.push(conn);
+		}
+	}	
+	drawAll();
+}

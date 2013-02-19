@@ -486,57 +486,8 @@ function makeNodeCancel(){
  */
 function makeRoot(x, y, text){
 //	isPopupedRoot = false;
-	
-	//서버로부터 현재 가장 큰 번호 받아오기
-	var param = "mindtext=check";
-	
-	var request = createRequest();
-	
-	if(request == null){
-		alert("서버 접속에 실패하였습니다");
-	}
-	else{
-		request.open("POST", "../../../nPM", true);
-		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-		request.setRequestHeader("Pragma","no-cache");
-		request.onreadystatechange = function(){
-			if (request.readyState == 4) {
-				if (request.status == 200) {
-					var responseDoc = request.responseText;
-					var node = new rootClass();
-					node.number = Number(responseDoc);
-					node.x = x;
-					node.y = y;
-					node.text = text;
-					node.height = wrapText(context, node.text, node.x, node.y, node.width, 20) + 10;
-
-					// 연결정보 배열에 넣음
-					var conn = new connClass(null, node);
-					nodeArray.push(conn);
-					
-					//비동기 요청
-					var param1 = "mindtext=saveroot" + "&number=" + node.number + "&parentx=-1" + "&parenty=-1" + "&myx=" + node.x + "&myy=" + node.y + "&mytext=" + node.text + "&mynode=" + getObjectClass(node)
-					+ "&parentnumber=-1" + "&parentnode=none" + "&parenttext=none";
-						
-					var request1 = createRequest();
-					
-					if(request1 == null){
-						alert("서버 접속에 실패하였습니다");
-					}
-					else{
-						request1.open("POST", "../../../nPM", true);
-						request1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-						request1.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-						request1.setRequestHeader("Pragma","no-cache");
-						request1.send(param1);
-					}
-					drawAll();
-				}
-			}
-		};
-		request.send(param);
-	}
+	//루트노드 생성을 요청
+	requestMindmapMakeRoot(x, y, text);
 }
 
 /**
@@ -725,57 +676,8 @@ function drawChildPopup(x, y){
  */
 function makeChild(x, y, text){
 //	isPopupedChild = false;
-	
-	//서버로부터 현재 가장 큰 번호 받아오기
-	var param = "mindtext=check";
-	
-	var request = createRequest();
-	
-	if(request == null){
-		alert("서버 접속에 실패하였습니다");
-	}
-	else{
-		request.open("POST", "../../../nPM", true);
-		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-		request.setRequestHeader("Pragma","no-cache");
-		request.onreadystatechange = function(){
-			if (request.readyState == 4) {
-				if (request.status == 200) {
-					var responseDoc = request.responseText;
-					var node = new childClass();
-					node.number = Number(responseDoc);
-					node.x = x;
-					node.y = y;
-					node.text = text;
-					node.height = wrapText(context, node.text, node.x, node.y, node.width, 20) + 10;
-
-					// 연결정보 배열에 넣음
-					var conn = new connClass(elementUped, node);
-					nodeArray.push(conn);
-					
-					//비동기 요청
-					var param1 = "mindtext=savechild" + "&number=" + node.number + "&parentx=" + elementUped.x + "&parenty=" + elementUped.y + "&myx=" + node.x + "&myy=" + node.y + "&mytext=" + node.text + "&mynode=" + getObjectClass(node)
-					+ "&parentnumber=" + elementUped.number + "&parentnode=" + getObjectClass(elementUped) + "&parenttext=" + elementUped.text;
-						
-					var request1 = createRequest();
-					
-					if(request1 == null){
-						alert("서버 접속에 실패하였습니다");
-					}
-					else{
-						request1.open("POST", "../../../nPM", true);
-						request1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-						request1.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-						request1.setRequestHeader("Pragma","no-cache");
-						request1.send(param1);
-					}
-					drawAll();
-				}
-			}
-		};
-		request.send(param);
-	}
+	//자식노드 생성을 요청
+	requestMindmapMakeChild(x, y, text);
 }
 
 /**
@@ -841,23 +743,8 @@ function modifyNodeOk(){
 		isModified = false;
 		elementModify.text = document.getElementById('modify_node').value;
 
-		//DB 내용 수정
-		var param = "mindtext=modify" + "&number=" + elementModify.number + "&text=" + elementModify.text;
-		elementModify = null;
-
-		var request = createRequest();
-
-		if(request == null){
-			alert("서버 접속에 실패하였습니다");
-		}
-		else{
-			request.open("POST", "../../../nPM", true);
-			request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-			request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-			request.setRequestHeader("Pragma","no-cache");
-			request.send(param);
-		}
-		drawAll();
+		//노드의 수정을 요청함
+		requestMindmapModify(elementModify);
 	}
 }
 
@@ -907,25 +794,8 @@ function deleteNodeOk(){
 				nodeArray.splice(i, 1);
 			}
 		}
-
-		//DB 내용 수정
-		var param = "mindtext=delete" + "&number=" + delNumber;
-		elementDelete = null;
-
-		var request = createRequest();
-
-		if(request == null){
-			alert("서버 접속에 실패하였습니다");
-		}
-		else{
-			request.open("POST", "../../../nPM", true);
-			request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-			request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-			request.setRequestHeader("Pragma","no-cache");
-			request.send(param);
-		}
-		
-		drawAll();
+		//마인드맵 노드 삭제를 요청함
+		requestMindmapDelete(delNumber);
 	}
 }
 
@@ -941,7 +811,7 @@ function deleteNodeCancel(){
 }
 
 /**
- * 트리 형태의 텍스트로 출력하는 함수
+ * 트리를 텍스트로 출력하는 함수
  */
 function exportToText(element, cnt){
 	for(var i = 0; i < nodeArray.length; i++){
@@ -966,27 +836,6 @@ function exportToTextClose(){
 }
 
 /**
- * 비동기 요청을 위한 요청 객체를 생성
- */
-function createRequest() {
-	var request = null;
-	try {
-		request = new XMLHttpRequest();
-	} catch (tryMS) {
-		try {
-			request = new ActiveXObject("Msxml2.XMLHTTP");
-		} catch (otherMS) {
-			try {
-				request = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch (failed) {
-				request = null;
-			}
-		}
-	}	
-	return request;
-}
-
-/**
  * 아무 이벤트도 일어나지 않은 시간을 잰다
  */
 function tellTheClock(){
@@ -1002,111 +851,13 @@ function tellTheClock(){
  * 최신 정보 로드
  */
 function loadData(){
-	var param = "mindtext=load";
-
-	var request = createRequest();
-
-	if(request == null){
-		alert("서버 접속에 실패하였습니다");
-	}
-	else{
-		request.open("POST", "../../../nPM", true);
-		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-		request.setRequestHeader("Pragma","no-cache");
-		request.onreadystatechange = function(){
-			if (request.readyState == 4) {
-				if (request.status == 200) {
-					var xml = request.responseXML;
-					parseXML(xml);
-				}
-			}
-		};
-		request.send(param);
-	}
+	//마인드맵 정보를 서버에 요청함
+	requestMindmapLoad();
 }
 
 /**
  * 최신 정보 세이브
  */
 function saveData(elem){
-	//DB에 현재 노드 위치 정보 세이브
-	var param = "mindtext=savepos" + "&newx=" + elem.x + "&newy=" + elem.y + "&number=" + elem.number
-	+ "&prevx=" + elementDownedX + "&prevy=" + elementDownedY;
-	
-	var request = createRequest();
-	
-	if(request == null){
-		alert("서버 접속에 실패하였습니다");
-	}
-	else{
-		request.open("POST", "../../../nPM", true);
-		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-		request.setRequestHeader("Pragma","no-cache");
-		request.send(param);
-	}
-}
-
-/**
- * XML정보 파싱
- */
-function parseXML(response){
-	nodeArray = new Array();	//노드 배열 초기화
-	
-	var data = response.getElementsByTagName("data");
-	
-	//노드 정보를 파싱한다
-	var id = data[0].getElementsByTagName("id");
-
-	for(var i = 0; i < id.length; i++){
-		var number = Number(id[i].getElementsByTagName("number")[0].firstChild.nodeValue);
-		var parentnumber = Number(id[i].getElementsByTagName("parentnumber")[0].firstChild.nodeValue);
-		var parentnode = id[i].getElementsByTagName("parentnode")[0].firstChild.nodeValue;
-		var parentx = Number(id[i].getElementsByTagName("parentx")[0].firstChild.nodeValue);
-		var parenty = Number(id[i].getElementsByTagName("parenty")[0].firstChild.nodeValue);
-		var parenttext = id[i].getElementsByTagName("parenttext")[0].firstChild.nodeValue;
-		var mynode = id[i].getElementsByTagName("mynode")[0].firstChild.nodeValue;
-		var myx = Number(id[i].getElementsByTagName("myx")[0].firstChild.nodeValue);
-		var myy = Number(id[i].getElementsByTagName("myy")[0].firstChild.nodeValue);
-		var mytext = id[i].getElementsByTagName("mytext")[0].firstChild.nodeValue;
-		
-//		alert(number + ',' + parentnumber + ',' + parentnode + ',' + parentx + ',' + parenty + ',' + parenttext + ',' + 
-//				mynode + ',' +  myx + ',' + myy + ',' + mytext);
-		
-		if(parentnode == 'none'){
-			var rootNode = new rootClass();
-			rootNode.number = number;
-			rootNode.x = myx;
-			rootNode.y = myy;
-			rootNode.text = mytext;
-			context.font = rootNode.fontSize + ' Calibri';
-			context.fillStyle = rootNode.textFill;
-			rootNode.height = wrapText(context, rootNode.text, rootNode.x, rootNode.y, rootNode.width, 20) + 10;
-			
-			var conn = new connClass(null, rootNode);
-			nodeArray.push(conn);
-		}
-		else{
-			var parentNode = null;
-			for(var j = 0; j < nodeArray.length; j++){
-				if(nodeArray[j].me.number == parentnumber){
-					parentNode = nodeArray[j].me;
-				}
-			}
-
-			var myNode = new childClass();
-			myNode.number = number;
-			myNode.x = myx;
-			myNode.y = myy;
-			myNode.text = mytext;
-			context.font = myNode.fontSize + ' Calibri';
-			context.fillStyle = myNode.textFill;
-			myNode.height = wrapText(context, myNode.text, myNode.x, myNode.y, myNode.width, 20) + 10;
-			
-			var conn = new connClass(parentNode, myNode);
-			nodeArray.push(conn);
-		}
-	}	
-	drawAll();
+	requestMindmapSave(elem);
 }

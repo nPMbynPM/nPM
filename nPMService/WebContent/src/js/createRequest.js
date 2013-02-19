@@ -316,3 +316,252 @@ function requestNewProj(projectName, fbID){
 		request.send(param);
 	}
 }
+
+/**
+ * Gantt chart의 데이터를 서버에 요청함
+ * @param id
+ */
+function requestGanttDB(id){
+	var param = "loaddb=all"
+		+ "&project=" + id;
+	
+	var request = createRequest();
+
+	if(request == null){
+		alert("서버 접속에 실패하였습니다");
+	}
+	else{
+		request.open("POST", "../../../nPM", true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		request.setRequestHeader("Pragma","no-cache");
+		request.onreadystatechange = function(){
+			if (request.readyState == 4) {
+				if (request.status == 200) {
+					var xml = request.responseXML;
+					//gantt chart 파싱
+					ganttXMLParsing(xml);
+				}
+			}
+		};
+		request.send(param);
+	}
+}
+
+/**
+ * 마인드맵 정보를 요청함
+ */
+function requestMindmapLoad(){
+	var param = "mindtext=load";
+
+	var request = createRequest();
+
+	if(request == null){
+		alert("서버 접속에 실패하였습니다");
+	}
+	else{
+		request.open("POST", "../../../nPM", true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		request.setRequestHeader("Pragma","no-cache");
+		request.onreadystatechange = function(){
+			if (request.readyState == 4) {
+				if (request.status == 200) {
+					var xml = request.responseXML;
+					mindmapXMLParsing(xml);
+				}
+			}
+		};
+		request.send(param);
+	}
+}
+
+/**
+ * 마인드맵 저장을 요청함
+ * @param elem
+ */
+function requestMindmapSave(elem){
+	//DB에 현재 노드 위치 정보 세이브
+	var param = "mindtext=savepos" + "&newx=" + elem.x + "&newy=" + elem.y + "&number=" + elem.number
+	+ "&prevx=" + elementDownedX + "&prevy=" + elementDownedY;
+	
+	var request = createRequest();
+	
+	if(request == null){
+		alert("서버 접속에 실패하였습니다");
+	}
+	else{
+		request.open("POST", "../../../nPM", true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		request.setRequestHeader("Pragma","no-cache");
+		request.send(param);
+	}
+}
+
+/**
+ * 마인드맵 노드 삭제를 요청함
+ * @param delNumber
+ */
+function requestMindmapDelete(delNumber){
+	//DB 내용 수정
+	var param = "mindtext=delete" + "&number=" + delNumber;
+	elementDelete = null;
+
+	var request = createRequest();
+
+	if(request == null){
+		alert("서버 접속에 실패하였습니다");
+	}
+	else{
+		request.open("POST", "../../../nPM", true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		request.setRequestHeader("Pragma","no-cache");
+		request.send(param);
+	}
+	
+	drawAll();
+}
+
+/**
+ * 마인드맵 노드 수정을 요청함
+ * @param elementModify
+ */
+function requestMindmapModify(elementModify){
+	//DB 내용 수정
+	var param = "mindtext=modify" + "&number=" + elementModify.number + "&text=" + elementModify.text;
+	elementModify = null;
+
+	var request = createRequest();
+
+	if(request == null){
+		alert("서버 접속에 실패하였습니다");
+	}
+	else{
+		request.open("POST", "../../../nPM", true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		request.setRequestHeader("Pragma","no-cache");
+		request.send(param);
+	}
+	drawAll();
+}
+
+/**
+ * 자식노드 생성을 요청함
+ * @param x
+ * @param y
+ * @param text
+ */
+function requestMindmapMakeChild(x, y, text){
+	//서버로부터 현재 가장 큰 번호 받아오기
+	var param = "mindtext=check";
+	
+	var request = createRequest();
+	
+	if(request == null){
+		alert("서버 접속에 실패하였습니다");
+	}
+	else{
+		request.open("POST", "../../../nPM", true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		request.setRequestHeader("Pragma","no-cache");
+		request.onreadystatechange = function(){
+			if (request.readyState == 4) {
+				if (request.status == 200) {
+					var responseDoc = request.responseText;
+					var node = new childClass();
+					node.number = Number(responseDoc);
+					node.x = x;
+					node.y = y;
+					node.text = text;
+					node.height = wrapText(context, node.text, node.x, node.y, node.width, 20) + 10;
+
+					// 연결정보 배열에 넣음
+					var conn = new connClass(elementUped, node);
+					nodeArray.push(conn);
+					
+					//비동기 요청
+					var param1 = "mindtext=savechild" + "&number=" + node.number + "&parentx=" + elementUped.x + "&parenty=" + elementUped.y + "&myx=" + node.x + "&myy=" + node.y + "&mytext=" + node.text + "&mynode=" + getObjectClass(node)
+					+ "&parentnumber=" + elementUped.number + "&parentnode=" + getObjectClass(elementUped) + "&parenttext=" + elementUped.text;
+						
+					var request1 = createRequest();
+					
+					if(request1 == null){
+						alert("서버 접속에 실패하였습니다");
+					}
+					else{
+						request1.open("POST", "../../../nPM", true);
+						request1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+						request1.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+						request1.setRequestHeader("Pragma","no-cache");
+						request1.send(param1);
+					}
+					drawAll();
+				}
+			}
+		};
+		request.send(param);
+	}
+}
+
+/**
+ * 루트노드 생성을 요청함
+ * @param x
+ * @param y
+ * @param text
+ */
+function requestMindmapMakeRoot(x, y, text){
+	//서버로부터 현재 가장 큰 번호 받아오기
+	var param = "mindtext=check";
+	
+	var request = createRequest();
+	
+	if(request == null){
+		alert("서버 접속에 실패하였습니다");
+	}
+	else{
+		request.open("POST", "../../../nPM", true);
+		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+		request.setRequestHeader("Pragma","no-cache");
+		request.onreadystatechange = function(){
+			if (request.readyState == 4) {
+				if (request.status == 200) {
+					var responseDoc = request.responseText;
+					var node = new rootClass();
+					node.number = Number(responseDoc);
+					node.x = x;
+					node.y = y;
+					node.text = text;
+					node.height = wrapText(context, node.text, node.x, node.y, node.width, 20) + 10;
+
+					// 연결정보 배열에 넣음
+					var conn = new connClass(null, node);
+					nodeArray.push(conn);
+					
+					//비동기 요청
+					var param1 = "mindtext=saveroot" + "&number=" + node.number + "&parentx=-1" + "&parenty=-1" + "&myx=" + node.x + "&myy=" + node.y + "&mytext=" + node.text + "&mynode=" + getObjectClass(node)
+					+ "&parentnumber=-1" + "&parentnode=none" + "&parenttext=none";
+						
+					var request1 = createRequest();
+					
+					if(request1 == null){
+						alert("서버 접속에 실패하였습니다");
+					}
+					else{
+						request1.open("POST", "../../../nPM", true);
+						request1.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+						request1.setRequestHeader("Cache-Control","no-cache, must-revalidate");
+						request1.setRequestHeader("Pragma","no-cache");
+						request1.send(param1);
+					}
+					drawAll();
+				}
+			}
+		};
+		request.send(param);
+	}
+}

@@ -48,27 +48,6 @@ function connClass(from, to){
 }
 
 /**
- * 비동기 요청을 위한 요청 객체를 생성
- */
-function createRequest() {
-	var request = null;
-	try {
-		request = new XMLHttpRequest();
-	} catch (tryMS) {
-		try {
-			request = new ActiveXObject("Msxml2.XMLHTTP");
-		} catch (otherMS) {
-			try {
-				request = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch (failed) {
-				request = null;
-			}
-		}
-	}	
-	return request;
-}
-
-/**
  * 간트차트 초기화
  */
 function ganttInit(projectName){
@@ -198,131 +177,8 @@ function ganttInit(projectName){
  */
 function loadDB(id){
 	//console.log(id);
-	var param = "loaddb=all"
-		+ "&project=" + id;
-	
-	var request = createRequest();
-
-	if(request == null){
-		alert("서버 접속에 실패하였습니다");
-	}
-	else{
-		request.open("POST", "../../../nPM", true);
-		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-		request.setRequestHeader("Pragma","no-cache");
-		request.onreadystatechange = function(){
-			if (request.readyState == 4) {
-				if (request.status == 200) {
-					var xml = request.responseXML;
-					xmlParsing(xml);
-				}
-			}
-		};
-		request.send(param);
-	}
-}
-
-/**
- * load 된 정보를 파싱하여 배열에 삽입한다
- */
-function xmlParsing(response){
-	personArray = new Array();	//작업자 배열
-	todoArray = new Array();	//할일 배열
-	connArray = new Array();	//작업자-할일 연결정보 배열
-	
-	var person = response.getElementsByTagName("Resources");
-	var todo = response.getElementsByTagName("Tasks");
-	var conn = response.getElementsByTagName("conn");
-	var name = response.getElementsByTagName("Name");
-	
-	//프로젝트 이름 정보 파싱
-	var projName = name[0].firstChild.nodeValue;
-	
-	//작업자 정보를 파싱한다
-	var personId = person[0].getElementsByTagName("Resource");
-
-	for(var i = 0; i < personId.length; i++){
-		var id = personId[i].getElementsByTagName("id")[0].firstChild.nodeValue;
-		var x = personId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
-		var y = personId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
-		var imgSrc = personId[i].getElementsByTagName("imgSrc")[0].firstChild.nodeValue;
-		var name = personId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
-		var font = personId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
-
-		//작업자 배열에 정보를 넣는다
-		var tmpClass = new personClass(Number(x), Number(y), String(name));
-		tmpClass.img.src = imgSrc;
-		tmpClass.font = font;
-		tmpClass.id = id;
-		personArray.push(tmpClass);
-	}
-	
-	//할일 정보를 파싱한다
-	var todoId = todo[0].getElementsByTagName("Task");
-	
-	for(var i = 0; i < todoId.length; i++){
-		var x = todoId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
-		var y = todoId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
-		var job = todoId[i].getElementsByTagName("Name")[0].firstChild.nodeValue;
-		var start = todoId[i].getElementsByTagName("Start")[0].firstChild.nodeValue;
-		var finish = todoId[i].getElementsByTagName("Finish")[0].firstChild.nodeValue;
-		var font = todoId[i].getElementsByTagName("font")[0].firstChild.nodeValue;
-		var color = todoId[i].getElementsByTagName("color")[0].firstChild.nodeValue;
-		var isfinished = todoId[i].getElementsByTagName("isfinished")[0].firstChild.nodeValue;
-
-		var tmpClass = new todoClass(Number(x), Number(y), String(job), String(start), String(finish));
-		tmpClass.font = font;
-		tmpClass.color = color;
-		if(isfinished == 'true')		tmpClass.isFinished = true;
-		else	tmpClass.isFinished = false;
-		todoArray.push(tmpClass);
-	}
-	
-	//연결 정보를 파싱한다
-	var from = conn[0].getElementsByTagName("from");
-	var to = conn[0].getElementsByTagName("to");
-	var fromId = from[0].getElementsByTagName("id");
-	var toId = to[0].getElementsByTagName("id");
-	
-	for(var i = 0; i < fromId.length; i++){
-		var className1 = fromId[i].getElementsByTagName("className")[0].firstChild.nodeValue;
-		var x1 = fromId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
-		var y1 = fromId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
-		//var className2 = toId[i].getElementsByTagName("className")[0].firstChild.nodeValue;
-		var x2 = toId[i].getElementsByTagName("x")[0].firstChild.nodeValue;
-		var y2 = toId[i].getElementsByTagName("y")[0].firstChild.nodeValue;
-		
-		var tmpClass1 = null;
-		var tmpClass2 = null;
-		if(className1 == 'personClass'){
-			for(var j = 0; j < personArray.length; j++){
-				if(personArray[j].x == Number(x1) && personArray[j].y == Number(y1)){
-					tmpClass1 = personArray[j];
-					break;
-				}
-			}
-		}
-		else if(className1 == 'todoClass'){
-			for(var j = 0; j < todoArray.length; j++){
-				if(todoArray[j].x == Number(x1) && todoArray[j].y == Number(y1)){
-					tmpClass1 = todoArray[j];
-					break;
-				}
-			}
-		}
-		for(var j = 0; j < todoArray.length; j++){
-			if(todoArray[j].x == Number(x2) && todoArray[j].y == Number(y2)){
-				tmpClass2 = todoArray[j];
-				break;
-			}
-		}
-		var tmpConn = new connClass(tmpClass1, tmpClass2);
-		
-		connArray.push(tmpConn);
-	}
-	//파싱을 완료하면 간트차트 초기화
-	ganttInit(projName);
+	//Gantt chart의 DB정보를 서버에 요청함
+	loadGanttDB(id);
 }
 
 /**
@@ -375,28 +231,8 @@ function displayProject(){
 			fbID = response.id;
 			
 			if(fbID != null){
-				var param = "project=list"
-					+ "&id=" + fbID;
-				
-				var request = createRequest();
-
-				if(request == null){
-					alert("서버 접속에 실패하였습니다");
-				}
-				else{
-					request.open("POST", "../../../nPM", true);
-					request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-					request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-					request.setRequestHeader("Pragma","no-cache");
-					request.onreadystatechange = function(){
-						if (request.readyState == 4) {
-							if (request.status == 200) {
-								document.getElementById("projectList").innerHTML = request.responseText;
-							}
-						}
-					};
-					request.send(param);
-				}
+				//프로젝트 목록을 요청한다
+				requestProjList(fbID);
 			}
 		});
 	});

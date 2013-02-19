@@ -71,3 +71,12 @@ function loadAsDB(id){
 	//서버에 DB정보 요청
 	requestLoadAsDB(id);
 }
+
+/**
+ * Gantt chart 데이터를 불러옴
+ * @param id
+ */
+function loadGanttDB(id){
+	//Gantt chart데이터를 서버에 요청
+	requestGanttDB(id);
+}
