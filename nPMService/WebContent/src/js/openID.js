@@ -145,23 +145,3 @@ function fbIsLogin() {
 	});
 }
 
-/**
- * 비동기 요청을 위한 요청 객체를 생성
- */
-function createRequest() {
-	var request = null;
-	try {
-		request = new XMLHttpRequest();
-	} catch (tryMS) {
-		try {
-			request = new ActiveXObject("Msxml2.XMLHTTP");
-		} catch (otherMS) {
-			try {
-				request = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch (failed) {
-				request = null;
-			}
-		}
-	}	
-	return request;
-}

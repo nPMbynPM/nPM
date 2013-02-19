@@ -1177,6 +1177,8 @@ public class windowServlet extends HttpServlet {
 				//사용자 ID
 				String id = request.getParameter("id");
 				String str = "";
+				//프로젝트 ID를 담을 배열
+				ArrayList<Integer> projID = new ArrayList<Integer>();
 				
 				//사용자 ID가 참여하는 프로젝트의 고유 ID와 이름을 불러옴
 				Connection conn = null;
@@ -1185,11 +1187,14 @@ public class windowServlet extends HttpServlet {
 				String query = "select a.id, a.name from project_list a, person b where a.id=b.project and b.id=?";
 				
 				try{
+					//해당 유저가 참여중인 모든 프로젝트를 불러옴
 					conn = mysqlConn();
 					pstmt = conn.prepareStatement(query);
 					pstmt.setString(1, id);
 					rs = pstmt.executeQuery();
 					while(rs.next()){
+						//배열에 프로젝트 ID값 저장
+						projID.add(rs.getInt("id"));
 						//프로젝트 클릭했을 때 실행될 자바스크립트 함수 작성
 						str += "<div onclick=loadDB(" + rs.getInt("id") + ");>";
 						str += "<li>";
@@ -1197,6 +1202,32 @@ public class windowServlet extends HttpServlet {
 						str += "</li>";
 						str += "</div>";
 					}
+					//해당 유저가 생성한 프로젝트를 불러옴
+					query = "select a.id, a.name from project_list a, project_member b where a.id=b.id";
+					pstmt = conn.prepareStatement(query);
+					rs = pstmt.executeQuery();
+					while(rs.next()){
+						//System.out.println("-----------------------");
+						//System.out.println("db:"+rs.getInt("id"));
+						boolean flag = false;
+						for(int i = 0; i < projID.size(); i++){
+							//System.out.println("arr:"+projID.get(i));
+							if(projID.get(i).equals(rs.getInt("id"))){
+								flag = true;
+								break;
+							}
+						}
+						//중복이 없으면 프로젝트 목록에 붙임
+						if(flag == false){
+							//프로젝트 클릭했을 때 실행될 자바스크립트 함수 작성
+							str += "<div onclick=loadDB(" + rs.getInt("id") + ");>";
+							str += "<li>";
+							str += rs.getString("name");
+							str += "</li>";
+							str += "</div>";
+						}
+					}
+					
 					//리턴 값이 없으면
 					if(str.equals("")){
 						str += "<li>참여 중인 프로젝트가 없습니다</li>";

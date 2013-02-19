@@ -8,55 +8,8 @@ var photoArr = new Array();
  * 유저의 목록을 전부 불러온다
  */
 function getUsers(){
-	var param = "user=all";
-	
-	var request = createRequest();
-
-	if(request == null){
-		alert("서버 접속에 실패하였습니다");
-	}
-	else{
-		request.open("POST", "../../../nPM", true);
-		request.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		request.setRequestHeader("Cache-Control","no-cache, must-revalidate");
-		request.setRequestHeader("Pragma","no-cache");
-		request.onreadystatechange = function(){
-			if (request.readyState == 4) {
-				if (request.status == 200) {
-					//alert(request.responseText);
-					parseUserXML(request.responseXML);
-					displayUserList();
-				}
-			}
-		};
-		request.send(param);
-	}
-}
-
-/**
- * 유저 목록 XML을 파싱함
- */
-function parseUserXML(response){
-	var data = response.getElementsByTagName("data");
-	
-	//유저 정보를 파싱한다
-	var user = data[0].getElementsByTagName("user");
-
-	for(var i = 0; i < user.length; i++){
-		var id = user[i].getElementsByTagName("id")[0].firstChild.nodeValue;
-		var name = user[i].getElementsByTagName("name")[0].firstChild.nodeValue;
-		var email = user[i].getElementsByTagName("email")[0].firstChild.nodeValue;
-		var photo = user[i].getElementsByTagName("photo")[0].firstChild.nodeValue;
-		
-		//test code
-		//console.log(name);
-		//console.log(email);
-		
-		idArr.push(id);
-		nameArr.push(name);
-		emailArr.push(email);
-		photoArr.push(photo);
-	}
+	//유저의 목록을 서버에 요청함
+	requestUserList();
 }
 
 /**
@@ -94,25 +47,4 @@ function selectUser(){
 			}
 		}
 	}
-}
-
-/**
- * 비동기 요청을 위한 요청 객체를 생성
- */
-function createRequest() {
-	var request = null;
-	try {
-		request = new XMLHttpRequest();
-	} catch (tryMS) {
-		try {
-			request = new ActiveXObject("Msxml2.XMLHTTP");
-		} catch (otherMS) {
-			try {
-				request = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch (failed) {
-				request = null;
-			}
-		}
-	}	
-	return request;
 }
